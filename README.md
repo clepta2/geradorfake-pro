@@ -148,10 +148,3 @@ Ao criar telas de mock, testes de cadastro ou seeds de banco de dados, utilize a
 - Endpoint: GET https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?qtd=5&uf=SP
 Retorne os dados mockados diretamente da resposta JSON.
 ```
-
----
-
-## 🔒 Marketplace de APIs & Ecossistema
-
-Este projeto faz parte do ecossistema de APIs de alta performance OZPro Enterprise:
-👉 **[Acessar Ponte API Marketplace](https://ponte.ozpro.com.br)**

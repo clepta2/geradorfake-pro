@@ -73,7 +73,7 @@ export default {
     if (!rl.ok && path !== '/' && path !== '/health' && path !== '/demo') {
       return new Response(JSON.stringify({
         ok: false,
-        error: 'Limite de requisições excedido. Limite gratuito: 60 requisições/minuto. Para cotas ampliadas, use Ponte APIs (https://ponte.ozpro.com.br).',
+        error: 'Limite de requisições excedido. Limite gratuito: 60 requisições/minuto.',
         retryAfterSeconds: Math.ceil((rl.resetAt - Date.now()) / 1000)
       }, null, 2), {
         status: 429,
@@ -97,8 +97,7 @@ export default {
         latency: 'edge-sub-5ms',
         padrao: 'FEBRABAN / Receita Federal Módulo 11',
         edgeLocation: request.cf ? request.cf.colo : 'Edge',
-        docs: 'https://github.com/clepta2/geradorfake-pro',
-        marketplace: env.MARKETPLACE_URL || 'https://ponte.ozpro.com.br'
+        docs: 'https://github.com/clepta2/geradorfake-pro'
       }, null, 2), {
         status: 200,
         headers: {
@@ -199,7 +198,31 @@ export default {
       });
     }
 
-    // 6. Landing / Playground (Root ou /demo)
+    // 6. Endpoint Dedicado de Gerador de Senhas & Hashes (/api/gerar-senha, /api/senhas)
+    if (path === '/api/gerar-senha' || path === '/api/senhas' || path === '/api/senha') {
+      const tipo = url.searchParams.get('tipo') || url.searchParams.get('modo') || 'forte';
+      const tamanho = parseInt(url.searchParams.get('tamanho') || url.searchParams.get('len') || 12, 10);
+      const prefixo = url.searchParams.get('prefixo') || 'sk_live';
+      const senhaGerada = GeradorFakePro.gerarSenhaConfiguravel({ tipo, tamanho, prefixo });
+
+      return new Response(JSON.stringify({
+        ok: true,
+        tipo,
+        tamanho,
+        senha: senhaGerada,
+        hashes: {
+          md5: GeradorFakePro.md5(senhaGerada),
+          sha1: await GeradorFakePro.sha1(senhaGerada),
+          sha256: await GeradorFakePro.sha256(senhaGerada)
+        },
+        timestamp: new Date().toISOString()
+      }, null, 2), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+      });
+    }
+
+    // 7. Landing / Playground (Root ou /demo)
     if (path === '/' || path === '/demo' || path === '/index.html') {
       return new Response(getHtmlDemo(), {
         status: 200,
@@ -378,7 +401,7 @@ function getHtmlDemo() {
     </div>
 
     <footer>
-      Parte oficial do <a href="https://ponte.ozpro.com.br" target="_blank">Ponte API Marketplace</a> &bull; Código aberto no <a href="https://github.com/clepta2/geradorfake-pro" target="_blank">GitHub</a>
+      Código aberto no <a href="https://github.com/clepta2/geradorfake-pro" target="_blank">GitHub (clepta2/geradorfake-pro)</a>
     </footer>
   </div>
 

@@ -12,7 +12,14 @@ const NOMES_MASCULINOS = [
   'Leonardo', 'Marcio', 'Rodrigo', 'Felipe', 'Thiago', 'Lucas', 'Matheus', 'Gustavo',
   'Rafael', 'Eduardo', 'Bruno', 'Alexandre', 'Ricardo', 'Fabio', 'Leandro', 'Diego',
   'Vinicius', 'Danilo', 'Henrique', 'Caio', 'Renato', 'Samuel', 'Murilo', 'Vitor',
-  'Otavio', 'Breno', 'Luciano', 'Cristiano', 'Rogerio', 'Wagner', 'Mauricio', 'Cesar'
+  'Otavio', 'Breno', 'Luciano', 'Cristiano', 'Rogerio', 'Wagner', 'Mauricio', 'Cesar',
+  'Arthur', 'Davi', 'Bernardo', 'Enzo', 'Igor', 'Heitor', 'Lorenzo', 'Theo', 'Pedro',
+  'Guilherme', 'Daniel', 'Renan', 'Cassio', 'Claudio', 'Denis', 'Douglas', 'Everton',
+  'Fabricio', 'Geraldo', 'Gilberto', 'Helio', 'Hugo', 'Ian', 'Ivan', 'Jonas', 'Jorge',
+  'Julio', 'Kleber', 'Laerte', 'Lucio', 'Marcos', 'Mario', 'Moacir', 'Nelson', 'Nilton',
+  'Osvaldo', 'Raul', 'Reginaldo', 'Reinaldo', 'Robson', 'Romulo', 'Ronaldo', 'Rubens',
+  'Sergio', 'Tales', 'Tiago', 'Valdir', 'Valmir', 'Vicente', 'Walmir', 'Washington',
+  'Wellington', 'Wesley', 'William', 'Yuri', 'Alaor', 'Alceu', 'Aldo', 'Alvaro', 'Elias', 'Jair'
 ];
 
 const NOMES_FEMININOS = [
@@ -20,29 +27,66 @@ const NOMES_FEMININOS = [
   'Fernanda', 'Gabriela', 'Larissa', 'Amanda', 'Jessica', 'Bruna', 'Helena', 'Laura',
   'Alice', 'Sophia', 'Isabella', 'Manuela', 'Valentina', 'Giovanna', 'Luiza', 'Rafaela',
   'Yasmin', 'Patricia', 'Vanessa', 'Renata', 'Danielle', 'Priscila', 'Aline', 'Tatiane',
-  'Bianca', 'Natalia', 'Debora', 'Simone', 'Cristina', 'Flavia', 'Claudia', 'Sandra'
+  'Bianca', 'Natalia', 'Debora', 'Simone', 'Cristina', 'Flavia', 'Claudia', 'Sandra',
+  'Adriana', 'Alessandra', 'Andreia', 'Barbara', 'Carla', 'Cintia', 'Daiane', 'Daniela',
+  'Denise', 'Elaine', 'Elisabete', 'Fabiana', 'Fatima', 'Gisele', 'Gloria', 'Ingrid',
+  'Isabel', 'Joana', 'Kelly', 'Lais', 'Livia', 'Lorena', 'Luciana', 'Marcela', 'Marcia',
+  'Marlene', 'Monica', 'Nair', 'Neusa', 'Paloma', 'Paula', 'Raquel', 'Rebeca', 'Regina',
+  'Rita', 'Roberta', 'Sabrina', 'Samanta', 'Silvana', 'Silvia', 'Solange', 'Sonia',
+  'Sueli', 'Suzana', 'Tais', 'Talita', 'Tania', 'Teresa', 'Valeria', 'Vera', 'Viviane',
+  'Zilda', 'Alana', 'Brenda', 'Cecilia', 'Clarice', 'Ester', 'Evelyn', 'Heloisa', 'Joice', 'Luna', 'Maite'
 ];
 
 const NOMES_MEIO_MASCULINO = [
   'Kebler', 'Eduardo', 'Henrique', 'Augusto', 'Alexandre', 'Roberto', 'Felipe',
   'Vinicius', 'Arthur', 'Rafael', 'Cesar', 'Guilherme', 'Antonio', 'Francisco',
-  'Jose', 'Luis', 'Alberto', 'Tadeu', 'Otavio', 'Bento', 'Inacio', 'Afonso', 'Heitor'
+  'Jose', 'Luis', 'Alberto', 'Tadeu', 'Otavio', 'Bento', 'Inacio', 'Afonso', 'Heitor',
+  'Bernardo', 'Davi', 'Gabriel', 'Lucas', 'Matheus', 'Paulo', 'Renato', 'Samuel',
+  'Vitor', 'Fernando', 'Rodrigo', 'Leonardo', 'Marcio', 'Ricardo', 'Fabio', 'Leandro',
+  'Diego', 'Danilo', 'Caio', 'Murilo', 'Breno', 'Luciano', 'Cristiano', 'Rogerio',
+  'Wagner', 'Mauricio', 'Lorenzo', 'Theo', 'Renan', 'Cassio', 'Claudio', 'Denis',
+  'Douglas', 'Everton', 'Fabricio', 'Geraldo', 'Gilberto', 'Helio', 'Hugo', 'Ivan',
+  'Jonas', 'Jorge', 'Julio', 'Kleber', 'Laerte', 'Lucio', 'Marcos', 'Mario',
+  'Nelson', 'Nilton', 'Osvaldo', 'Raul', 'Reginaldo', 'Reinaldo', 'Robson', 'Romulo',
+  'Ronaldo', 'Rubens', 'Sergio', 'Tales', 'Tiago', 'Valdir', 'Valmir', 'Vicente',
+  'Walmir', 'Washington', 'Wellington', 'Wesley', 'William', 'Yuri', 'Alceu', 'Aldo',
+  'Alvaro', 'Elias', 'Jair', 'Moises', 'Gaspar', 'Baltazar', 'Fausto'
 ];
 
 const NOMES_MEIO_FEMININO = [
-  'Eduarda', 'Helena', 'Aparecida', 'Cristina', 'Luiza', 'Beatriz', 'Fernanda',
-  'Carolina', 'Gabriela', 'Ines', 'Tereza', 'Clara', 'Vitoria', 'Regina', 'Alice'
+  'Antonieta', 'Eduarda', 'Helena', 'Aparecida', 'Cristina', 'Luiza', 'Beatriz',
+  'Fernanda', 'Carolina', 'Gabriela', 'Ines', 'Tereza', 'Clara', 'Vitoria', 'Regina',
+  'Alice', 'Sophia', 'Isabella', 'Manuela', 'Valentina', 'Giovanna', 'Rafaela',
+  'Yasmin', 'Patricia', 'Vanessa', 'Renata', 'Danielle', 'Priscila', 'Aline',
+  'Tatiane', 'Bianca', 'Natalia', 'Debora', 'Simone', 'Flavia', 'Claudia',
+  'Sandra', 'Adriana', 'Alessandra', 'Andreia', 'Barbara', 'Carla', 'Cintia',
+  'Daiane', 'Daniela', 'Denise', 'Elaine', 'Elisabete', 'Fabiana', 'Fatima',
+  'Gisele', 'Gloria', 'Ingrid', 'Isabel', 'Joana', 'Kelly', 'Lais', 'Livia',
+  'Lorena', 'Luciana', 'Marcela', 'Marcia', 'Marlene', 'Monica', 'Nair', 'Neusa',
+  'Paloma', 'Paula', 'Raquel', 'Rebeca', 'Rita', 'Roberta', 'Sabrina', 'Samanta',
+  'Silvana', 'Silvia', 'Solange', 'Sonia', 'Sueli', 'Suzana', 'Tais', 'Talita',
+  'Tania', 'Teresa', 'Valeria', 'Vera', 'Viviane', 'Zilda', 'Alana', 'Brenda',
+  'Cecilia', 'Clarice', 'Ester', 'Evelyn', 'Heloisa', 'Joice', 'Luna', 'Maite',
+  'Adelaide', 'Aurora', 'Catarina', 'Constanca', 'Eulalia', 'Filomena'
 ];
 
 const SOBRENOMES_MATERNOS = [
   'de Souza', 'de Oliveira', 'de Carvalho', 'de Freitas', 'de Alencar', 'de Paula',
-  'de Andrade', 'de Castro', 'de Almeida', 'de Toledo', 'de Macedo',
-  'da Silva', 'da Costa', 'da Rocha', 'da Fonseca', 'da Silveira',
-  'dos Santos', 'dos Passos', 'dos Anjos',
+  'de Andrade', 'de Castro', 'de Almeida', 'de Toledo', 'de Macedo', 'de Assis',
+  'de Miranda', 'de Godoy', 'de Morais', 'de Aguiar', 'de Barros', 'de Queiroz',
+  'da Silva', 'da Costa', 'da Rocha', 'da Fonseca', 'da Silveira', 'da Cunha',
+  'da Mota', 'da Gama', 'da Cruz', 'da Luz', 'da Paz', 'da Veiga',
+  'dos Santos', 'dos Passos', 'dos Anjos', 'dos Reis', 'dos Ramos',
   'Fagundes', 'Meireles', 'Nogueira', 'Barcellos', 'Vasconcelos', 'Peixoto', 'Medeiros',
   'Guimaraes', 'Pires', 'Toledo', 'Siqueira', 'Antunes', 'Camargo', 'Braga', 'Duarte',
   'Figueiredo', 'Gusmao', 'Macedo', 'Bittencourt', 'Maldonado', 'Fontes', 'Carneiro',
-  'Paiva', 'Castilho', 'Queiroz', 'Menezes', 'Borges', 'Coelho', 'Cavalcanti'
+  'Paiva', 'Castilho', 'Queiroz', 'Menezes', 'Borges', 'Coelho', 'Cavalcanti', 'Pinto',
+  'Prado', 'Lacerda', 'Albuquerque', 'Muniz', 'Furtado', 'Viana', 'Bueno', 'Brandao',
+  'Gouveia', 'Tavares', 'Barreto', 'Cardoso', 'Pinheiro', 'Bicalho', 'Arruda', 'Sampaio',
+  'Fontoura', 'Resende', 'Vargas', 'Lins', 'Campelo', 'Galvao', 'Chaves', 'Buarque',
+  'Holanda', 'Frota', 'Porto', 'Belchior', 'Castelo', 'Pessoa', 'Campos', 'Bandeira',
+  'Carvalheiro', 'Carvalhal', 'Belisario', 'Azevedo', 'Carregosa', 'Severo', 'Faleiro',
+  'Valadao', 'Lemos', 'Bezerra', 'Montenegro'
 ];
 
 const SOBRENOMES_PATERNOS = [
@@ -50,25 +94,120 @@ const SOBRENOMES_PATERNOS = [
   'Ribeiro', 'Martins', 'Ferreira', 'Barbosa', 'Rocha', 'Alves', 'Gomes', 'Costa',
   'Dias', 'Nascimento', 'Andrade', 'Moreira', 'Nunes', 'Marques', 'Machado',
   'Freitas', 'Cardoso', 'Ramos', 'Teixeira', 'Batista', 'Albuquerque', 'Dantas',
-  'Fagundes', 'Vasconcelos', 'Meireles', 'Cavalcanti', 'Figueiredo'
+  'Fagundes', 'Vasconcelos', 'Meireles', 'Cavalcanti', 'Figueiredo', 'Camargo',
+  'Barreto', 'Pinheiro', 'Menezes', 'Monteiro', 'Araujo', 'Moraes', 'Santana',
+  'Borges', 'Coelho', 'Lopes', 'Vieira', 'Fernandes', 'Soares', 'Fonseca',
+  'Campos', 'Rezende', 'Duarte', 'Siqueira', 'Guimaraes', 'Macedo', 'Viana',
+  'Bueno', 'Brandao', 'Gouveia', 'Tavares', 'Antunes', 'Braga', 'Lacerda',
+  'Muniz', 'Furtado', 'Arruda', 'Sampaio', 'Bicalho', 'Fontes', 'Carneiro',
+  'Paiva', 'Castilho', 'Queiroz', 'Bittencourt', 'Maldonado', 'Barcellos',
+  'Peixoto', 'Medeiros', 'Pires', 'Toledo', 'Nogueira', 'Gusmao', 'Fontoura',
+  'Vargas', 'Lins', 'Campelo', 'Galvao', 'Chaves', 'Buarque', 'Holanda',
+  'Frota', 'Porto', 'Belchior', 'Castelo', 'Pessoa', 'Bandeira', 'Azevedo',
+  'Severo', 'Faleiro', 'Valadao', 'Lemos', 'Bezerra', 'Montenegro', 'Franco'
 ];
 
 const PROFISSOES = [
   { cargo: 'Engenheiro de Software', faixa: [6000, 18000] },
   { cargo: 'Analista de Sistemas', faixa: [4500, 9500] },
-  { cargo: 'Médico Clínico Geral', faixa: [9000, 25000] },
+  { cargo: 'M?dico Cl?nico Geral', faixa: [9000, 25000] },
   { cargo: 'Advogado Associado', faixa: [4000, 12000] },
   { cargo: 'Gerente Comercial', faixa: [5500, 14000] },
-  { cargo: 'Contador Sênior', faixa: [4800, 11000] },
+  { cargo: 'Contador S?nior', faixa: [4800, 11000] },
   { cargo: 'Arquiteto e Urbanista', faixa: [4200, 10500] },
   { cargo: 'Designer UI/UX', faixa: [4000, 9800] },
-  { cargo: 'Enfermeiro Padrão', faixa: [3800, 7500] },
-  { cargo: 'Farmacêutico', faixa: [3500, 7000] },
-  { cargo: 'Professor do Ensino Médio', faixa: [3200, 6500] },
+  { cargo: 'Enfermeiro Padr?o', faixa: [3800, 7500] },
+  { cargo: 'Farmac?utico', faixa: [3500, 7000] },
+  { cargo: 'Professor do Ensino M?dio', faixa: [3200, 6500] },
   { cargo: 'Administrador de Empresas', faixa: [3800, 9000] },
   { cargo: 'Coordenador de Marketing Digital', faixa: [4500, 11500] },
-  { cargo: 'Técnico em Eletrônica', faixa: [2800, 5200] },
-  { cargo: 'Psicólogo Clínico', faixa: [3500, 8500] }
+  { cargo: 'T?cnico em Eletr?nica', faixa: [2800, 5200] },
+  { cargo: 'Psic?logo Cl?nico', faixa: [3500, 8500] },
+  { cargo: 'Cientista de Dados', faixa: [7000, 20000] },
+  { cargo: 'Engenheiro Civil', faixa: [5500, 16000] },
+  { cargo: 'Engenheiro Mec?nico', faixa: [5200, 15000] },
+  { cargo: 'M?dico Pediatra', faixa: [9500, 24000] },
+  { cargo: 'M?dico Cirurgi?o Geral', faixa: [12000, 32000] },
+  { cargo: 'Dentista Ortodontista', faixa: [4500, 14000] },
+  { cargo: 'Fisioterapeuta Respirat?rio', faixa: [3200, 7200] },
+  { cargo: 'Nutricionista Cl?nico', faixa: [3000, 6800] },
+  { cargo: 'Veterin?rio de Pequenos Animais', faixa: [3600, 8500] },
+  { cargo: 'Bi?logo Geneticista', faixa: [4200, 9800] },
+  { cargo: 'Biom?dico Imunologista', faixa: [3400, 7600] },
+  { cargo: 'Jornalista Investigativo', faixa: [3500, 8000] },
+  { cargo: 'Publicit?rio Diretor de Arte', faixa: [4800, 12500] },
+  { cargo: 'Redator de Conte?do SEO', faixa: [3000, 6500] },
+  { cargo: 'Tradutor e Int?rprete', faixa: [3200, 8200] },
+  { cargo: 'Economista Chefe', faixa: [7500, 22000] },
+  { cargo: 'Consultor Financeiro', faixa: [5000, 15000] },
+  { cargo: 'Analista de Compliance e Risco', faixa: [5200, 13000] },
+  { cargo: 'Auditor Fiscal Independente', faixa: [6500, 17500] },
+  { cargo: 'Corretor de Im?veis', faixa: [3000, 18000] },
+  { cargo: 'Gerente de Recursos Humanos', faixa: [6000, 16000] },
+  { cargo: 'Analista de Recrutamento e Sele??o', faixa: [3200, 6800] },
+  { cargo: 'Especialista em Seguran?a da Informa??o', faixa: [7500, 21000] },
+  { cargo: 'DevOps / Site Reliability Engineer', faixa: [7000, 19500] },
+  { cargo: 'Administrador de Banco de Dados (DBA)', faixa: [6000, 15000] },
+  { cargo: 'Product Manager (PM)', faixa: [8000, 22000] },
+  { cargo: 'Scrum Master / Agile Coach', faixa: [6500, 14500] },
+  { cargo: 'Analista de Suporte de TI', faixa: [2500, 5000] },
+  { cargo: 'Desenvolvedor Frontend React', faixa: [5000, 14000] },
+  { cargo: 'Desenvolvedor Backend Node.js', faixa: [5500, 15500] },
+  { cargo: 'Desenvolvedor Mobile Flutter/React Native', faixa: [5500, 15000] },
+  { cargo: 'Arquiteto de Solu??es em Nuvem', faixa: [9000, 26000] },
+  { cargo: 'Engenheiro Eletricista', faixa: [5400, 15000] },
+  { cargo: 'Engenheiro Qu?mico', faixa: [5200, 14500] },
+  { cargo: 'Engenheiro de Produ??o', faixa: [4800, 13500] },
+  { cargo: 'Engenheiro Agr?nomo', faixa: [4600, 12800] },
+  { cargo: 'Engenheiro Ambiental', faixa: [4200, 11000] },
+  { cargo: 'Ge?logo de Campo', faixa: [5000, 14000] },
+  { cargo: 'Ocean?grafo Pesquisador', faixa: [4500, 11500] },
+  { cargo: 'Meteorologista Forense', faixa: [4800, 12000] },
+  { cargo: 'Assistente Social', faixa: [2800, 5800] },
+  { cargo: 'Terapeuta Ocupacional', faixa: [3400, 7500] },
+  { cargo: 'Fonoaudi?logo Cl?nico', faixa: [3200, 7200] },
+  { cargo: 'Historiador e Pesquisador', faixa: [3000, 6500] },
+  { cargo: 'Soci?logo Pesquisador de Mercado', faixa: [3500, 8200] },
+  { cargo: 'Fil?sofo e Professor Universit?rio', faixa: [4500, 12000] },
+  { cargo: 'Chefe de Cozinha / Chef Executivo', faixa: [4000, 14000] },
+  { cargo: 'Sommelier de Vinhos Internacionais', faixa: [3800, 11000] },
+  { cargo: 'Turism?logo e Consultor de Viagens', faixa: [2800, 6800] },
+  { cargo: 'Piloto de Linha A?rea Comercial', faixa: [9000, 28000] },
+  { cargo: 'Comiss?rio de Bordo Internacional', faixa: [3800, 8500] },
+  { cargo: 'Capit?o da Marinha Mercante', faixa: [8500, 24000] },
+  { cargo: 'Despachante Aduaneiro', faixa: [4000, 11000] },
+  { cargo: 'Analista de Log?stica e Supply Chain', faixa: [3500, 8800] },
+  { cargo: 'Comprador T?cnico S?nior', faixa: [4200, 10500] },
+  { cargo: 'Policial Rodovi?rio Federal', faixa: [9800, 16500] },
+  { cargo: 'Perito Criminal?stico Oficial', faixa: [8500, 18000] },
+  { cargo: 'Delegado de Pol?cia Civil', faixa: [12000, 26000] },
+  { cargo: 'Juiz de Direito Substituto', faixa: [18000, 36000] },
+  { cargo: 'Promotor de Justi?a', faixa: [18000, 35000] },
+  { cargo: 'Defensor P?blico Estadual', faixa: [15000, 30000] },
+  { cargo: 'Tabeli?o e Registrador Notarial', faixa: [12000, 45000] },
+  { cargo: 'Fot?grafo Comercial e Publicit?rio', faixa: [3000, 9500] },
+  { cargo: 'Cineasta e Diretor de Fotografia', faixa: [4500, 16000] },
+  { cargo: 'Produtor Musical e Engenheiro de ?udio', faixa: [3500, 12000] },
+  { cargo: 'M?sico Instrumentista de Orquestra', faixa: [3200, 9000] },
+  { cargo: 'Ator de Teatro e Dublador', faixa: [2800, 9000] },
+  { cargo: 'Ilustrador e Artista Conceitual 3D', faixa: [3800, 11500] },
+  { cargo: 'Animador 2D/3D', faixa: [4000, 12000] },
+  { cargo: 'Game Designer', faixa: [4500, 13500] },
+  { cargo: 'Estat?stico Modelador Atuarial', faixa: [6500, 18000] },
+  { cargo: 'Matem?tico Financeiro', faixa: [6000, 16500] },
+  { cargo: 'F?sico M?dico Nuclear', faixa: [7500, 21000] },
+  { cargo: 'Astr?nomo e Astrof?sico', faixa: [5500, 14500] },
+  { cargo: 'Antrop?logo Cultural', faixa: [3500, 7800] },
+  { cargo: 'Restaurador de Obras de Arte', faixa: [3800, 9200] },
+  { cargo: 'Bibliotec?rio e Cientista da Informa??o', faixa: [3000, 6500] },
+  { cargo: 'Muse?logo e Curador de Exposi??es', faixa: [3400, 8000] },
+  { cargo: 'Zootecnista Consultor', faixa: [4000, 10500] },
+  { cargo: 'Engenheiro de Petr?leo e G?s Offshore', faixa: [9500, 28000] },
+  { cargo: 'Engenheiro de Minas Subterr?neas', faixa: [6500, 19000] },
+  { cargo: 'Engenheiro Metalurgista', faixa: [5400, 15500] },
+  { cargo: 'Engenheiro T?xtil', faixa: [4200, 11000] },
+  { cargo: 'Designer de Moda e Estilista', faixa: [3500, 12500] },
+  { cargo: 'Cen?grafo de Produ??es C?nicas', faixa: [3600, 10000] }
 ];
 
 const BANCOS = [
@@ -164,16 +303,106 @@ const CORES = ['Azul', 'Verde', 'Preto', 'Branco', 'Vermelho', 'Cinza', 'Azul Ma
 const PROVEDORES_EMAIL = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com.br', 'icloud.com'];
 
 const EMPRESAS_ANTERIORES = [
-  { nome: 'Ambev S.A.', cnpj: '07.526.557/0001-00', setor: 'Bebidas e Logística' },
-  { nome: 'Petróleo Brasileiro S.A. - Petrobras', cnpj: '33.000.167/0001-01', setor: 'Energia e Petróleo' },
-  { nome: 'Vale S.A.', cnpj: '33.592.510/0001-54', setor: 'Mineração e Metais' },
-  { nome: 'Itaú Unibanco Holding S.A.', cnpj: '60.872.504/0001-23', setor: 'Financeiro e Bancário' },
+  { nome: 'Ambev S.A.', cnpj: '07.526.557/0001-00', setor: 'Bebidas e Log?stica' },
+  { nome: 'Petr?leo Brasileiro S.A. - Petrobras', cnpj: '33.000.167/0001-01', setor: 'Energia e Petr?leo' },
+  { nome: 'Vale S.A.', cnpj: '33.592.510/0001-54', setor: 'Minera??o e Metais' },
+  { nome: 'Ita? Unibanco Holding S.A.', cnpj: '60.872.504/0001-23', setor: 'Financeiro e Banc?rio' },
   { nome: 'Magazine Luiza S.A.', cnpj: '47.960.950/0001-21', setor: 'Varejo e E-commerce' },
-  { nome: 'Natura Cosméticos S.A.', cnpj: '71.673.990/0001-77', setor: 'Bens de Consumo e Cosméticos' },
-  { nome: 'Totvs S.A.', cnpj: '53.113.791/0001-22', setor: 'Tecnologia da Informação' },
-  { nome: 'WEG Equipamentos Elétricos S.A.', cnpj: '07.175.725/0001-60', setor: 'Indústria Eletroeletrônica' },
+  { nome: 'Natura Cosm?ticos S.A.', cnpj: '71.673.990/0001-77', setor: 'Bens de Consumo e Cosm?ticos' },
+  { nome: 'Totvs S.A.', cnpj: '53.113.791/0001-22', setor: 'Tecnologia da Informa??o' },
+  { nome: 'WEG Equipamentos El?tricos S.A.', cnpj: '07.175.725/0001-60', setor: 'Ind?stria Eletroeletr?nica' },
   { nome: 'Embraer S.A.', cnpj: '07.689.002/0001-89', setor: 'Aeroespacial e Defesa' },
-  { nome: 'B3 S.A. - Brasil, Bolsa, Balcão', cnpj: '09.346.601/0001-25', setor: 'Mercado Financeiro' }
+  { nome: 'B3 S.A. - Brasil, Bolsa, Balc?o', cnpj: '09.346.601/0001-25', setor: 'Mercado Financeiro' },
+  { nome: 'Banco Bradesco S.A.', cnpj: '60.746.948/0001-12', setor: 'Financeiro e Seguros' },
+  { nome: 'Banco Santander (Brasil) S.A.', cnpj: '90.400.888/0001-42', setor: 'Servi?os Banc?rios' },
+  { nome: 'Banco do Brasil S.A.', cnpj: '00.000.000/0001-91', setor: 'Banc?rio Governamental' },
+  { nome: 'Caixa Econ?mica Federal', cnpj: '00.360.305/0001-04', setor: 'Banc?rio e Social' },
+  { nome: 'Nu Pagamentos S.A. - Nubank', cnpj: '18.236.120/0001-58', setor: 'Fintech e Pagamentos' },
+  { nome: 'Banco Inter S.A.', cnpj: '00.416.968/0001-01', setor: 'Banc?rio Digital' },
+  { nome: 'Stone Pagamentos S.A.', cnpj: '16.501.555/0001-57', setor: 'Meios de Pagamento' },
+  { nome: 'PagSeguro Internet S.A.', cnpj: '08.561.701/0001-01', setor: 'Fintech e Adquir?ncia' },
+  { nome: 'Cielo S.A.', cnpj: '01.027.058/0001-91', setor: 'Tecnologia de Pagamentos' },
+  { nome: 'Gerdau S.A.', cnpj: '33.611.500/0001-19', setor: 'Siderurgia e Metalurgia' },
+  { nome: 'Usinas Sider?rgicas de Minas Gerais S.A. - Usiminas', cnpj: '60.870.003/0001-10', setor: 'Siderurgia' },
+  { nome: 'Suzano S.A.', cnpj: '16.404.287/0001-55', setor: 'Papel e Celulose' },
+  { nome: 'Klabin S.A.', cnpj: '89.637.490/0001-45', setor: 'Papel e Embalagens' },
+  { nome: 'JBS S.A.', cnpj: '02.916.265/0001-60', setor: 'Alimentos e Frigor?ficos' },
+  { nome: 'BRF S.A.', cnpj: '01.838.723/0001-27', setor: 'Alimentos Industrializados' },
+  { nome: 'M. Dias Branco S.A. Ind?stria e Com?rcio de Alimentos', cnpj: '07.206.816/0001-15', setor: 'Massas e Biscoitos' },
+  { nome: 'Camil Alimentos S.A.', cnpj: '64.904.295/0001-03', setor: 'Gr?os e Alimentos' },
+  { nome: 'Rede D\'Or S?o Luiz S.A.', cnpj: '06.047.087/0001-39', setor: 'Sa?de e Hospitais' },
+  { nome: 'Hapvida Participa??es e Investimentos S.A.', cnpj: '08.970.474/0001-47', setor: 'Operadora de Sa?de' },
+  { nome: 'Fleury S.A.', cnpj: '60.840.055/0001-31', setor: 'Medicina Diagn?stica' },
+  { nome: 'Dasa - Diagn?sticos da Am?rica S.A.', cnpj: '61.486.650/0001-83', setor: 'Laborat?rios e Diagn?stico' },
+  { nome: 'Raia Drogasil S.A.', cnpj: '61.585.865/0001-51', setor: 'Farmac?utico e Varejo' },
+  { nome: 'Hypera S.A.', cnpj: '04.343.932/0001-53', setor: 'Ind?stria Farmac?utica' },
+  { nome: 'Eurofarma Laborat?rios S.A.', cnpj: '61.190.096/0001-92', setor: 'Medicamentos e Sa?de' },
+  { nome: 'EMS S.A.', cnpj: '57.507.378/0003-65', setor: 'Farmac?utica de Gen?ricos' },
+  { nome: 'Ultrapar Participa??es S.A. - Ipiranga', cnpj: '33.256.439/0001-39', setor: 'Distribui??o de Combust?veis' },
+  { nome: 'Cosan S.A.', cnpj: '50.746.577/0001-15', setor: 'Energia e A??car/?lcool' },
+  { nome: 'Ra?zen S.A.', cnpj: '33.453.598/0001-23', setor: 'Biocombust?veis e Postos' },
+  { nome: 'Vibra Energia S.A.', cnpj: '34.274.233/0001-02', setor: 'Derivados de Petr?leo' },
+  { nome: 'Eletrobras - Centrais El?tricas Brasileiras S.A.', cnpj: '00.001.180/0001-26', setor: 'Gera??o e Transmiss?o El?trica' },
+  { nome: 'CPFL Energia S.A.', cnpj: '02.429.144/0001-93', setor: 'Distribui??o de Energia' },
+  { nome: 'Neoenergia S.A.', cnpj: '01.083.200/0001-18', setor: 'Concession?ria de Energia' },
+  { nome: 'Equatorial Energia S.A.', cnpj: '03.220.438/0001-73', setor: 'Infraestrutura El?trica' },
+  { nome: 'Companhia de Saneamento B?sico do Estado de S?o Paulo - Sabesp', cnpj: '43.776.517/0001-80', setor: 'Saneamento e ?gua' },
+  { nome: 'Telef?nica Brasil S.A. - Vivo', cnpj: '02.558.157/0001-62', setor: 'Telecomunica??es' },
+  { nome: 'TIM S.A.', cnpj: '02.421.421/0001-11', setor: 'Telefonia M?vel' },
+  { nome: 'Claro S.A.', cnpj: '40.432.544/0001-47', setor: 'Telecomunica??es e Banda Larga' },
+  { nome: 'Lojas Renner S.A.', cnpj: '92.754.738/0001-62', setor: 'Moda e Varejo' },
+  { nome: 'C&A Modas S.A.', cnpj: '45.242.914/0001-05', setor: 'Vestu?rio e Varejo' },
+  { nome: 'Arezzo Ind?stria e Com?rcio S.A.', cnpj: '16.590.234/0001-76', setor: 'Cal?ados e Moda' },
+  { nome: 'Grupo SBF S.A. - Centauro', cnpj: '13.217.485/0001-31', setor: 'Artigos Esportivos' },
+  { nome: 'Atacad?o S.A.', cnpj: '75.315.333/0001-09', setor: 'Atacado e Supermercados' },
+  { nome: 'Sendas Distribuidora S.A. - Assa? Atacadista', cnpj: '06.057.223/0001-71', setor: 'Atacarejo' },
+  { nome: 'Companhia Brasileira de Distribui??o - GPA P?o de A??car', cnpj: '47.508.411/0001-56', setor: 'Supermercados' },
+  { nome: 'Carrefour Com?rcio e Ind?stria Ltda.', cnpj: '45.543.915/0001-81', setor: 'Hipermercados' },
+  { nome: 'Cogna Educa??o S.A. - Kroton', cnpj: '02.800.026/0001-40', setor: 'Ensino Superior e B?sico' },
+  { nome: 'Yduqs Participa??es S.A. - Est?cio', cnpj: '08.807.432/0001-10', setor: 'Educa??o Privada' },
+  { nome: 'Ser Educacional S.A.', cnpj: '04.986.320/0001-13', setor: 'Ensino T?cnico e Superior' },
+  { nome: 'Localiza Rent a Car S.A.', cnpj: '16.670.085/0001-55', setor: 'Loca??o de Ve?culos e Frotas' },
+  { nome: 'Movida Participa??es S.A.', cnpj: '21.314.559/0001-66', setor: 'Aluguel de Carros' },
+  { nome: 'Gol Linhas A?reas S.A.', cnpj: '07.570.485/0001-72', setor: 'Avia??o Comercial' },
+  { nome: 'Azul Linhas A?reas Brasileiras S.A.', cnpj: '09.296.295/0001-60', setor: 'Transporte A?reo' },
+  { nome: 'Rumo S.A.', cnpj: '13.555.475/0001-98', setor: 'Log?stica Ferrovi?ria' },
+  { nome: 'JSL S.A.', cnpj: '52.628.268/0001-72', setor: 'Transporte Rodovi?rio de Cargas' },
+  { nome: 'Santos Brasil Participa??es S.A.', cnpj: '02.762.121/0001-04', setor: 'Opera??es Portu?rias' },
+  { nome: 'CCR S.A.', cnpj: '02.846.056/0001-97', setor: 'Concess?es de Rodovias' },
+  { nome: 'Ecorodovias Concess?es e Servi?os S.A.', cnpj: '04.572.274/0001-00', setor: 'Infraestrutura Vi?ria' },
+  { nome: 'Marcopolo S.A.', cnpj: '88.611.835/0001-29', setor: 'Carrocerias de ?nibus' },
+  { nome: 'Randoncorp S.A.', cnpj: '89.086.144/0001-16', setor: 'Implementos Rodovi?rios' },
+  { nome: 'Tupy S.A.', cnpj: '84.683.374/0001-49', setor: 'Fundi??o Metal?rgica' },
+  { nome: 'Portobello S.A.', cnpj: '83.475.954/0001-08', setor: 'Cer?micas e Revestimentos' },
+  { nome: 'Duratex S.A. - Dexco', cnpj: '97.837.181/0001-47', setor: 'Pain?is de Madeira e Lou?as' },
+  { nome: 'Vulcabras S.A. - Olympikus', cnpj: '00.954.394/0001-17', setor: 'Ind?stria Cal?adista' },
+  { nome: 'Grendene S.A.', cnpj: '89.850.341/0001-06', setor: 'Cal?ados Sint?ticos' },
+  { nome: 'Alpargatas S.A. - Havaianas', cnpj: '61.079.117/0001-05', setor: 'Sand?lias e Acess?rios' },
+  { nome: 'Hering S.A.', cnpj: '82.640.558/0001-04', setor: 'T?xtil e Moda B?sica' },
+  { nome: 'Grupo Casas Bahia S.A.', cnpj: '33.041.260/0652-90', setor: 'M?veis e Eletrodom?sticos' },
+  { nome: 'Mercado Livre Brasil Ltda.', cnpj: '03.007.331/0001-41', setor: 'Marketplace e Tecnologia' },
+  { nome: 'Amazon Servi?os de Varejo do Brasil Ltda.', cnpj: '15.436.940/0001-03', setor: 'Com?rcio Eletr?nico Global' },
+  { nome: 'iFood Comida Digital S.A.', cnpj: '14.380.200/0001-21', setor: 'Food Delivery e Log?stica Urbana' },
+  { nome: 'QuintoAndar Servi?os Imobili?rios Ltda.', cnpj: '16.788.643/0001-81', setor: 'Proptech e Im?veis' },
+  { nome: 'Loft Solu??es Imobili?rias Ltda.', cnpj: '30.600.430/0001-15', setor: 'Tecnologia Imobili?ria' },
+  { nome: 'Loggi Tecnologia Ltda.', cnpj: '18.508.851/0001-41', setor: 'Log?stica Expressa' },
+  { nome: 'Gympass Tecnologia Ltda. - Wellhub', cnpj: '15.664.649/0001-84', setor: 'Benef?cios Corporativos de Sa?de' },
+  { nome: 'Hotmart Tecnologia Ltda.', cnpj: '13.404.673/0001-71', setor: 'Economia dos Criadores' },
+  { nome: 'Zup Innovation Ltda.', cnpj: '13.125.044/0001-01', setor: 'Software Corporativo e Open Source' },
+  { nome: 'CI&T Software S.A.', cnpj: '00.419.467/0001-65', setor: 'Transforma??o Digital' },
+  { nome: 'Stefanini Consultoria em Inform?tica S.A.', cnpj: '58.069.360/0001-19', setor: 'Consultoria Global de TI' },
+  { nome: 'Positivo Tecnologia S.A.', cnpj: '81.243.735/0001-48', setor: 'Hardware e Eletr?nicos' },
+  { nome: 'Multilaser Industrial S.A. - Multi', cnpj: '59.717.553/0001-02', setor: 'Acess?rios de Inform?tica' },
+  { nome: 'Intelbras S.A. Ind?stria de Telecomunica??o', cnpj: '82.901.000/0001-27', setor: 'Seguran?a Eletr?nica e Redes' },
+  { nome: 'Garen Automa??o S.A.', cnpj: '13.251.100/0001-08', setor: 'Motores e Port?es Autom?ticos' },
+  { nome: 'Intelbras Solar S.A.', cnpj: '35.150.100/0001-92', setor: 'Energia Fotovoltaica' },
+  { nome: 'Tigre S.A. Tubos e Conex?es', cnpj: '84.684.455/0001-01', setor: 'Constru??o Civil e Hidr?ulica' },
+  { nome: 'Amanco Wavin Ind?stria e Com?rcio Ltda.', cnpj: '00.125.400/0001-88', setor: 'Tubula??es Pl?sticas' },
+  { nome: 'Votorantim Cimentos S.A.', cnpj: '01.637.895/0001-32', setor: 'Cimento e Argamassas' },
+  { nome: 'Gerdau A?os Longos S.A.', cnpj: '07.358.761/0001-69', setor: 'A?o para Constru??o' },
+  { nome: 'Vedacit - Impermeabilizantes Baumgart Ind?stria Ltda.', cnpj: '60.528.205/0001-20', setor: 'Qu?mica da Constru??o' },
+  { nome: 'Suvinil - BASF S.A.', cnpj: '48.539.407/0001-18', setor: 'Tintas Imobili?rias' },
+  { nome: 'Coral - Akzo Nobel Ltda.', cnpj: '60.561.800/0001-40', setor: 'Tintas e Revestimentos' }
 ];
 
 const LOREM_PARAGRAFOS = [
@@ -368,21 +597,74 @@ export class GeradorFakePro {
     const tipo = String(opcoes.tipo || 'forte').toLowerCase();
     const tamanho = Math.max(4, Math.min(64, parseInt(opcoes.tamanho || 12, 10)));
 
-    let chars = '';
-    if (tipo === 'numerica' || tipo === 'pin') {
-      chars = '0123456789';
-    } else if (tipo === 'alfanumerica') {
-      chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    } else if (tipo === 'simples' || tipo === 'facil') {
-      chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    } else {
-      // Forte (padrão)
-      chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*_-+=';
+    // 1. Passphrase / Mnemônica (Ex: estrela-floresta-trovao-horizonte)
+    if (tipo === 'passphrase' || tipo === 'palavras') {
+      const PALAVRAS = [
+        'tucano', 'floresta', 'castelo', 'estrela', 'cafezal', 'safira', 'horizonte',
+        'martelo', 'trovao', 'planeta', 'diamante', 'gaviao', 'oceano', 'cometa',
+        'cascata', 'serpente', 'pantera', 'montanha', 'jaguar', 'tempestade', 'valente',
+        'aurora', 'galaxia', 'falcao', 'cristal', 'ventania', 'nevoeiro', 'luar'
+      ];
+      const qtdPalavras = Math.max(3, Math.min(6, Math.floor(tamanho / 3) || 4));
+      const selecionadas = [];
+      for (let i = 0; i < qtdPalavras; i++) {
+        selecionadas.push(PALAVRAS[Math.floor(Math.random() * PALAVRAS.length)]);
+      }
+      return selecionadas.join('-');
     }
 
+    // 2. Pronunciável / Fácil de Falar (Ex: Batedo9, Lomire4)
+    if (tipo === 'pronunciavel' || tipo === 'facil_falar') {
+      const consoantes = 'bcdfghjklmnprstvz';
+      const vogais = 'aeiou';
+      let s = '';
+      for (let i = 0; i < tamanho; i++) {
+        s += (i % 2 === 0) ? consoantes[Math.floor(Math.random() * consoantes.length)]
+                           : vogais[Math.floor(Math.random() * vogais.length)];
+      }
+      return s.charAt(0).toUpperCase() + s.slice(1, -1) + Math.floor(Math.random() * 9 + 1);
+    }
+
+    // 3. API Key / Secret Token (Ex: sk_live_83a7f82...)
+    if (tipo === 'apikey' || tipo === 'token') {
+      const prefixo = opcoes.prefixo || 'sk_live';
+      const charsToken = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let token = '';
+      for (let i = 0; i < Math.max(16, tamanho); i++) {
+        token += charsToken.charAt(Math.floor(Math.random() * charsToken.length));
+      }
+      return `${prefixo}_${token}`;
+    }
+
+    // 4. UUID v4 Token
+    if (tipo === 'uuid' || tipo === 'guid') {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+    // 5. PIN Numérico (Ex: 1234, 123456)
+    if (tipo === 'numerica' || tipo === 'pin') {
+      let pin = '';
+      for (let i = 0; i < tamanho; i++) pin += Math.floor(Math.random() * 10);
+      return pin;
+    }
+
+    // 6. Alfanumérica (Sem símbolos especiais)
+    if (tipo === 'alfanumerica' || tipo === 'sem_simbolos') {
+      const charsAlfa = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let s = '';
+      for (let i = 0; i < tamanho; i++) s += charsAlfa.charAt(Math.floor(Math.random() * charsAlfa.length));
+      return s;
+    }
+
+    // 7. Forte Completa (Padrão: Maiúsculas, Minúsculas, Números e Símbolos)
+    const charsForte = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*_-+=';
     let senha = '';
     for (let i = 0; i < tamanho; i++) {
-      senha += chars.charAt(Math.floor(Math.random() * chars.length));
+      senha += charsForte.charAt(Math.floor(Math.random() * charsForte.length));
     }
     return senha;
   }
