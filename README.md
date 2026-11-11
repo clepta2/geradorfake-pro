@@ -1,6 +1,7 @@
-# 👥 GeradorDePessoas Pro — SDK & API de Dados Fakes Brasileiros
+# 👥 GeradorFake Pro — SDK & Documentação de Integração
 
-> **API REST e SDK de alta performance em Cloudflare Edge para geração instantânea de pessoas fictícias, documentos matematicamente válidos (CPF Módulo 11 por UF, RG), endereços reais com CEP/DDD, dados bancários e profissões para testes e mockups (Estilo 4Devs) em <5ms.**
+> **Cliente SDK e Documentação Oficial de Integração da API GeradorFake Pro.**  
+> Suíte completa de geração de dados brasileiros (estilo 4Devs), documentos com validação criptográfica (Módulo 11 por UF, CNH, TSE, PIS, Cartões Luhn), veículos, empresas e exportação em SQL/CSV na borda Anycast (<5ms).
 
 [![Status](https://img.shields.io/badge/Status-Cloudflare%20Edge%20API-success.svg)](#)
 [![Padrão](https://img.shields.io/badge/Padrão-Receita%20Federal%20Módulo%2011-blue.svg)](#)
@@ -9,7 +10,14 @@
 
 ---
 
-## ⚡ O que é o GeradorDePessoas Pro?
+> 🔒 **Acesso Oficial & Chaves de API**:  
+> O acesso em produção a esta suíte de microsserviços é disponibilizado e monitorado exclusivamente através do **[Ponte APIs Marketplace](https://ponte.ozpro.com.br)**.  
+> Para obter sua chave de acesso (`ponte_live_...`), contratar cotas de requisições e testar ao vivo no playground interativo, acesse:  
+> 👉 **[https://ponte.ozpro.com.br](https://ponte.ozpro.com.br)**
+
+---
+
+## ⚡ O que é o GeradorFake Pro?
 
 O **GeradorDePessoas Pro** é um microsserviço completo desenvolvido pela OZPro Enterprise para desenvolvedores, QA testers, agentes de IA (Lovable, Replit, Cursor, v0) e times de produto que precisam popular bancos de dados de teste (*seeding*), criar protótipos de tela e simular cadastros realistas sem depender de sites lentos ou cheios de anúncios.
 
@@ -66,10 +74,12 @@ const usuariosSeed = GeradorFakePro.gerarLote(10, { uf: 'RJ' });
 console.log(`Gerados ${usuariosSeed.length} usuários.`);
 ```
 
-### 3. Chamada via Edge API Cloudflare
+### 3. Chamada via Edge API Oficial da Ponte
 
 ```javascript
-const api = new GeradorFakePro();
+const api = new GeradorFakePro({
+  apiKey: 'ponte_live_SEU_TOKEN_AQUI' // Obtenha no Ponte APIs Marketplace
+});
 const res = await api.obterPessoa({ uf: 'SP', sexo: 'F' });
 console.log(res.pessoa);
 ```
@@ -78,26 +88,31 @@ console.log(res.pessoa);
 
 ```bash
 # 1. Gerar 1 pessoa completa com nome natural de 3-5 palavras
-curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?uf=SP&sexo=F"
+curl -X GET "https://ponte.ozpro.com.br/api/gerar/pessoa?uf=SP&sexo=F" \
+  -H "Authorization: Bearer ponte_live_SUA_CHAVE_AQUI"
 
 # 2. Controlar tipo de senha (forte, alfanumérica ou pin) e tamanho
-curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?tipoSenha=forte&tamanhoSenha=16"
+curl -X GET "https://ponte.ozpro.com.br/api/gerar/senha?tipo=forte&tamanho=16" \
+  -H "Authorization: Bearer ponte_live_SUA_CHAVE_AQUI"
 
 # 3. Controlar extensão do texto Lorem Ipsum (de 50 a 500 palavras)
-curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?loremWords=350"
+curl -X GET "https://ponte.ozpro.com.br/api/gerar/lorem?palavras=350" \
+  -H "Authorization: Bearer ponte_live_SUA_CHAVE_AQUI"
 
 # 4. Exportação direta em SQL INSERT para popular banco de dados (Seed)
-curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?qtd=50&formato=sql&tabela=clientes"
+curl -X GET "https://ponte.ozpro.com.br/api/gerar/pessoa?qtd=50&formato=sql&tabela=clientes" \
+  -H "Authorization: Bearer ponte_live_SUA_CHAVE_AQUI"
 
 # 5. Exportação em Planilha CSV (compatível com Excel)
-curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?qtd=100&formato=csv"
+curl -X GET "https://ponte.ozpro.com.br/api/gerar/pessoa?qtd=100&formato=csv" \
+  -H "Authorization: Bearer ponte_live_SUA_CHAVE_AQUI"
 ```
 
 ---
 
 ## 📡 Tabela Completa das 26 Rotas Disponíveis (Estilo 4Devs Integral)
 
-| # | Ferramenta | Endpoint Cloudflare Edge | Descrição |
+| # | Ferramenta | Endpoint Oficial Ponte APIs | Descrição |
 | :-: | :--- | :--- | :--- |
 | **1** | **Gerador de CPF** | `GET /api/gerar/cpf?uf=SP` | Módulo 11 oficial da Receita com 9º dígito por UF |
 | **2** | **Gerador de CNPJ** | `GET /api/gerar/cnpj?filial=false` | Matriz `0001` ou filial com DVs válidos |
@@ -134,8 +149,9 @@ curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?qt
 ```python
 import requests
 
-url = "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa"
-res = requests.get(url, params={"uf": "SP", "sexo": "M"}).json()
+headers = {"Authorization": "Bearer ponte_live_SUA_CHAVE_AQUI"}
+url = "https://ponte.ozpro.com.br/api/gerar/pessoa"
+res = requests.get(url, params={"uf": "SP", "sexo": "M"}, headers=headers).json()
 
 p = res["pessoa"]
 print("Nome:", p["nome"])
@@ -147,8 +163,13 @@ print("Profissão:", p["perfil"]["profissao"])
 ### 🐘 PHP (Laravel, WordPress, Scripts de Seed)
 ```php
 <?php
-$url = "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?uf=SP";
-$dados = json_decode(file_get_contents($url), true);
+$url = "https://ponte.ozpro.com.br/api/gerar/pessoa?uf=SP";
+$opcoes = [
+  "http" => [
+    "header" => "Authorization: Bearer ponte_live_SUA_CHAVE_AQUI\r\n"
+  ]
+];
+$dados = json_decode(file_get_contents($url, false, stream_context_create($opcoes)), true);
 $p = $dados['pessoa'];
 
 echo "Nome: " . $p['nome'] . PHP_EOL;
@@ -159,13 +180,16 @@ echo "CPF: " . $p['cpf'] . PHP_EOL;
 ### 🔷 C# / .NET
 ```csharp
 using var client = new HttpClient();
-string json = await client.GetStringAsync("https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?uf=MG");
+client.DefaultRequestHeaders.Add("Authorization", "Bearer ponte_live_SUA_CHAVE_AQUI");
+string json = await client.GetStringAsync("https://ponte.ozpro.com.br/api/gerar/pessoa?uf=MG");
 Console.WriteLine(json);
 ```
 
 ### 🌐 JavaScript / TypeScript (Node.js, React, Next.js)
 ```javascript
-const res = await fetch("https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?uf=SP&qtd=3");
+const res = await fetch("https://ponte.ozpro.com.br/api/gerar/pessoa?uf=SP&qtd=3", {
+  headers: { "Authorization": "Bearer ponte_live_SUA_CHAVE_AQUI" }
+});
 const { pessoas } = await res.json();
 pessoas.forEach(p => console.log(p.nome, p.cpf, p.endereco.cidade));
 ```
@@ -177,7 +201,8 @@ pessoas.forEach(p => console.log(p.nome, p.cpf, p.endereco.cidade));
 Ao criar aplicações com inteligência artificial, você pode economizar **90% dos seus tokens** em vez de pedir para a IA criar geradores mock complexos:
 
 ```text
-Ao criar telas de mock, testes de cadastro ou seeds de banco de dados, utilize a API Anycast do GeradorDePessoas Pro para obter dados brasileiros reais:
-- Endpoint: GET https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?qtd=5&uf=SP
+Ao criar telas de mock, testes de cadastro ou seeds de banco de dados, utilize a API Anycast do GeradorFake Pro no Ponte APIs Marketplace para obter dados brasileiros reais:
+- Endpoint: GET https://ponte.ozpro.com.br/api/gerar/pessoa?qtd=5&uf=SP
+- Header: Authorization: Bearer ponte_live_...
 Retorne os dados mockados diretamente da resposta JSON.
 ```

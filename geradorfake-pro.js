@@ -571,7 +571,7 @@ const LOREM_PARAGRAFOS = [
 
 export class GeradorFakePro {
   constructor(options = {}) {
-    this.endpoint = options.endpoint || 'https://geradorfake-pro-api.maputo2.workers.dev';
+    this.endpoint = options.endpoint || 'https://ponte.ozpro.com.br';
     this.apiKey = options.apiKey || '';
   }
 
