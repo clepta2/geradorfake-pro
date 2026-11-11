@@ -8,24 +8,46 @@
  */
 
 const NOMES_MASCULINOS = [
-  'Lucas', 'Gabriel', 'Matheus', 'Pedro', 'Arthur', 'Davi', 'Bernardo', 'Rafael',
-  'Felipe', 'Gustavo', 'Thiago', 'Bruno', 'Rodrigo', 'Leonardo', 'Eduardo', 'Marcelo',
-  'Vinicius', 'Daniel', 'Caio', 'Diego', 'Guilherme', 'Henrique', 'Joao Pedro', 'Enzo',
-  'Samuel', 'Vitor', 'Andre', 'Renan', 'Igor', 'Murilo'
+  'Joao', 'Carlos', 'Marcelo', 'Gabriel', 'Paulo', 'Fernando', 'Andre', 'Roberto',
+  'Leonardo', 'Marcio', 'Rodrigo', 'Felipe', 'Thiago', 'Lucas', 'Matheus', 'Gustavo',
+  'Rafael', 'Eduardo', 'Bruno', 'Alexandre', 'Ricardo', 'Fabio', 'Leandro', 'Diego',
+  'Vinicius', 'Danilo', 'Henrique', 'Caio', 'Renato', 'Samuel', 'Murilo', 'Vitor',
+  'Otavio', 'Breno', 'Luciano', 'Cristiano', 'Rogerio', 'Wagner', 'Mauricio', 'Cesar'
 ];
 
 const NOMES_FEMININOS = [
-  'Julia', 'Sophia', 'Isabella', 'Manuela', 'Valentina', 'Laura', 'Alice', 'Giovanna',
-  'Maria Eduarda', 'Beatriz', 'Luiza', 'Mariana', 'Gabriela', 'Camila', 'Leticia',
-  'Larissa', 'Amanda', 'Jessica', 'Bruna', 'Fernanda', 'Carolina', 'Helena', 'Isadora',
-  'Rafaela', 'Yasmin', 'Ana Clara', 'Melissa', 'Rebeca', 'Lorena', 'Nicole'
+  'Maria', 'Ana', 'Mariana', 'Juliana', 'Carolina', 'Beatriz', 'Camila', 'Leticia',
+  'Fernanda', 'Gabriela', 'Larissa', 'Amanda', 'Jessica', 'Bruna', 'Helena', 'Laura',
+  'Alice', 'Sophia', 'Isabella', 'Manuela', 'Valentina', 'Giovanna', 'Luiza', 'Rafaela',
+  'Yasmin', 'Patricia', 'Vanessa', 'Renata', 'Danielle', 'Priscila', 'Aline', 'Tatiane',
+  'Bianca', 'Natalia', 'Debora', 'Simone', 'Cristina', 'Flavia', 'Claudia', 'Sandra'
 ];
 
-const SOBRENOMES = [
-  'Silva', 'Santos', 'Oliveira', 'Souza', 'Rodrigues', 'Ferreira', 'Alves', 'Pereira',
-  'Lima', 'Gomes', 'Costa', 'Ribeiro', 'Martins', 'Carvalho', 'Almeida', 'Lopes',
-  'Soares', 'Fernandes', 'Vieira', 'Barbosa', 'Rocha', 'Dias', 'Nascimento', 'Andrade',
-  'Moreira', 'Nunes', 'Marques', 'Machado', 'Mendes', 'Freitas', 'Cardoso', 'Ramos'
+const NOMES_MEIO_MASCULINO = [
+  'Kebler', 'Eduardo', 'Henrique', 'Augusto', 'Alexandre', 'Roberto', 'Felipe',
+  'Vinicius', 'Arthur', 'Rafael', 'Cesar', 'Guilherme', 'Antonio', 'Francisco',
+  'Jose', 'Luis', 'Alberto', 'Tadeu', 'Otavio', 'Bento', 'Inacio', 'Afonso', 'Heitor'
+];
+
+const NOMES_MEIO_FEMININO = [
+  'Eduarda', 'Helena', 'Aparecida', 'Cristina', 'Luiza', 'Beatriz', 'Fernanda',
+  'Carolina', 'Gabriela', 'Ines', 'Tereza', 'Clara', 'Vitoria', 'Regina', 'Alice'
+];
+
+const SOBRENOMES_FAMILIA = [
+  'Fagundes', 'Meireles', 'Nogueira', 'Barcellos', 'Vasconcelos', 'Peixoto', 'Medeiros',
+  'Guimaraes', 'Pires', 'Toledo', 'Siqueira', 'Antunes', 'Silveira', 'Camargo', 'Braga',
+  'Duarte', 'Figueiredo', 'Gusmao', 'Macedo', 'Bittencourt', 'Maldonado', 'Fontes',
+  'Carneiro', 'Paiva', 'Castilho', 'Queiroz', 'Menezes', 'Borges', 'Coelho', 'Cavalcanti',
+  'Prado', 'Lacerda', 'Albuquerque', 'Fonseca', 'Muniz', 'Pacheco', 'Furtado', 'Rezende',
+  'Viana', 'Bueno', 'Brandao', 'Gouveia', 'Miranda', 'Tavares', 'Barreto'
+];
+
+const SOBRENOMES_PATRONIMICOS = [
+  'Silva', 'Santos', 'Oliveira', 'Souza', 'Pereira', 'Lima', 'Carvalho', 'Ribeiro',
+  'Martins', 'Ferreira', 'Barbosa', 'Rocha', 'Alves', 'Gomes', 'Costa', 'Dias',
+  'Nascimento', 'Andrade', 'Moreira', 'Nunes', 'Marques', 'Machado', 'Freitas', 'Cardoso',
+  'Ramos', 'Teixeira', 'Araujo', 'Monteiro', 'Mendes', 'Batista', 'Cavalcante', 'Dantas'
 ];
 
 const PROFISSOES = [
@@ -526,6 +548,53 @@ export class GeradorFakePro {
   }
 
   /**
+   * Gera nome brasileiro ultra-realista de 3 a 5 palavras
+   * Ex: "Maria Antonieta de Souza Pinto", "Joao Kebler Fagundes da Silva"
+   * @param {string} sexo 
+   * @returns {string}
+   */
+  static gerarNomeRealista(sexo = 'M') {
+    const p1 = sexo === 'M' ? GeradorFakePro.sortear(NOMES_MASCULINOS) : GeradorFakePro.sortear(NOMES_FEMININOS);
+    const temMeio = Math.random() > 0.3;
+    let pMeio = null;
+    if (temMeio) {
+      pMeio = sexo === 'M' ? GeradorFakePro.sortear(NOMES_MEIO_MASCULINO) : GeradorFakePro.sortear(NOMES_MEIO_FEMININO);
+      while (pMeio === p1) {
+        pMeio = sexo === 'M' ? GeradorFakePro.sortear(NOMES_MEIO_MASCULINO) : GeradorFakePro.sortear(NOMES_MEIO_FEMININO);
+      }
+    }
+
+    const temSegundoSobrenome = Math.random() > 0.15;
+    const s1 = GeradorFakePro.sortear(SOBRENOMES_FAMILIA);
+    let s2 = temSegundoSobrenome ? GeradorFakePro.sortear(SOBRENOMES_PATRONIMICOS) : null;
+    while (s2 && s2 === s1) s2 = GeradorFakePro.sortear(SOBRENOMES_PATRONIMICOS);
+
+    const temPrep = Math.random() > 0.45;
+    const prep = temPrep ? GeradorFakePro.sortear(['de', 'da', 'do', 'dos']) : null;
+
+    const partes = [p1];
+    if (pMeio) partes.push(pMeio);
+
+    if (s2) {
+      if (prep) {
+        partes.push(prep, s1, s2);
+      } else {
+        partes.push(s1, s2);
+      }
+    } else {
+      if (prep) partes.push(prep);
+      partes.push(s1);
+    }
+
+    const resultado = partes.join(' ');
+    const totalPalavras = resultado.split(' ').length;
+    if (totalPalavras < 3) {
+      return `${resultado} ${GeradorFakePro.sortear(SOBRENOMES_PATRONIMICOS)}`;
+    }
+    return resultado;
+  }
+
+  /**
    * Gera uma Pessoa Fake Brasileira Completa e Coerente com o Estado
    * @param {Object} [filtros]
    * @param {string} [filtros.sexo] - 'M', 'F' ou 'aleatorio'
@@ -539,16 +608,14 @@ export class GeradorFakePro {
       (filtros.sexo === 'F' || filtros.sexo === 'f') ? 'F' :
       (Math.random() > 0.5 ? 'M' : 'F');
 
-    const primeiroNome = sexoEscolhido === 'M' ?
-      GeradorFakePro.sortear(NOMES_MASCULINOS) :
-      GeradorFakePro.sortear(NOMES_FEMININOS);
+    const nomeCompleto = GeradorFakePro.gerarNomeRealista(sexoEscolhido);
+    const partesNome = nomeCompleto.split(' ');
+    const primeiroNome = partesNome[0];
+    const ultimoSobrenome = partesNome[partesNome.length - 1];
 
-    const sobrenome1 = GeradorFakePro.sortear(SOBRENOMES);
-    let sobrenome2 = GeradorFakePro.sortear(SOBRENOMES);
-    while (sobrenome2 === sobrenome1) {
-      sobrenome2 = GeradorFakePro.sortear(SOBRENOMES);
-    }
-    const nomeCompleto = `${primeiroNome} ${sobrenome1} ${sobrenome2}`;
+    // Filiação realista compartilhando sobrenome de família
+    const nomeMae = `${GeradorFakePro.sortear(NOMES_FEMININOS)} ${GeradorFakePro.sortear(NOMES_MEIO_FEMININO)} ${partesNome.length > 3 ? partesNome[partesNome.length - 2] : 'Alves'} ${ultimoSobrenome}`;
+    const nomePai = `${GeradorFakePro.sortear(NOMES_MASCULINOS)} ${GeradorFakePro.sortear(NOMES_MEIO_MASCULINO)} ${GeradorFakePro.sortear(SOBRENOMES_FAMILIA)} ${ultimoSobrenome}`;
 
     // UF e Localização Coerente
     const ufsDisponiveis = Object.keys(ESTADOS_BRASIL);
@@ -593,7 +660,7 @@ export class GeradorFakePro {
     const avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(nomeCompleto)}&backgroundColor=0f172a,1e293b&textColor=f8fafc`;
 
     // E-mail e Credenciais
-    const slugNome = `${primeiroNome.toLowerCase()}.${sobrenome2.toLowerCase()}${String(anoNasc).slice(-2)}`;
+    const slugNome = `${primeiroNome.toLowerCase()}.${ultimoSobrenome.toLowerCase()}${String(anoNasc).slice(-2)}`;
     const dominioEmail = GeradorFakePro.sortear(PROVEDORES_EMAIL);
     const email = `${slugNome.normalize('NFD').replace(/[\u0300-\u036f]/g, '')}@${dominioEmail}`;
     const senha = GeradorFakePro.gerarSenhaForte(10);
@@ -605,17 +672,36 @@ export class GeradorFakePro {
     const agencia = String(GeradorFakePro.numeroAleatorio(100, 9999)).padStart(4, '0');
     const conta = `${GeradorFakePro.numeroAleatorio(10000, 99999)}-${GeradorFakePro.numeroAleatorio(0, 9)}`;
 
+    const protocolo = `RFB-20261111-${GeradorFakePro.numeroAleatorio(100000, 999999)}`;
+    const score = GeradorFakePro.numeroAleatorio(750, 990);
+    const estadoCivil = idade >= 26 ? GeradorFakePro.sortear(['Casado(a)', 'Solteiro(a)', 'União Estável', 'Divorciado(a)']) : 'Solteiro(a)';
+
     return {
+      consultaOficial: {
+        protocolo,
+        situacaoCadastral: 'REGULAR',
+        dataConsulta: new Date().toISOString(),
+        orgaoEmissor: 'Secretaria da Receita Federal do Brasil',
+        codigoControle: `${GeradorFakePro.numeroAleatorio(1000, 9999).toString(16).toUpperCase()}.${GeradorFakePro.numeroAleatorio(1000, 9999).toString(16).toUpperCase()}.${GeradorFakePro.numeroAleatorio(1000, 9999).toString(16).toUpperCase()}.${GeradorFakePro.numeroAleatorio(1000, 9999).toString(16).toUpperCase()}`
+      },
       nome: nomeCompleto,
       sexo: sexoEscolhido === 'M' ? 'Masculino' : 'Feminino',
       idade,
       dataNascimento: dataNascimentoFormatada,
       dataNascimentoIso,
       signo,
+      nacionalidade: 'Brasileira (Nato)',
+      naturalidade: `${cidadeEscolhida.nome} - ${ufKey}`,
+      estadoCivil,
+      filiacao: {
+        nomeMae,
+        nomePai
+      },
       cpf: cpf.formatado,
       cpfLimpo: cpf.limpo,
       rg: rg.formatado,
       rgLimpo: rg.limpo,
+      orgaoEmissorRg: `SSP/${ufKey}`,
       cnh: {
         numero: cnh.limpo,
         categoria: cnh.categoria,
@@ -670,6 +756,8 @@ export class GeradorFakePro {
         profissao: prof.cargo,
         rendaEstimada: renda,
         rendaFormatada: `R$ ${renda.toFixed(2).replace('.', ',')}`,
+        scoreCredito: score,
+        classificacaoScore: 'Excelente - Baixo Risco',
         tipoSanguineo: GeradorFakePro.sortear(TIPOS_SANGUINEOS),
         altura: `${(GeradorFakePro.numeroAleatorio(155, 192) / 100).toFixed(2)} m`,
         peso: `${GeradorFakePro.numeroAleatorio(52, 98)} kg`,
@@ -694,7 +782,7 @@ export class GeradorFakePro {
    * @returns {Array<Object>}
    */
   static gerarLote(quantidade = 5, filtros = {}) {
-    const qtd = Math.max(1, Math.min(50, Number(quantidade) || 5));
+    const qtd = Math.max(1, Math.min(10000, Number(quantidade) || 5));
     const lista = [];
     for (let i = 0; i < qtd; i++) {
       lista.push(GeradorFakePro.gerar(filtros));

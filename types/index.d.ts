@@ -71,17 +71,36 @@ export interface PassaportePessoa {
   orgaoEmissor: string;
 }
 
+export interface ConsultaOficial {
+  protocolo: string;
+  situacaoCadastral: string;
+  dataConsulta: string;
+  orgaoEmissor: string;
+  codigoControle: string;
+}
+
+export interface FiliacaoPessoa {
+  nomeMae: string;
+  nomePai: string;
+}
+
 export interface PessoaFake {
+  consultaOficial: ConsultaOficial;
   nome: string;
   sexo: 'Masculino' | 'Feminino';
   idade: number;
   dataNascimento: string;
   dataNascimentoIso: string;
   signo: string;
+  nacionalidade: string;
+  naturalidade: string;
+  estadoCivil: string;
+  filiacao: FiliacaoPessoa;
   cpf: string;
   cpfLimpo: string;
   rg: string;
   rgLimpo: string;
+  orgaoEmissorRg: string;
   cnh: CnhPessoa;
   tituloEleitor: TituloEleitorPessoa;
   pisPasep: PisPasepPessoa;
@@ -90,6 +109,8 @@ export interface PessoaFake {
   endereco: EnderecoPessoa;
   dadosBancarios: DadosBancariosPessoa;
   cartaoCredito: CartaoCreditoPessoa;
+  veiculo: any;
+  avatarUrl: string;
   perfil: PerfilPessoa;
   auditoriaValidadora: any;
   aviso: string;
@@ -110,10 +131,18 @@ export interface GeradorOptions {
 
 export declare class GeradorFakePro {
   constructor(options?: GeradorOptions);
+  static gerarNomeRealista(sexo?: string): string;
   static gerar(filtros?: FiltrosGeracao): PessoaFake;
   static gerarLote(quantidade?: number, filtros?: FiltrosGeracao): PessoaFake[];
   static gerarCpf(ufRf?: number | null): { limpo: string; formatado: string };
   static gerarRg(): { limpo: string; formatado: string };
+  static gerarCnh(): CnhPessoa;
+  static gerarTituloEleitor(uf?: string): TituloEleitorPessoa;
+  static gerarPis(): PisPasepPessoa;
+  static gerarCartaoCredito(bandeira?: string): CartaoCreditoPessoa;
+  static gerarVeiculo(): any;
+  static exportarSql(pessoas: PessoaFake | PessoaFake[], tabela?: string): string;
+  static exportarCsv(pessoas: PessoaFake | PessoaFake[]): string;
   static gerarSenhaForte(tamanho?: number): string;
   obterPessoa(params?: FiltrosGeracao): Promise<{ ok: boolean; pessoa: PessoaFake }>;
 }
