@@ -84,14 +84,30 @@ export interface FiliacaoPessoa {
   nomePai: string;
 }
 
+export interface EmpresaAnterior {
+  razaoSocial: string;
+  cnpj: string;
+  setorAtuacao: string;
+  tempoPermanencia: string;
+}
+
+export interface CarreiraPessoa {
+  profissaoAtual: string;
+  rendaEstimada: number;
+  rendaFormatada: string;
+  empresaAnterior: EmpresaAnterior;
+}
+
 export interface PessoaFake {
   consultaOficial: ConsultaOficial;
   nome: string;
+  nickname: string;
   sexo: 'Masculino' | 'Feminino';
   idade: number;
   dataNascimento: string;
   dataNascimentoIso: string;
   signo: string;
+  numeroDaSorte: number;
   nacionalidade: string;
   naturalidade: string;
   estadoCivil: string;
@@ -107,10 +123,12 @@ export interface PessoaFake {
   passaporte: PassaportePessoa;
   contato: ContatoPessoa;
   endereco: EnderecoPessoa;
+  carreira: CarreiraPessoa;
   dadosBancarios: DadosBancariosPessoa;
   cartaoCredito: CartaoCreditoPessoa;
   veiculo: any;
   avatarUrl: string;
+  biografiaLorem: string;
   perfil: PerfilPessoa;
   auditoriaValidadora: any;
   aviso: string;

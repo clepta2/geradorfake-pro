@@ -34,20 +34,23 @@ const NOMES_MEIO_FEMININO = [
   'Carolina', 'Gabriela', 'Ines', 'Tereza', 'Clara', 'Vitoria', 'Regina', 'Alice'
 ];
 
-const SOBRENOMES_FAMILIA = [
+const SOBRENOMES_MATERNOS = [
+  'de Souza', 'de Oliveira', 'de Carvalho', 'de Freitas', 'de Alencar', 'de Paula',
+  'de Andrade', 'de Castro', 'de Almeida', 'de Toledo', 'de Macedo',
+  'da Silva', 'da Costa', 'da Rocha', 'da Fonseca', 'da Silveira',
+  'dos Santos', 'dos Passos', 'dos Anjos',
   'Fagundes', 'Meireles', 'Nogueira', 'Barcellos', 'Vasconcelos', 'Peixoto', 'Medeiros',
-  'Guimaraes', 'Pires', 'Toledo', 'Siqueira', 'Antunes', 'Silveira', 'Camargo', 'Braga',
-  'Duarte', 'Figueiredo', 'Gusmao', 'Macedo', 'Bittencourt', 'Maldonado', 'Fontes',
-  'Carneiro', 'Paiva', 'Castilho', 'Queiroz', 'Menezes', 'Borges', 'Coelho', 'Cavalcanti',
-  'Prado', 'Lacerda', 'Albuquerque', 'Fonseca', 'Muniz', 'Pacheco', 'Furtado', 'Rezende',
-  'Viana', 'Bueno', 'Brandao', 'Gouveia', 'Miranda', 'Tavares', 'Barreto'
+  'Guimaraes', 'Pires', 'Toledo', 'Siqueira', 'Antunes', 'Camargo', 'Braga', 'Duarte',
+  'Figueiredo', 'Gusmao', 'Macedo', 'Bittencourt', 'Maldonado', 'Fontes', 'Carneiro',
+  'Paiva', 'Castilho', 'Queiroz', 'Menezes', 'Borges', 'Coelho', 'Cavalcanti'
 ];
 
-const SOBRENOMES_PATRONIMICOS = [
-  'Silva', 'Santos', 'Oliveira', 'Souza', 'Pereira', 'Lima', 'Carvalho', 'Ribeiro',
-  'Martins', 'Ferreira', 'Barbosa', 'Rocha', 'Alves', 'Gomes', 'Costa', 'Dias',
-  'Nascimento', 'Andrade', 'Moreira', 'Nunes', 'Marques', 'Machado', 'Freitas', 'Cardoso',
-  'Ramos', 'Teixeira', 'Araujo', 'Monteiro', 'Mendes', 'Batista', 'Cavalcante', 'Dantas'
+const SOBRENOMES_PATERNOS = [
+  'Pinto', 'Silva', 'Santos', 'Oliveira', 'Souza', 'Pereira', 'Lima', 'Carvalho',
+  'Ribeiro', 'Martins', 'Ferreira', 'Barbosa', 'Rocha', 'Alves', 'Gomes', 'Costa',
+  'Dias', 'Nascimento', 'Andrade', 'Moreira', 'Nunes', 'Marques', 'Machado',
+  'Freitas', 'Cardoso', 'Ramos', 'Teixeira', 'Batista', 'Albuquerque', 'Dantas',
+  'Fagundes', 'Vasconcelos', 'Meireles', 'Cavalcanti', 'Figueiredo'
 ];
 
 const PROFISSOES = [
@@ -159,6 +162,27 @@ const ESTADOS_BRASIL = {
 const TIPOS_SANGUINEOS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const CORES = ['Azul', 'Verde', 'Preto', 'Branco', 'Vermelho', 'Cinza', 'Azul Marinho', 'Vinho', 'Verde Oliva'];
 const PROVEDORES_EMAIL = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com.br', 'icloud.com'];
+
+const EMPRESAS_ANTERIORES = [
+  { nome: 'Ambev S.A.', cnpj: '07.526.557/0001-00', setor: 'Bebidas e Logística' },
+  { nome: 'Petróleo Brasileiro S.A. - Petrobras', cnpj: '33.000.167/0001-01', setor: 'Energia e Petróleo' },
+  { nome: 'Vale S.A.', cnpj: '33.592.510/0001-54', setor: 'Mineração e Metais' },
+  { nome: 'Itaú Unibanco Holding S.A.', cnpj: '60.872.504/0001-23', setor: 'Financeiro e Bancário' },
+  { nome: 'Magazine Luiza S.A.', cnpj: '47.960.950/0001-21', setor: 'Varejo e E-commerce' },
+  { nome: 'Natura Cosméticos S.A.', cnpj: '71.673.990/0001-77', setor: 'Bens de Consumo e Cosméticos' },
+  { nome: 'Totvs S.A.', cnpj: '53.113.791/0001-22', setor: 'Tecnologia da Informação' },
+  { nome: 'WEG Equipamentos Elétricos S.A.', cnpj: '07.175.725/0001-60', setor: 'Indústria Eletroeletrônica' },
+  { nome: 'Embraer S.A.', cnpj: '07.689.002/0001-89', setor: 'Aeroespacial e Defesa' },
+  { nome: 'B3 S.A. - Brasil, Bolsa, Balcão', cnpj: '09.346.601/0001-25', setor: 'Mercado Financeiro' }
+];
+
+const LOREM_PARAGRAFOS = [
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  'Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida.',
+  'Sed adipiscing ornare risus. Morbi est est, blandit sit amet, sagittis vel, euismod vel, velit. Pellentesque egestas sem. Suspendisse commodo ullamcorper magna.',
+  'Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.'
+];
 
 export class GeradorFakePro {
   constructor(options = {}) {
@@ -555,7 +579,7 @@ export class GeradorFakePro {
    */
   static gerarNomeRealista(sexo = 'M') {
     const p1 = sexo === 'M' ? GeradorFakePro.sortear(NOMES_MASCULINOS) : GeradorFakePro.sortear(NOMES_FEMININOS);
-    const temMeio = Math.random() > 0.3;
+    const temMeio = Math.random() > 0.25; // 75% das pessoas tem nome composto ou do meio
     let pMeio = null;
     if (temMeio) {
       pMeio = sexo === 'M' ? GeradorFakePro.sortear(NOMES_MEIO_MASCULINO) : GeradorFakePro.sortear(NOMES_MEIO_FEMININO);
@@ -564,34 +588,19 @@ export class GeradorFakePro {
       }
     }
 
-    const temSegundoSobrenome = Math.random() > 0.15;
-    const s1 = GeradorFakePro.sortear(SOBRENOMES_FAMILIA);
-    let s2 = temSegundoSobrenome ? GeradorFakePro.sortear(SOBRENOMES_PATRONIMICOS) : null;
-    while (s2 && s2 === s1) s2 = GeradorFakePro.sortear(SOBRENOMES_PATRONIMICOS);
+    const sMaterno = GeradorFakePro.sortear(SOBRENOMES_MATERNOS);
+    let sPaterno = GeradorFakePro.sortear(SOBRENOMES_PATERNOS);
+    while (sMaterno.toLowerCase().includes(sPaterno.toLowerCase())) {
+      sPaterno = GeradorFakePro.sortear(SOBRENOMES_PATERNOS);
+    }
 
-    const temPrep = Math.random() > 0.45;
-    const prep = temPrep ? GeradorFakePro.sortear(['de', 'da', 'do', 'dos']) : null;
-
-    const partes = [p1];
-    if (pMeio) partes.push(pMeio);
-
-    if (s2) {
-      if (prep) {
-        partes.push(prep, s1, s2);
-      } else {
-        partes.push(s1, s2);
-      }
+    if (pMeio) {
+      // 4 a 5 palavras: ex "Maria Antonieta de Souza Pinto" ou "Joao Kebler Fagundes Silva"
+      return `${p1} ${pMeio} ${sMaterno} ${sPaterno}`;
     } else {
-      if (prep) partes.push(prep);
-      partes.push(s1);
+      // 3 a 4 palavras: ex "Joao de Souza Pinto" ou "Carlos Fagundes da Silva"
+      return `${p1} ${sMaterno} ${sPaterno}`;
     }
-
-    const resultado = partes.join(' ');
-    const totalPalavras = resultado.split(' ').length;
-    if (totalPalavras < 3) {
-      return `${resultado} ${GeradorFakePro.sortear(SOBRENOMES_PATRONIMICOS)}`;
-    }
-    return resultado;
   }
 
   /**
@@ -615,7 +624,7 @@ export class GeradorFakePro {
 
     // Filiação realista compartilhando sobrenome de família
     const nomeMae = `${GeradorFakePro.sortear(NOMES_FEMININOS)} ${GeradorFakePro.sortear(NOMES_MEIO_FEMININO)} ${partesNome.length > 3 ? partesNome[partesNome.length - 2] : 'Alves'} ${ultimoSobrenome}`;
-    const nomePai = `${GeradorFakePro.sortear(NOMES_MASCULINOS)} ${GeradorFakePro.sortear(NOMES_MEIO_MASCULINO)} ${GeradorFakePro.sortear(SOBRENOMES_FAMILIA)} ${ultimoSobrenome}`;
+    const nomePai = `${GeradorFakePro.sortear(NOMES_MASCULINOS)} ${GeradorFakePro.sortear(NOMES_MEIO_MASCULINO)} ${GeradorFakePro.sortear(SOBRENOMES_PATERNOS)} ${ultimoSobrenome}`;
 
     // UF e Localização Coerente
     const ufsDisponiveis = Object.keys(ESTADOS_BRASIL);
@@ -668,9 +677,17 @@ export class GeradorFakePro {
     // Trabalho & Finanças
     const prof = GeradorFakePro.sortear(PROFISSOES);
     const renda = Number((GeradorFakePro.numeroAleatorio(prof.faixa[0], prof.faixa[1]) + Math.random()).toFixed(2));
+    const empresaAnterior = GeradorFakePro.sortear(EMPRESAS_ANTERIORES);
+    const tempoEmpresaMeses = GeradorFakePro.numeroAleatorio(6, 72);
     const banco = GeradorFakePro.sortear(BANCOS);
     const agencia = String(GeradorFakePro.numeroAleatorio(100, 9999)).padStart(4, '0');
     const conta = `${GeradorFakePro.numeroAleatorio(10000, 99999)}-${GeradorFakePro.numeroAleatorio(0, 9)}`;
+
+    // Nicknames criativos e realistas de internet
+    const sufixosNick = ['_dev', '_pro', 'br', '99', 'x', '_real', 'official', String(anoNasc).slice(-2)];
+    const nickname = `${primeiroNome.toLowerCase()}_${ultimoSobrenome.toLowerCase()}${GeradorFakePro.sortear(sufixosNick)}`;
+    const numeroDaSorte = GeradorFakePro.numeroAleatorio(0, 1000);
+    const loremIpsum = GeradorFakePro.sortear(LOREM_PARAGRAFOS);
 
     const protocolo = `RFB-20261111-${GeradorFakePro.numeroAleatorio(100000, 999999)}`;
     const score = GeradorFakePro.numeroAleatorio(750, 990);
@@ -685,11 +702,13 @@ export class GeradorFakePro {
         codigoControle: `${GeradorFakePro.numeroAleatorio(1000, 9999).toString(16).toUpperCase()}.${GeradorFakePro.numeroAleatorio(1000, 9999).toString(16).toUpperCase()}.${GeradorFakePro.numeroAleatorio(1000, 9999).toString(16).toUpperCase()}.${GeradorFakePro.numeroAleatorio(1000, 9999).toString(16).toUpperCase()}`
       },
       nome: nomeCompleto,
+      nickname,
       sexo: sexoEscolhido === 'M' ? 'Masculino' : 'Feminino',
       idade,
       dataNascimento: dataNascimentoFormatada,
       dataNascimentoIso,
       signo,
+      numeroDaSorte,
       nacionalidade: 'Brasileira (Nato)',
       naturalidade: `${cidadeEscolhida.nome} - ${ufKey}`,
       estadoCivil,
@@ -742,6 +761,17 @@ export class GeradorFakePro {
         estado: estadoInfo.nome,
         pais: 'Brasil'
       },
+      carreira: {
+        profissaoAtual: prof.cargo,
+        rendaEstimada: renda,
+        rendaFormatada: `R$ ${renda.toFixed(2).replace('.', ',')}`,
+        empresaAnterior: {
+          razaoSocial: empresaAnterior.nome,
+          cnpj: empresaAnterior.cnpj,
+          setorAtuacao: empresaAnterior.setor,
+          tempoPermanencia: `${tempoEmpresaMeses} meses (${(tempoEmpresaMeses / 12).toFixed(1)} anos)`
+        }
+      },
       dadosBancarios: {
         banco: banco.nome,
         codigoBanco: banco.codigo,
@@ -752,6 +782,7 @@ export class GeradorFakePro {
       cartaoCredito: cartao,
       veiculo: veiculo,
       avatarUrl: avatarUrl,
+      biografiaLorem: loremIpsum,
       perfil: {
         profissao: prof.cargo,
         rendaEstimada: renda,
