@@ -180,6 +180,8 @@ export declare class GeradorFakePro {
   static sortearNumeros(min?: number, max?: number, qtd?: number): any;
   static gerarImagemPlaceholder(largura?: number, altura?: number, bg?: string, cor?: string, texto?: string): string;
   static gerarCurriculo(filtros?: FiltrosGeracao): any;
+  static gerarPixPayload(opcoes?: { chave?: string; nome?: string; cidade?: string; valor?: number; txid?: string }): any;
+  static gerarCin(ufRf?: number | null): any;
   static gerarLorem(qtdPalavras?: number): string;
   static gerarSenhaConfiguravel(opcoes?: { tipo?: string; tamanho?: number; prefixo?: string }): string;
   static md5(str: string): string;

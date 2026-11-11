@@ -205,7 +205,7 @@ export default {
       // 1. CPF
       if (sub === 'cpf') {
         const uf = url.searchParams.get('uf');
-        const est = uf ? (ESTADOS_BRASIL[uf.toUpperCase()]?.rf ?? null) : null;
+        const est = GeradorFakePro.getRf(uf);
         return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarCpf(est) }), {
           status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
         });
@@ -400,6 +400,27 @@ export default {
         const sexo = url.searchParams.get('sexo');
         const uf = url.searchParams.get('uf');
         return new Response(JSON.stringify({ ok: true, curriculo: GeradorFakePro.gerarCurriculo({ sexo, uf }) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 25. PIX Copia e Cola (EMV BR Code Padrão BACEN com CRC16)
+      if (sub === 'pix') {
+        const chave = url.searchParams.get('chave') || '52998224725';
+        const nome = url.searchParams.get('nome') || 'RECEBEDOR TESTE';
+        const cidade = url.searchParams.get('cidade') || 'SAO PAULO';
+        const valor = parseFloat(url.searchParams.get('valor') || '0');
+        const txid = url.searchParams.get('txid') || '***';
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarPixPayload({ chave, nome, cidade, valor, txid }) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 26. CIN (Carteira de Identidade Nacional - Nova Lei)
+      if (sub === 'cin') {
+        const uf = url.searchParams.get('uf');
+        const est = GeradorFakePro.getRf(uf);
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarCin(est) }), {
           status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
         });
       }

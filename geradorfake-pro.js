@@ -575,6 +575,11 @@ export class GeradorFakePro {
     this.apiKey = options.apiKey || '';
   }
 
+  static getRf(uf) {
+    const u = String(uf || '').toUpperCase();
+    return ESTADOS_BRASIL[u] ? ESTADOS_BRASIL[u].rf : null;
+  }
+
   static sortear(lista) {
     return lista[Math.floor(Math.random() * lista.length)];
   }
@@ -1404,12 +1409,67 @@ export class GeradorFakePro {
     };
   }
 
-  /**
-   * Gera nome brasileiro ultra-realista de 3 a 5 palavras
-   * Ex: "Maria Antonieta de Souza Pinto", "Joao Kebler Fagundes da Silva"
-   * @param {string} sexo 
-   * @returns {string}
-   */
+  static calcularCrc16(payload) {
+    let crc = 0xFFFF;
+    for (let i = 0; i < payload.length; i++) {
+      crc ^= payload.charCodeAt(i) << 8;
+      for (let j = 0; j < 8; j++) {
+        if ((crc & 0x8000) !== 0) {
+          crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+        } else {
+          crc = (crc << 1) & 0xFFFF;
+        }
+      }
+    }
+    return crc.toString(16).toUpperCase().padStart(4, '0');
+  }
+
+  static gerarPixPayload(opcoes = {}) {
+    const chaveLimpa = String(opcoes.chave || '12345678909').trim();
+    const nomeLimpo = (opcoes.nome || 'RECEBEDOR TESTE').normalize('NFD').replace(/[\u0300-\u036f]/g, '').slice(0, 25).toUpperCase();
+    const cidLimpa = (opcoes.cidade || 'SAO PAULO').normalize('NFD').replace(/[\u0300-\u036f]/g, '').slice(0, 15).toUpperCase();
+    const valor = Number(opcoes.valor || 0);
+    const txid = String(opcoes.txid || '***').trim();
+
+    const gui = '0014br.gov.bcb.pix';
+    const chaveCampo = `01${String(chaveLimpa.length).padStart(2, '0')}${chaveLimpa}`;
+    const merchantAccount = `${gui}${chaveCampo}`;
+    const campo26 = `26${String(merchantAccount.length).padStart(2, '0')}${merchantAccount}`;
+
+    let payload = `000201${campo26}520400005303986`;
+    if (valor > 0) {
+      const vStr = valor.toFixed(2);
+      payload += `54${String(vStr.length).padStart(2, '0')}${vStr}`;
+    }
+    payload += `5802BR59${String(nomeLimpo.length).padStart(2, '0')}${nomeLimpo}60${String(cidLimpa.length).padStart(2, '0')}${cidLimpa}`;
+
+    const txidCampo = `05${String(txid.length).padStart(2, '0')}${txid}`;
+    payload += `62${String(txidCampo.length).padStart(2, '0')}${txidCampo}6304`;
+
+    const crc = GeradorFakePro.calcularCrc16(payload);
+    const copiaECola = `${payload}${crc}`;
+    return {
+      pixCopiaECola: copiaECola,
+      crc16: crc,
+      chave: chaveLimpa,
+      beneficiario: nomeLimpo,
+      cidade: cidLimpa,
+      valor: valor > 0 ? valor : null,
+      valorFormatado: valor > 0 ? `R$ ${valor.toFixed(2).replace('.', ',')}` : 'Valor Aberto',
+      txid: txid === '***' ? 'Sem TXID (Genérico)' : txid
+    };
+  }
+
+  static gerarCin(ufRf = null) {
+    const cpf = GeradorFakePro.gerarCpf(ufRf);
+    return {
+      numeroCin: cpf.formatado,
+      numeroLimpo: cpf.limpo,
+      padrao: 'Carteira de Identidade Nacional (Decreto nº 10.977/2022)',
+      autenticidadeQrCodeGovBr: true,
+      validoReceitaFederal: true
+    };
+  }
   static gerarNomeRealista(sexo = 'M') {
     const p1 = sexo === 'M' ? GeradorFakePro.sortear(NOMES_MASCULINOS) : GeradorFakePro.sortear(NOMES_FEMININOS);
     const temMeio = Math.random() > 0.25; // 75% das pessoas tem nome composto ou do meio
@@ -1629,6 +1689,12 @@ export class GeradorFakePro {
         tiposChaveAceitos: banco.chavePixTipos
       },
       cartaoCredito: cartao,
+      pixCopiaECola: GeradorFakePro.gerarPixPayload({
+        chave: cpf.limpo,
+        nome: nomeCompleto,
+        cidade: cidadeEscolhida.nome,
+        valor: GeradorFakePro.numeroAleatorio(10, 500)
+      }),
       veiculo: veiculo,
       avatarUrl: avatarUrl,
       biografiaLorem: loremIpsum,
