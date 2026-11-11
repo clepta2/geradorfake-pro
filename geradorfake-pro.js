@@ -421,6 +421,110 @@ export class GeradorFakePro {
     };
   }
 
+  static gerarRenavam() {
+    const pesos = [3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    const d = [];
+    for (let i = 0; i < 10; i++) d.push(Math.floor(Math.random() * 10));
+
+    let soma = 0;
+    for (let i = 0; i < 10; i++) soma += d[i] * pesos[i];
+    const resto = (soma * 10) % 11;
+    const dv = (resto === 10 || resto === 11) ? 0 : resto;
+
+    return `${d.join('')}${dv}`;
+  }
+
+  static validaRenavam(renavam) {
+    const r = String(renavam || '').replace(/\D/g, '');
+    if (r.length !== 11 || /^(\d)\1{10}$/.test(r)) return false;
+    const pesos = [3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    let soma = 0;
+    for (let i = 0; i < 10; i++) soma += parseInt(r[i], 10) * pesos[i];
+    const resto = (soma * 10) % 11;
+    const expDv = (resto === 10 || resto === 11) ? 0 : resto;
+    return expDv === parseInt(r[10], 10);
+  }
+
+  static gerarPlaca(mercosul = true) {
+    const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const l1 = letras[Math.floor(Math.random() * 26)];
+    const l2 = letras[Math.floor(Math.random() * 26)];
+    const l3 = letras[Math.floor(Math.random() * 26)];
+    const n1 = Math.floor(Math.random() * 10);
+    const n2 = Math.floor(Math.random() * 10);
+    const n3 = Math.floor(Math.random() * 10);
+
+    if (mercosul) {
+      const l4 = letras[Math.floor(Math.random() * 26)];
+      return `${l1}${l2}${l3}${n1}${l4}${n2}${n3}`;
+    }
+    return `${l1}${l2}${l3}-${n1}${n2}${n3}${Math.floor(Math.random() * 10)}`;
+  }
+
+  static gerarChassi() {
+    const chars = '0123456789ABCDEFGHJKLMNPRSTUVWXYZ';
+    let vin = '9BW'; // WMI Brasil
+    for (let i = 0; i < 14; i++) {
+      vin += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return vin;
+  }
+
+  static gerarVeiculo() {
+    const catalogo = [
+      { marca: 'Toyota', modelo: 'Corolla Cross XRE', tipo: 'SUV' },
+      { marca: 'Honda', modelo: 'Civic Touring', tipo: 'Sedan' },
+      { marca: 'Volkswagen', modelo: 'T-Cross Highline', tipo: 'SUV' },
+      { marca: 'Chevrolet', modelo: 'Onix Plus Premier', tipo: 'Sedan' },
+      { marca: 'Hyundai', modelo: 'Creta Ultimate', tipo: 'SUV' },
+      { marca: 'Jeep', modelo: 'Compass Longitude', tipo: 'SUV' },
+      { marca: 'Fiat', modelo: 'Fastback Limited', tipo: 'Crossover' },
+      { marca: 'BYD', modelo: 'Dolphin Plus', tipo: 'Elétrico' },
+      { marca: 'BMW', modelo: '320i M Sport', tipo: 'Sedan Premium' }
+    ];
+    const item = GeradorFakePro.sortear(catalogo);
+    const renavam = GeradorFakePro.gerarRenavam();
+    const coresVeiculo = ['Prata', 'Preto Vulcano', 'Branco Polar', 'Cinza Chumbo', 'Azul Metálico', 'Vermelho'];
+
+    return {
+      marca: item.marca,
+      modelo: item.modelo,
+      categoria: item.tipo,
+      anoFabricacao: 2021 + GeradorFakePro.numeroAleatorio(0, 5),
+      cor: GeradorFakePro.sortear(coresVeiculo),
+      placaMercosul: GeradorFakePro.gerarPlaca(true),
+      placaAntiga: GeradorFakePro.gerarPlaca(false),
+      renavam,
+      chassi: GeradorFakePro.gerarChassi(),
+      combustivel: 'Flex (Álcool / Gasolina)',
+      autenticidadeRenavam: true
+    };
+  }
+
+  static exportarSql(pessoas, tabela = 'usuarios') {
+    const lista = Array.isArray(pessoas) ? pessoas : [pessoas];
+    const linhas = lista.map(p => {
+      const escape = s => `'${String(s || '').replace(/'/g, "''")}'`;
+      return `INSERT INTO ${tabela} (nome, sexo, idade, data_nascimento, cpf, rg, cnh, email, celular, cep, logradouro, numero, bairro, cidade, uf) VALUES (${escape(p.nome)}, ${escape(p.sexo)}, ${p.idade}, ${escape(p.dataNascimentoIso)}, ${escape(p.cpf)}, ${escape(p.rg)}, ${escape(p.cnh?.numero)}, ${escape(p.contato?.email)}, ${escape(p.contato?.celular)}, ${escape(p.endereco?.cep)}, ${escape(p.endereco?.logradouro)}, ${p.endereco?.numero || 0}, ${escape(p.endereco?.bairro)}, ${escape(p.endereco?.cidade)}, ${escape(p.endereco?.uf)});`;
+    });
+    return linhas.join('\n');
+  }
+
+  static exportarCsv(pessoas) {
+    const lista = Array.isArray(pessoas) ? pessoas : [pessoas];
+    const cabecalho = 'Nome,Sexo,Idade,DataNascimento,CPF,RG,CNH,Email,Celular,CEP,Logradouro,Numero,Bairro,Cidade,UF,Renda,Banco,PlacaVeiculo,Renavam';
+    const linhas = lista.map(p => {
+      const q = s => `"${String(s || '').replace(/"/g, '""')}"`;
+      return [
+        q(p.nome), q(p.sexo), p.idade, q(p.dataNascimento), q(p.cpf), q(p.rg), q(p.cnh?.numero),
+        q(p.contato?.email), q(p.contato?.celular), q(p.endereco?.cep), q(p.endereco?.logradouro),
+        p.endereco?.numero, q(p.endereco?.bairro), q(p.endereco?.cidade), q(p.endereco?.uf),
+        p.perfil?.rendaEstimada, q(p.dadosBancarios?.banco), q(p.veiculo?.placaMercosul), q(p.veiculo?.renavam)
+      ].join(',');
+    });
+    return [cabecalho, ...linhas].join('\n');
+  }
+
   /**
    * Gera uma Pessoa Fake Brasileira Completa e Coerente com o Estado
    * @param {Object} [filtros]
@@ -485,6 +589,8 @@ export class GeradorFakePro {
     const pis = GeradorFakePro.gerarPis();
     const cartao = GeradorFakePro.gerarCartaoCredito();
     const passaporte = GeradorFakePro.gerarPassaporte();
+    const veiculo = GeradorFakePro.gerarVeiculo();
+    const avatarUrl = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(nomeCompleto)}&backgroundColor=0f172a,1e293b&textColor=f8fafc`;
 
     // E-mail e Credenciais
     const slugNome = `${primeiroNome.toLowerCase()}.${sobrenome2.toLowerCase()}${String(anoNasc).slice(-2)}`;
@@ -558,6 +664,8 @@ export class GeradorFakePro {
         chavePix: cpf.formatado
       },
       cartaoCredito: cartao,
+      veiculo: veiculo,
+      avatarUrl: avatarUrl,
       perfil: {
         profissao: prof.cargo,
         rendaEstimada: renda,
@@ -572,7 +680,8 @@ export class GeradorFakePro {
         cnh: { valido: true, algoritmo: 'Padrão SENATRAN / RENACH' },
         tituloEleitor: { valido: true, algoritmo: 'Módulo 11 Ponderado TSE' },
         pisPasep: { valido: true, algoritmo: 'Módulo 11 Caixa Econômica Federal' },
-        cartaoCredito: { valido: true, algoritmo: 'Luhn (ISO/IEC 7812)', bandeira: cartao.bandeira }
+        cartaoCredito: { valido: true, algoritmo: 'Luhn (ISO/IEC 7812)', bandeira: cartao.bandeira },
+        veiculoRenavam: { valido: true, algoritmo: 'Módulo 11 (DENATRAN)', renavam: veiculo.renavam }
       },
       aviso: 'Dados fictícios gerados estritamente para testes de software, mockups e homologação de sistemas.'
     };

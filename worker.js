@@ -118,22 +118,51 @@ export default {
           uf: url.searchParams.get('uf') || url.searchParams.get('estado'),
           idadeMin: url.searchParams.get('idadeMin'),
           idadeMax: url.searchParams.get('idadeMax'),
-          qtd: url.searchParams.get('qtd') || url.searchParams.get('quantidade') || 1
+          qtd: url.searchParams.get('qtd') || url.searchParams.get('quantidade') || 1,
+          formato: (url.searchParams.get('formato') || url.searchParams.get('format') || 'json').toLowerCase()
         };
       } else if (request.method === 'POST') {
         try {
           params = await request.json();
+          params.formato = (params.formato || params.format || 'json').toLowerCase();
         } catch (_) {}
       }
 
       const quantidade = parseInt(params.qtd || 1, 10);
+      const listaPessoas = quantidade > 1 ? GeradorFakePro.gerarLote(quantidade, params) : [GeradorFakePro.gerar(params)];
+
+      // Exportação em SQL INSERT (PostgreSQL / MySQL)
+      if (params.formato === 'sql') {
+        const tabela = url.searchParams.get('tabela') || 'usuarios';
+        const sql = GeradorFakePro.exportarSql(listaPessoas, tabela);
+        return new Response(sql, {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/plain; charset=utf-8',
+            'Content-Disposition': 'inline; filename="seed-pessoas.sql"',
+            ...CORS_HEADERS
+          }
+        });
+      }
+
+      // Exportação em CSV (Excel / Planilhas)
+      if (params.formato === 'csv') {
+        const csv = GeradorFakePro.exportarCsv(listaPessoas);
+        return new Response(csv, {
+          status: 200,
+          headers: {
+            'Content-Type': 'text/csv; charset=utf-8',
+            'Content-Disposition': 'attachment; filename="pessoas-fakes.csv"',
+            ...CORS_HEADERS
+          }
+        });
+      }
 
       if (quantidade > 1) {
-        const pessoas = GeradorFakePro.gerarLote(quantidade, params);
         return new Response(JSON.stringify({
           ok: true,
-          quantidade: pessoas.length,
-          pessoas,
+          quantidade: listaPessoas.length,
+          pessoas: listaPessoas,
           timestamp: new Date().toISOString()
         }, null, 2), {
           status: 200,
@@ -145,10 +174,9 @@ export default {
         });
       }
 
-      const pessoa = GeradorFakePro.gerar(params);
       return new Response(JSON.stringify({
         ok: true,
-        pessoa,
+        pessoa: listaPessoas[0],
         timestamp: new Date().toISOString()
       }, null, 2), {
         status: 200,
