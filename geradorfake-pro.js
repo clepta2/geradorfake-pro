@@ -211,15 +211,171 @@ const PROFISSOES = [
 ];
 
 const BANCOS = [
-  { codigo: '001', nome: 'Banco do Brasil S.A.' },
-  { codigo: '237', nome: 'Banco Bradesco S.A.' },
-  { codigo: '341', nome: 'Itaú Unibanco S.A.' },
-  { codigo: '033', nome: 'Banco Santander (Brasil) S.A.' },
-  { codigo: '104', nome: 'Caixa Econômica Federal' },
-  { codigo: '260', nome: 'Nu Pagamentos S.A. (Nubank)' },
-  { codigo: '077', nome: 'Banco Inter S.A.' },
-  { codigo: '336', nome: 'Banco C6 S.A.' },
-  { codigo: '290', nome: 'PagBank (PagSeguro)' }
+  {
+    codigo: '001',
+    ispb: '00000000',
+    nomeReduzido: 'Banco do Brasil',
+    razaoSocial: 'BANCO DO BRASIL S.A.',
+    cnpj: '00.000.000/0001-91',
+    segmento: 'Banco Múltiplo',
+    site: 'https://www.bb.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '237',
+    ispb: '60746948',
+    nomeReduzido: 'Bradesco',
+    razaoSocial: 'BANCO BRADESCO S.A.',
+    cnpj: '60.746.948/0001-12',
+    segmento: 'Banco Múltiplo',
+    site: 'https://banco.bradesco',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '341',
+    ispb: '60872504',
+    nomeReduzido: 'Itaú Unibanco',
+    razaoSocial: 'ITAÚ UNIBANCO S.A.',
+    cnpj: '60.872.504/0001-23',
+    segmento: 'Banco Múltiplo',
+    site: 'https://www.itau.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '033',
+    ispb: '90400888',
+    nomeReduzido: 'Santander',
+    razaoSocial: 'BANCO SANTANDER (BRASIL) S.A.',
+    cnpj: '90.400.888/0001-42',
+    segmento: 'Banco Múltiplo',
+    site: 'https://www.santander.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '104',
+    ispb: '00360305',
+    nomeReduzido: 'Caixa Econômica',
+    razaoSocial: 'CAIXA ECONÔMICA FEDERAL',
+    cnpj: '00.360.305/0001-04',
+    segmento: 'Caixa Econômica',
+    site: 'https://www.caixa.gov.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '260',
+    ispb: '18236120',
+    nomeReduzido: 'Nubank',
+    razaoSocial: 'NU PAGAMENTOS S.A. - INSTITUIÇÃO DE PAGAMENTO',
+    cnpj: '18.236.120/0001-58',
+    segmento: 'Instituição de Pagamento / Fintech',
+    site: 'https://nubank.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '077',
+    ispb: '00416968',
+    nomeReduzido: 'Banco Inter',
+    razaoSocial: 'BANCO INTER S.A.',
+    cnpj: '00.416.968/0001-01',
+    segmento: 'Banco Múltiplo Digital',
+    site: 'https://inter.co',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '336',
+    ispb: '31872495',
+    nomeReduzido: 'Banco C6',
+    razaoSocial: 'BANCO C6 S.A.',
+    cnpj: '31.872.495/0001-72',
+    segmento: 'Banco Múltiplo Digital',
+    site: 'https://www.c6bank.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '290',
+    ispb: '08561701',
+    nomeReduzido: 'PagBank (PagSeguro)',
+    razaoSocial: 'PAGSEGURO INTERNET INSTITUIÇÃO DE PAGAMENTO S.A.',
+    cnpj: '08.561.701/0001-01',
+    segmento: 'Instituição de Pagamento / Banco Múltiplo',
+    site: 'https://pagbank.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '380',
+    ispb: '22896431',
+    nomeReduzido: 'PicPay',
+    razaoSocial: 'PICPAY INSTITUIÇÃO DE PAGAMENTO S.A.',
+    cnpj: '22.896.431/0001-10',
+    segmento: 'Instituição de Pagamento',
+    site: 'https://picpay.com',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '403',
+    ispb: '37880206',
+    nomeReduzido: 'Cora',
+    razaoSocial: 'CORA SOCIEDADE DE CRÉDITO DIRETO S.A.',
+    cnpj: '37.880.206/0001-63',
+    segmento: 'Sociedade de Crédito Direto',
+    site: 'https://www.cora.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '461',
+    ispb: '19540550',
+    nomeReduzido: 'Asaas',
+    razaoSocial: 'ASAAS GESTÃO FINANCEIRA S.A.',
+    cnpj: '19.540.550/0001-21',
+    segmento: 'Instituição de Pagamento / Gateway',
+    site: 'https://www.asaas.com',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '197',
+    ispb: '16501555',
+    nomeReduzido: 'Stone',
+    razaoSocial: 'STONE INSTITUIÇÃO DE PAGAMENTO S.A.',
+    cnpj: '16.501.555/0001-57',
+    segmento: 'Instituição de Pagamento',
+    site: 'https://www.stone.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '756',
+    ispb: '00315557',
+    nomeReduzido: 'Sicoob',
+    razaoSocial: 'BANCO COOPERATIVO SICOOB S.A.',
+    cnpj: '00.315.557/0001-40',
+    segmento: 'Banco Cooperativo',
+    site: 'https://www.sicoob.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  },
+  {
+    codigo: '748',
+    ispb: '01181521',
+    nomeReduzido: 'Sicredi',
+    razaoSocial: 'BANCO COOPERATIVO SICREDI S.A.',
+    cnpj: '01.181.521/0001-55',
+    segmento: 'Banco Cooperativo',
+    site: 'https://www.sicredi.com.br',
+    pixParticipante: true,
+    chavePixTipos: ['CPF', 'CNPJ', 'Email', 'Telefone', 'EVP']
+  }
 ];
 
 const ESTADOS_BRASIL = {
@@ -1196,11 +1352,17 @@ export class GeradorFakePro {
         }
       },
       dadosBancarios: {
-        banco: banco.nome,
+        banco: banco.razaoSocial,
+        nomeReduzido: banco.nomeReduzido,
         codigoBanco: banco.codigo,
+        ispb: banco.ispb,
+        cnpjInstituicao: banco.cnpj,
+        segmentoBancario: banco.segmento,
+        siteOficial: banco.site,
         agencia,
         contaCorrente: conta,
-        chavePix: cpf.formatado
+        chavePix: cpf.formatado,
+        tiposChaveAceitos: banco.chavePixTipos
       },
       cartaoCredito: cartao,
       veiculo: veiculo,

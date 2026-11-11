@@ -22,10 +22,16 @@ export interface EnderecoPessoa {
 
 export interface DadosBancariosPessoa {
   banco: string;
+  nomeReduzido: string;
   codigoBanco: string;
+  ispb: string;
+  cnpjInstituicao: string;
+  segmentoBancario: string;
+  siteOficial: string;
   agencia: string;
   contaCorrente: string;
   chavePix: string;
+  tiposChaveAceitos: string[];
 }
 
 export interface PerfilPessoa {
