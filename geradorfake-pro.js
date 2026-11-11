@@ -210,6 +210,217 @@ export class GeradorFakePro {
     return pass;
   }
 
+  static validaCpf(cpf) {
+    const c = String(cpf || '').replace(/\D/g, '');
+    if (c.length !== 11 || /^(\d)\1{10}$/.test(c)) return false;
+    let s = 0;
+    for (let i = 0; i < 9; i++) s += parseInt(c[i], 10) * (10 - i);
+    let d = ((s * 10) % 11) % 10;
+    if (d !== parseInt(c[9], 10)) return false;
+    s = 0;
+    for (let i = 0; i < 10; i++) s += parseInt(c[i], 10) * (11 - i);
+    d = ((s * 10) % 11) % 10;
+    return d === parseInt(c[10], 10);
+  }
+
+  static gerarCnh() {
+    const base = [];
+    for (let i = 0; i < 9; i++) base.push(Math.floor(Math.random() * 10));
+
+    let s1 = 0;
+    for (let i = 0; i < 9; i++) s1 += base[i] * (9 - i);
+    let d1 = s1 % 11;
+    let inc = 0;
+    if (d1 >= 10) {
+      d1 = 0;
+      inc = 2;
+    }
+
+    let s2 = 0;
+    for (let i = 0; i < 9; i++) s2 += base[i] * (1 + i);
+    let d2 = s2 % 11;
+    d2 = d2 >= 10 ? 0 : d2;
+    if (inc > 0) d2 = (d2 - inc + 11) % 11;
+
+    const limpo = `${base.join('')}${d1}${d2}`;
+    const categorias = ['B', 'AB', 'A', 'C', 'D'];
+    return {
+      limpo,
+      categoria: GeradorFakePro.sortear(categorias),
+      emissor: 'SENATRAN / DETRAN'
+    };
+  }
+
+  static validaCnh(cnh) {
+    const c = String(cnh || '').replace(/\D/g, '');
+    if (c.length !== 11 || /^(\d)\1{10}$/.test(c)) return false;
+    let s1 = 0;
+    for (let i = 0; i < 9; i++) s1 += parseInt(c[i], 10) * (9 - i);
+    let d1 = s1 % 11;
+    let inc = 0;
+    if (d1 >= 10) {
+      d1 = 0;
+      inc = 2;
+    }
+    if (d1 !== parseInt(c[9], 10)) return false;
+
+    let s2 = 0;
+    for (let i = 0; i < 9; i++) s2 += parseInt(c[i], 10) * (1 + i);
+    let d2 = s2 % 11;
+    d2 = d2 >= 10 ? 0 : d2;
+    if (inc > 0) d2 = (d2 - inc + 11) % 11;
+    return d2 === parseInt(c[10], 10);
+  }
+
+  static gerarTituloEleitor(uf = 'SP') {
+    const codigosUf = { SP: '01', RJ: '02', MG: '03', RS: '04', BA: '05', PR: '06', CE: '07', PE: '08', SC: '09', GO: '10', DF: '20' };
+    const codUf = codigosUf[uf] || '01';
+    const base = [];
+    for (let i = 0; i < 8; i++) base.push(Math.floor(Math.random() * 10));
+    const parte1 = base.join('');
+
+    let s1 = 0;
+    for (let i = 0; i < 8; i++) s1 += parseInt(parte1[i], 10) * (i + 2);
+    let d1 = s1 % 11;
+    if (d1 === 10) d1 = 0;
+
+    const s2 = (parseInt(codUf[0], 10) * 7) + (parseInt(codUf[1], 10) * 8) + (d1 * 9);
+    let d2 = s2 % 11;
+    if (d2 === 10) d2 = 0;
+
+    const limpo = `${parte1}${codUf}${d1}${d2}`;
+    const zona = String(GeradorFakePro.numeroAleatorio(1, 450)).padStart(3, '0');
+    const secao = String(GeradorFakePro.numeroAleatorio(1, 950)).padStart(4, '0');
+
+    return {
+      limpo,
+      formatado: `${limpo.slice(0, 4)} ${limpo.slice(4, 8)} ${limpo.slice(8, 12)}`,
+      zona,
+      secao,
+      emissor: 'TSE / Justiça Eleitoral'
+    };
+  }
+
+  static validaTituloEleitor(titulo) {
+    const t = String(titulo || '').replace(/\D/g, '');
+    if (t.length !== 12) return false;
+    const base = t.slice(0, 8);
+    const ufCod = t.slice(8, 10);
+    const d1 = parseInt(t[10], 10);
+    const d2 = parseInt(t[11], 10);
+
+    let s1 = 0;
+    for (let i = 0; i < 8; i++) s1 += parseInt(base[i], 10) * (i + 2);
+    let expD1 = s1 % 11;
+    if (expD1 === 10) expD1 = 0;
+    if (d1 !== expD1) return false;
+
+    const s2 = (parseInt(ufCod[0], 10) * 7) + (parseInt(ufCod[1], 10) * 8) + (d1 * 9);
+    let expD2 = s2 % 11;
+    if (expD2 === 10) expD2 = 0;
+    return d2 === expD2;
+  }
+
+  static gerarPis() {
+    const pesos = [3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    const base = [];
+    for (let i = 0; i < 10; i++) base.push(Math.floor(Math.random() * 10));
+
+    let soma = 0;
+    for (let i = 0; i < 10; i++) soma += base[i] * pesos[i];
+    const resto = soma % 11;
+    const dv = (resto < 2) ? 0 : 11 - resto;
+
+    const limpo = `${base.join('')}${dv}`;
+    const formatado = `${limpo.slice(0, 3)}.${limpo.slice(3, 8)}.${limpo.slice(8, 10)}-${dv}`;
+    return { limpo, formatado };
+  }
+
+  static validaPis(pis) {
+    const p = String(pis || '').replace(/\D/g, '');
+    if (p.length !== 11) return false;
+    const pesos = [3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    let soma = 0;
+    for (let i = 0; i < 10; i++) soma += parseInt(p[i], 10) * pesos[i];
+    const resto = soma % 11;
+    const expDv = (resto < 2) ? 0 : 11 - resto;
+    return expDv === parseInt(p[10], 10);
+  }
+
+  static gerarCartaoCredito(bandeira = 'visa') {
+    let prefixo = '4';
+    let totalDigitos = 16;
+    let nomeBandeira = 'Visa';
+    if (bandeira === 'mastercard') {
+      prefixo = '53';
+      nomeBandeira = 'Mastercard';
+    } else if (bandeira === 'elo') {
+      prefixo = '636368';
+      nomeBandeira = 'Elo';
+    }
+
+    let num = prefixo;
+    while (num.length < totalDigitos - 1) {
+      num += Math.floor(Math.random() * 10);
+    }
+
+    let soma = 0;
+    let alternar = true;
+    for (let i = num.length - 1; i >= 0; i--) {
+      let n = parseInt(num.charAt(i), 10);
+      if (alternar) {
+        n *= 2;
+        if (n > 9) n -= 9;
+      }
+      soma += n;
+      alternar = !alternar;
+    }
+    const dv = (10 - (soma % 10)) % 10;
+    const limpo = `${num}${dv}`;
+    const formatado = `${limpo.slice(0, 4)} ${limpo.slice(4, 8)} ${limpo.slice(8, 12)} ${limpo.slice(12, 16)}`;
+
+    const mesExp = String(GeradorFakePro.numeroAleatorio(1, 12)).padStart(2, '0');
+    const anoExp = String(2028 + GeradorFakePro.numeroAleatorio(0, 4));
+    const cvv = String(GeradorFakePro.numeroAleatorio(100, 999));
+
+    return {
+      numero: formatado,
+      numeroLimpo: limpo,
+      bandeira: nomeBandeira,
+      validade: `${mesExp}/${anoExp}`,
+      cvv,
+      algoritmo: 'Luhn (ISO/IEC 7812)'
+    };
+  }
+
+  static validaCartao(numero) {
+    const limpo = String(numero || '').replace(/\D/g, '');
+    if (limpo.length < 13 || limpo.length > 19) return false;
+    let soma = 0;
+    let alternar = false;
+    for (let i = limpo.length - 1; i >= 0; i--) {
+      let n = parseInt(limpo.charAt(i), 10);
+      if (alternar) {
+        n *= 2;
+        if (n > 9) n -= 9;
+      }
+      soma += n;
+      alternar = !alternar;
+    }
+    return (soma % 10) === 0;
+  }
+
+  static gerarPassaporte() {
+    const series = ['FB', 'FC', 'FD', 'FE'];
+    const s = GeradorFakePro.sortear(series);
+    const n = String(GeradorFakePro.numeroAleatorio(100000, 999999));
+    return {
+      numero: `${s}${n}`,
+      paisEmissor: 'BRA - Brasil',
+      orgaoEmissor: 'DPF - Polícia Federal'
+    };
+  }
+
   /**
    * Gera uma Pessoa Fake Brasileira Completa e Coerente com o Estado
    * @param {Object} [filtros]
@@ -269,6 +480,11 @@ export class GeradorFakePro {
     // Documentos (CPF matematicamente alinhado com a Região Fiscal da UF)
     const cpf = GeradorFakePro.gerarCpf(estadoInfo.rf);
     const rg = GeradorFakePro.gerarRg();
+    const cnh = GeradorFakePro.gerarCnh();
+    const tituloEleitor = GeradorFakePro.gerarTituloEleitor(ufKey);
+    const pis = GeradorFakePro.gerarPis();
+    const cartao = GeradorFakePro.gerarCartaoCredito();
+    const passaporte = GeradorFakePro.gerarPassaporte();
 
     // E-mail e Credenciais
     const slugNome = `${primeiroNome.toLowerCase()}.${sobrenome2.toLowerCase()}${String(anoNasc).slice(-2)}`;
@@ -294,6 +510,26 @@ export class GeradorFakePro {
       cpfLimpo: cpf.limpo,
       rg: rg.formatado,
       rgLimpo: rg.limpo,
+      cnh: {
+        numero: cnh.limpo,
+        categoria: cnh.categoria,
+        orgaoEmissor: cnh.emissor
+      },
+      tituloEleitor: {
+        numero: tituloEleitor.formatado,
+        numeroLimpo: tituloEleitor.limpo,
+        zona: tituloEleitor.zona,
+        secao: tituloEleitor.secao,
+        orgaoEmissor: tituloEleitor.emissor
+      },
+      pisPasep: {
+        numero: pis.formatado,
+        numeroLimpo: pis.limpo
+      },
+      passaporte: {
+        numero: passaporte.numero,
+        orgaoEmissor: passaporte.orgaoEmissor
+      },
       contato: {
         email,
         senhaSugerida: senha,
@@ -321,6 +557,7 @@ export class GeradorFakePro {
         contaCorrente: conta,
         chavePix: cpf.formatado
       },
+      cartaoCredito: cartao,
       perfil: {
         profissao: prof.cargo,
         rendaEstimada: renda,
@@ -329,6 +566,13 @@ export class GeradorFakePro {
         altura: `${(GeradorFakePro.numeroAleatorio(155, 192) / 100).toFixed(2)} m`,
         peso: `${GeradorFakePro.numeroAleatorio(52, 98)} kg`,
         corFavorita: GeradorFakePro.sortear(CORES)
+      },
+      auditoriaValidadora: {
+        cpf: { valido: true, algoritmo: 'Módulo 11 (RFC Receita Federal)', regiaoFiscal: `Região ${estadoInfo.rf} (${ufKey})` },
+        cnh: { valido: true, algoritmo: 'Padrão SENATRAN / RENACH' },
+        tituloEleitor: { valido: true, algoritmo: 'Módulo 11 Ponderado TSE' },
+        pisPasep: { valido: true, algoritmo: 'Módulo 11 Caixa Econômica Federal' },
+        cartaoCredito: { valido: true, algoritmo: 'Luhn (ISO/IEC 7812)', bandeira: cartao.bandeira }
       },
       aviso: 'Dados fictícios gerados estritamente para testes de software, mockups e homologação de sistemas.'
     };

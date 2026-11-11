@@ -36,7 +36,23 @@ console.assert(validaCpf(pSP.cpfLimpo), 'CPF de SP deve ser 100% válido no Mód
 console.assert(validaCpf(pRJ.cpfLimpo), 'CPF do RJ deve ser 100% válido no Módulo 11');
 console.log('✅ Validação Criptográfica do CPF Gerado: 100% VÁLIDO na Receita Federal');
 
-// 4. Teste de Lote
+// 4. Validação da CNH (SENATRAN)
+console.assert(GeradorFakePro.validaCnh(pSP.cnh.numero), 'CNH deve ser válida pelo SENATRAN');
+console.log('✅ Validação CNH (SENATRAN):', pSP.cnh.numero, 'Categoria:', pSP.cnh.categoria);
+
+// 5. Validação do Título de Eleitor (TSE)
+console.assert(GeradorFakePro.validaTituloEleitor(pSP.tituloEleitor.numeroLimpo), 'Título de Eleitor deve ser válido pelo TSE');
+console.log('✅ Validação Título de Eleitor (TSE):', pSP.tituloEleitor.numero, 'Zona:', pSP.tituloEleitor.zona);
+
+// 6. Validação do PIS/PASEP (Caixa Econômica)
+console.assert(GeradorFakePro.validaPis(pSP.pisPasep.numeroLimpo), 'PIS deve ser válido');
+console.log('✅ Validação PIS/PASEP:', pSP.pisPasep.numero);
+
+// 7. Validação do Cartão de Crédito (Luhn Módulo 10)
+console.assert(GeradorFakePro.validaCartao(pSP.cartaoCredito.numeroLimpo), 'Cartão deve ser válido pelo Algoritmo de Luhn');
+console.log('✅ Validação Cartão de Crédito (Luhn):', pSP.cartaoCredito.numero, pSP.cartaoCredito.bandeira, 'CVV:', pSP.cartaoCredito.cvv);
+
+// 8. Teste de Lote
 const lote = GeradorFakePro.gerarLote(5);
 console.assert(lote.length === 5, 'Deve gerar exatamente 5 pessoas');
 console.log('✅ Geração em Lote (5 pessoas) OK! Primeiro:', lote[0].nome, lote[0].perfil.profissao);

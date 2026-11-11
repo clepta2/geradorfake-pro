@@ -38,6 +38,39 @@ export interface PerfilPessoa {
   corFavorita: string;
 }
 
+export interface CnhPessoa {
+  numero: string;
+  categoria: string;
+  orgaoEmissor: string;
+}
+
+export interface TituloEleitorPessoa {
+  numero: string;
+  numeroLimpo: string;
+  zona: string;
+  secao: string;
+  orgaoEmissor: string;
+}
+
+export interface PisPasepPessoa {
+  numero: string;
+  numeroLimpo: string;
+}
+
+export interface CartaoCreditoPessoa {
+  numero: string;
+  numeroLimpo: string;
+  bandeira: string;
+  validade: string;
+  cvv: string;
+  algoritmo: string;
+}
+
+export interface PassaportePessoa {
+  numero: string;
+  orgaoEmissor: string;
+}
+
 export interface PessoaFake {
   nome: string;
   sexo: 'Masculino' | 'Feminino';
@@ -49,10 +82,16 @@ export interface PessoaFake {
   cpfLimpo: string;
   rg: string;
   rgLimpo: string;
+  cnh: CnhPessoa;
+  tituloEleitor: TituloEleitorPessoa;
+  pisPasep: PisPasepPessoa;
+  passaporte: PassaportePessoa;
   contato: ContatoPessoa;
   endereco: EnderecoPessoa;
   dadosBancarios: DadosBancariosPessoa;
+  cartaoCredito: CartaoCreditoPessoa;
   perfil: PerfilPessoa;
+  auditoriaValidadora: any;
   aviso: string;
 }
 

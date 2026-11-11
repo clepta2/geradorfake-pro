@@ -20,6 +20,23 @@ O **GeradorDePessoas Pro** é um microsserviço completo desenvolvido pela OZPro
 
 ---
 
+## 🔬 Como Cada Dado é Validado Matematicamente
+
+Todos os dados gerados pelo **GeradorFake Pro** são submetidos a algoritmos oficiais de conformidade criptográfica e estrutural antes de serem devolvidos:
+
+| Dado | Norma / Algoritmo | Como é Validado |
+| :--- | :--- | :--- |
+| **CPF** | **Receita Federal (Módulo 11)** | Os 2 dígitos verificadores (DV1 e DV2) são calculados com pesos decrescentes de 10 a 2 e 11 a 2. O 9º dígito reflete a jurisdição fiscal real do Estado (ex: SP = 8, RJ = 7). |
+| **CNH** | **SENATRAN / RENACH** | 11 dígitos com 2 DVs calculados por Módulo 11 ponderado com fatores 9..2 e 1..9, aceito em sistemas de trânsito. |
+| **Título de Eleitor** | **TSE (Justiça Eleitoral)** | 12 dígitos com verificação da UF emissora (SP = 01, RJ = 02...) e 2 DVs pelo algoritmo de pesos 2..9 do TSE. |
+| **PIS / PASEP** | **Caixa Econômica Federal** | 11 dígitos com DV calculado pela ponderação oficial `[3, 2, 9, 8, 7, 6, 5, 4, 3, 2]`. |
+| **Cartão de Crédito** | **Algoritmo de Luhn (ISO/IEC 7812)** | 16 dígitos com soma ponderada de Módulo 10, prefixo BIN da bandeira (Visa `4`, Master `53`, Elo `636368`), validade futura e CVV de 3 dígitos. |
+| **CEP & Endereço** | **DNE Correios & Censo IBGE** | O CEP gerado está estritamente dentro da faixa postal oficial da cidade e do bairro selecionados. |
+| **Telefone / Celular** | **Plano de Numeração ANATEL** | DDD coerente com a UF geográfica e celular com 9 dígitos iniciando obrigatoriamente pelo dígito `9`. |
+| **E-mail** | **RFC 5322 Standard** | Gerado sem acentos/cedilhas a partir do nome e ano da pessoa com domínios globais válidos. |
+
+---
+
 ## 🚀 Como Integrar em seu Projeto
 
 ### 1. Instalação
