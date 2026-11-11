@@ -74,17 +74,23 @@ const res = await api.obterPessoa({ uf: 'SP', sexo: 'F' });
 console.log(res.pessoa);
 ```
 
-### 4. Exemplos de Chamadas HTTP Diretas (Curl / Fetch)
+### 4. Exemplos de Chamadas HTTP Diretas (Curl / Fetch) com Parâmetros de Controle
 
 ```bash
-# Gerar 1 pessoa aleatória
-curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa"
+# 1. Gerar 1 pessoa completa com nome natural de 3-5 palavras
+curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?uf=SP&sexo=F"
 
-# Filtrar por Estado (UF) e Gênero
-curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?uf=SP&sexo=M"
+# 2. Controlar tipo de senha (forte, alfanumérica ou pin) e tamanho
+curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?tipoSenha=forte&tamanhoSenha=16"
 
-# Gerar lote de 5 pessoas
-curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?qtd=5&uf=RJ"
+# 3. Controlar extensão do texto Lorem Ipsum (de 50 a 500 palavras)
+curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?loremWords=350"
+
+# 4. Exportação direta em SQL INSERT para popular banco de dados (Seed)
+curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?qtd=50&formato=sql&tabela=clientes"
+
+# 5. Exportação em Planilha CSV (compatível com Excel)
+curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?qtd=100&formato=csv"
 ```
 
 ---

@@ -119,6 +119,9 @@ export default {
           idadeMin: url.searchParams.get('idadeMin'),
           idadeMax: url.searchParams.get('idadeMax'),
           qtd: url.searchParams.get('qtd') || url.searchParams.get('quantidade') || 1,
+          tipoSenha: url.searchParams.get('tipoSenha') || url.searchParams.get('senha') || 'forte',
+          tamanhoSenha: url.searchParams.get('tamanhoSenha') || url.searchParams.get('tamanho') || 12,
+          loremWords: url.searchParams.get('loremWords') || url.searchParams.get('lorem') || url.searchParams.get('palavrasLorem'),
           formato: (url.searchParams.get('formato') || url.searchParams.get('format') || 'json').toLowerCase()
         };
       } else if (request.method === 'POST') {
@@ -130,6 +133,14 @@ export default {
 
       const quantidade = parseInt(params.qtd || 1, 10);
       const listaPessoas = quantidade > 1 ? GeradorFakePro.gerarLote(quantidade, params) : [GeradorFakePro.gerar(params)];
+
+      // Enriquece com hashes criptográficos SHA-256 e SHA-1
+      for (const p of listaPessoas) {
+        if (p.contato && p.contato.senhaSugerida) {
+          p.contato.senhaSha256 = await GeradorFakePro.sha256(p.contato.senhaSugerida);
+          p.contato.senhaSha1 = await GeradorFakePro.sha1(p.contato.senhaSugerida);
+        }
+      }
 
       // Exportação em SQL INSERT (PostgreSQL / MySQL)
       if (params.formato === 'sql') {

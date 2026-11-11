@@ -149,13 +149,40 @@
             <option value="3">3 Pessoas</option>
             <option value="5">5 Pessoas</option>
             <option value="10">10 Pessoas</option>
+            <option value="50">50 Pessoas</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">Tipo de Senha / Hash:</label>
+          <select id="filtroSenha">
+            <option value="forte" selected>🔒 Forte (Símbolos + Letras + Números)</option>
+            <option value="alfanumerica">🔤 Alfanumérica (Sem Símbolos)</option>
+            <option value="numerica">🔢 PIN Numérico (6 dígitos)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">Palavras Lorem Ipsum:</label>
+          <select id="filtroLorem">
+            <option value="50">50 Palavras (Curto)</option>
+            <option value="120" selected>120 Palavras (Médio)</option>
+            <option value="250">250 Palavras (Artigo)</option>
+            <option value="500">500 Palavras (Longo)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px">Formato de Saída:</label>
+          <select id="filtroFormato">
+            <option value="json" selected>{ } JSON Estruturado</option>
+            <option value="sql">🗄️ SQL INSERT (Banco de Dados)</option>
+            <option value="csv">📊 Planilha CSV (Excel)</option>
           </select>
         </div>
       </div>
 
       <div class="actions">
         <button class="btn-primary" onclick="gerar()">🎲 Gerar Pessoa Agora</button>
-        <button class="btn-secondary" onclick="copiarJson()">📋 Copiar JSON</button>
+        <button class="btn-secondary" onclick="gerarLote100()">⚡ Gerar 100 Pessoas (Seed)</button>
+        <button class="btn-secondary" onclick="copiarJson()">📋 Copiar Saída</button>
       </div>
       <div class="output-box" id="resultOutput">Gerando primeira pessoa...</div>
     </div>
@@ -172,20 +199,42 @@
       const sexo = document.getElementById('filtroSexo').value;
       const uf = document.getElementById('filtroUf').value;
       const qtd = parseInt(document.getElementById('filtroQtd').value, 10);
+      const senha = document.getElementById('filtroSenha').value;
+      const lorem = parseInt(document.getElementById('filtroLorem').value, 10);
+      const formato = document.getElementById('filtroFormato').value;
       const out = document.getElementById('resultOutput');
       
-      const filtros = {};
+      const filtros = {
+        tipoSenha: senha,
+        tamanhoSenha: senha === 'numerica' ? 6 : 12,
+        loremWords: lorem
+      };
       if (sexo !== 'aleatorio') filtros.sexo = sexo;
       if (uf) filtros.uf = uf;
 
-      const data = qtd > 1 ? GeradorFakePro.gerarLote(qtd, filtros) : GeradorFakePro.gerar(filtros);
-      out.innerText = JSON.stringify(data, null, 2);
+      const lista = qtd > 1 ? GeradorFakePro.gerarLote(qtd, filtros) : [GeradorFakePro.gerar(filtros)];
+
+      if (formato === 'sql') {
+        out.innerText = GeradorFakePro.exportarSql(lista, 'usuarios');
+        return;
+      }
+      if (formato === 'csv') {
+        out.innerText = GeradorFakePro.exportarCsv(lista);
+        return;
+      }
+
+      out.innerText = JSON.stringify(qtd === 1 ? lista[0] : lista, null, 2);
+    };
+
+    window.gerarLote100 = function() {
+      document.getElementById('filtroQtd').value = '50';
+      window.gerar();
     };
 
     window.copiarJson = function() {
       const out = document.getElementById('resultOutput').innerText;
       navigator.clipboard.writeText(out);
-      alert('JSON copiado para a área de transferência!');
+      alert('Copiado para a área de transferência!');
     };
 
     window.gerar();
