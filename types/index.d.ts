@@ -168,7 +168,24 @@ export declare class GeradorFakePro {
   static exportarSql(pessoas: PessoaFake | PessoaFake[], tabela?: string): string;
   static exportarCsv(pessoas: PessoaFake | PessoaFake[]): string;
   static gerarSenhaForte(tamanho?: number): string;
-  obterPessoa(params?: FiltrosGeracao): Promise<{ ok: boolean; pessoa: PessoaFake }>;
+  static gerarCnpj(filial?: boolean): { limpo: string; formatado: string; tipo: string };
+  static gerarCertidao(tipoLivro?: number, ano?: number): any;
+  static gerarIe(uf?: string): { uf: string; limpo: string; formatado: string; orgao: string };
+  static gerarContaBancaria(banco?: string): any;
+  static gerarEmpresa(filtros?: { uf?: string }): any;
+  static gerarPlaca(mercosul?: boolean): string;
+  static gerarNicknames(): any;
+  static gerarLetrasDiferentes(texto?: string): any;
+  static acervoSimbolos(): any;
+  static sortearNumeros(min?: number, max?: number, qtd?: number): any;
+  static gerarImagemPlaceholder(largura?: number, altura?: number, bg?: string, cor?: string, texto?: string): string;
+  static gerarCurriculo(filtros?: FiltrosGeracao): any;
+  static gerarLorem(qtdPalavras?: number): string;
+  static gerarSenhaConfiguravel(opcoes?: { tipo?: string; tamanho?: number; prefixo?: string }): string;
+  static md5(str: string): string;
+  static sha1(str: string): Promise<string>;
+  static sha256(str: string): Promise<string>;
+  static obterPessoa(params?: FiltrosGeracao): Promise<{ ok: boolean; pessoa: PessoaFake }>;
 }
 
 export default GeradorFakePro;

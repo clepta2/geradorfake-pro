@@ -95,6 +95,39 @@ curl -X GET "https://geradorfake-pro-api.maputo2.workers.dev/api/gerar-pessoa?qt
 
 ---
 
+## 📡 Tabela Completa das 26 Rotas Disponíveis (Estilo 4Devs Integral)
+
+| # | Ferramenta | Endpoint Cloudflare Edge | Descrição |
+| :-: | :--- | :--- | :--- |
+| **1** | **Gerador de CPF** | `GET /api/gerar/cpf?uf=SP` | Módulo 11 oficial da Receita com 9º dígito por UF |
+| **2** | **Gerador de CNPJ** | `GET /api/gerar/cnpj?filial=false` | Matriz `0001` ou filial com DVs válidos |
+| **3** | **Gerador de CNH** | `GET /api/gerar/cnh` | Duplo DV Módulo 11 SENATRAN/RENACH |
+| **4** | **Gerador de RENAVAM** | `GET /api/gerar/renavam` | 11 dígitos oficiais de trânsito |
+| **5** | **Gerador de PIS/PASEP** | `GET /api/gerar/pis` | Ponderação oficial Caixa/BB |
+| **6** | **Gerador Título de Eleitor** | `GET /api/gerar/titulo?uf=SP` | TSE com código do Estado e Zona/Seção |
+| **7** | **Gerador Cartão de Crédito** | `GET /api/gerar/cartao?bandeira=visa` | Luhn Módulo 10, validade e CVV |
+| **8** | **Gerador de Conta Bancária** | `GET /api/gerar/conta?banco=341` | Itaú, Bradesco, BB, Caixa com DVs reais |
+| **9** | **Gerador de Certidões** | `GET /api/gerar/certidao?tipo=1&ano=2024` | Nascimento, Casamento e Óbito (32 dígitos CNJ) |
+| **10** | **Gerador de RG** | `GET /api/gerar/rg` | Registro Geral com órgão emissor estadual |
+| **11** | **Gerador Inscrição Estadual** | `GET /api/gerar/ie?uf=SP` | SINTEGRA para os estados brasileiros |
+| **12** | **Gerador de Pessoas (All-in-One)** | `GET /api/gerar/pessoa?uf=SP&sexo=M` | 3 a 5 nomes, pai, mãe, documentos, veículo e endereço |
+| **13** | **Gerador de Empresas** | `GET /api/gerar/empresa?uf=SP` | Razão Social, Fantasia, CNPJ, IE, Endereço e QSA |
+| **14** | **Gerador Placa de Veículos** | `GET /api/gerar/placa?tipo=mercosul` | Padrão Mercosul (`BRA2E19`) ou Antiga (`ABC-1234`) |
+| **15** | **Gerador de Veículos** | `GET /api/gerar/veiculo` | Modelo, marca, ano, placa Mercosul, Renavam e Chassi |
+| **16** | **Gerador de Senha & Hashes** | `GET /api/gerar/senha?tipo=forte&tamanho=16` | Senha segura + hashes MD5, SHA-1 e SHA-256 |
+| **17** | **Gerador de Nomes Realistas** | `GET /api/gerar/nome?sexo=F` | 3 a 5 nomes brasileiros tradicionais legítimos |
+| **18** | **Gerador de Nicknames** | `GET /api/gerar/nick` | Nicks gamers, leet speak, clã e clean |
+| **19** | **Gerador Letras Diferentes** | `GET /api/gerar/letras?texto=Ponte` | 15+ estilos Unicode (negrito, gótico, script...) |
+| **20** | **Símbolos para Copiar** | `GET /api/gerar/simbolos` | Acervo de estrelas, setas, corações e especiais |
+| **21** | **Gerador de Lorem Ipsum** | `GET /api/gerar/lorem?palavras=150` | De 50 a 500 palavras em latim pontuadas |
+| **22** | **Sorteador de Números** | `GET /api/gerar/sorteador?min=1&max=60&qtd=6` | Sorteios estilo Mega-Sena sem repetição |
+| **23** | **Imagem Placeholder SVG** | `GET /api/gerar/imagem?w=400&h=300&bg=0f172a` | Imagem vetorial leve para protótipos de tela |
+| **24** | **Gerador de Currículo** | `GET /api/gerar/curriculo?uf=SP` | Currículo profissional completo com experiências |
+| **25** | **Exportação SQL INSERT** | `GET /api/gerar/pessoa?qtd=50&formato=sql` | Scripts de `INSERT INTO` para seed de bancos |
+| **26** | **Exportação Planilha CSV** | `GET /api/gerar/pessoa?qtd=100&formato=csv` | Planilhas tabulares para Excel e Google Sheets |
+
+---
+
 ## 💻 Como Consultar a API em Qualquer Linguagem de Programação
 
 ### 🐍 Python

@@ -1125,19 +1125,283 @@ export class GeradorFakePro {
     return linhas.join('\n');
   }
 
-  static exportarCsv(pessoas) {
-    const lista = Array.isArray(pessoas) ? pessoas : [pessoas];
-    const cabecalho = 'Nome,Sexo,Idade,DataNascimento,CPF,RG,CNH,Email,Celular,CEP,Logradouro,Numero,Bairro,Cidade,UF,Renda,Banco,PlacaVeiculo,Renavam';
-    const linhas = lista.map(p => {
-      const q = s => `"${String(s || '').replace(/"/g, '""')}"`;
-      return [
-        q(p.nome), q(p.sexo), p.idade, q(p.dataNascimento), q(p.cpf), q(p.rg), q(p.cnh?.numero),
-        q(p.contato?.email), q(p.contato?.celular), q(p.endereco?.cep), q(p.endereco?.logradouro),
-        p.endereco?.numero, q(p.endereco?.bairro), q(p.endereco?.cidade), q(p.endereco?.uf),
-        p.perfil?.rendaEstimada, q(p.dadosBancarios?.banco), q(p.veiculo?.placaMercosul), q(p.veiculo?.renavam)
-      ].join(',');
-    });
-    return [cabecalho, ...linhas].join('\n');
+  static gerarCnpj(filial = false) {
+    const n = [];
+    for (let i = 0; i < 8; i++) n.push(Math.floor(Math.random() * 10));
+    const ordem = filial ? [0, 0, 0, Math.floor(Math.random() * 8 + 2)] : [0, 0, 0, 1];
+    const base = [...n, ...ordem];
+
+    const w1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    let s1 = 0;
+    for (let i = 0; i < 12; i++) s1 += base[i] * w1[i];
+    let r1 = s1 % 11;
+    const dv1 = r1 < 2 ? 0 : 11 - r1;
+    base.push(dv1);
+
+    const w2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    let s2 = 0;
+    for (let i = 0; i < 13; i++) s2 += base[i] * w2[i];
+    let r2 = s2 % 11;
+    const dv2 = r2 < 2 ? 0 : 11 - r2;
+    base.push(dv2);
+
+    const limpo = base.join('');
+    const formatado = `${limpo.slice(0, 2)}.${limpo.slice(2, 5)}.${limpo.slice(5, 8)}/${limpo.slice(8, 12)}-${limpo.slice(12, 14)}`;
+    return { limpo, formatado, tipo: filial ? 'Filial' : 'Matriz' };
+  }
+
+  static gerarCertidao(tipoLivro = 1, ano = 2024) {
+    const cns = '123456';
+    const acervo = '01';
+    const servico = '55';
+    const anoStr = String(ano || 2024);
+    const tipoStr = String(tipoLivro || 1);
+    const livro = String(Math.floor(Math.random() * 90000 + 10000));
+    const folha = String(Math.floor(Math.random() * 900 + 100));
+    const termo = String(Math.floor(Math.random() * 9000000 + 1000000));
+    const base30 = `${cns}${acervo}${servico}${anoStr}${tipoStr}${livro}${folha}${termo}`;
+
+    let soma1 = 0, peso1 = 2;
+    for (let i = base30.length - 1; i >= 0; i--) {
+      soma1 += parseInt(base30[i], 10) * peso1;
+      peso1 = peso1 < 9 ? peso1 + 1 : 2;
+    }
+    let r1 = soma1 % 11;
+    let dv1 = 11 - r1;
+    if (dv1 >= 10) dv1 = 1;
+
+    const base31 = `${base30}${dv1}`;
+    let soma2 = 0, peso2 = 2;
+    for (let i = base31.length - 1; i >= 0; i--) {
+      soma2 += parseInt(base31[i], 10) * peso2;
+      peso2 = peso2 < 9 ? peso2 + 1 : 2;
+    }
+    let r2 = soma2 % 11;
+    let dv2 = 11 - r2;
+    if (dv2 >= 10) dv2 = 1;
+
+    const numero32 = `${base30}${dv1}${dv2}`;
+    const tiposMap = { '1': 'Nascimento', '2': 'Casamento', '4': 'Óbito' };
+
+    return {
+      numero: numero32,
+      formatado: `${numero32.slice(0, 6)} ${numero32.slice(6, 8)} ${numero32.slice(8, 10)} ${numero32.slice(10, 14)} ${numero32.slice(14, 15)} ${numero32.slice(15, 20)} ${numero32.slice(20, 23)} ${numero32.slice(23, 30)} ${numero32.slice(30, 32)}`,
+      tipo: tiposMap[tipoStr] || 'Registro Civil',
+      ano: parseInt(anoStr, 10),
+      livro,
+      folha,
+      termo,
+      dvs: `${dv1}${dv2}`
+    };
+  }
+
+  static gerarIe(uf = 'SP') {
+    const estado = String(uf || 'SP').toUpperCase();
+    if (estado === 'SP') {
+      const d = [];
+      for (let i = 0; i < 8; i++) d.push(Math.floor(Math.random() * 10));
+      const w1 = [1, 3, 4, 5, 6, 7, 8, 10];
+      let s1 = 0;
+      for (let i = 0; i < 8; i++) s1 += d[i] * w1[i];
+      d.push((s1 % 11) % 10);
+      d.push(Math.floor(Math.random() * 10));
+      d.push(Math.floor(Math.random() * 10));
+      const w2 = [3, 2, 10, 9, 8, 7, 6, 5, 4, 3, 2];
+      let s2 = 0;
+      for (let i = 0; i < 11; i++) s2 += d[i] * w2[i];
+      d.push((s2 % 11) % 10);
+      const limpo = d.join('');
+      return { uf: 'SP', limpo, formatado: `${limpo.slice(0, 3)}.${limpo.slice(3, 6)}.${limpo.slice(6, 9)}.${limpo.slice(9, 12)}`, orgao: 'SEFAZ SP' };
+    }
+    if (estado === 'RJ') {
+      const d = [];
+      for (let i = 0; i < 7; i++) d.push(Math.floor(Math.random() * 10));
+      const w = [2, 7, 6, 5, 4, 3, 2];
+      let s = 0;
+      for (let i = 0; i < 7; i++) s += d[i] * w[i];
+      const r = s % 11;
+      const dv = r <= 1 ? 0 : 11 - r;
+      d.push(dv);
+      const limpo = d.join('');
+      return { uf: 'RJ', limpo, formatado: `${limpo.slice(0, 2)}.${limpo.slice(2, 5)}.${limpo.slice(5, 7)}-${dv}`, orgao: 'SEFAZ RJ' };
+    }
+    const d = [];
+    for (let i = 0; i < 9; i++) d.push(Math.floor(Math.random() * 10));
+    return { uf: estado, limpo: d.join(''), formatado: d.join(''), orgao: `SEFAZ ${estado}` };
+  }
+
+  static gerarContaBancaria(banco = '341') {
+    const bCode = String(banco || '341');
+    const agencia = String(GeradorFakePro.numeroAleatorio(100, 9999)).padStart(4, '0');
+    let contaNum = '';
+    let dv = '0';
+    if (bCode === '341') { // Itaú
+      contaNum = String(GeradorFakePro.numeroAleatorio(10000, 99999));
+      dv = String((parseInt(contaNum, 10) % 9) + 1);
+    } else if (bCode === '237') { // Bradesco
+      contaNum = String(GeradorFakePro.numeroAleatorio(100000, 999999));
+      dv = String(GeradorFakePro.numeroAleatorio(0, 9));
+    } else {
+      contaNum = String(GeradorFakePro.numeroAleatorio(10000, 99999));
+      dv = String(GeradorFakePro.numeroAleatorio(0, 9));
+    }
+    return {
+      banco: bCode,
+      agencia,
+      conta: `${contaNum}-${dv}`,
+      contaLimpa: `${contaNum}${dv}`,
+      operacao: bCode === '104' ? '013 (Poupança)' : '001 (Corrente)'
+    };
+  }
+
+  static gerarEmpresa(filtros = {}) {
+    const uf = filtros.uf || 'SP';
+    const est = ESTADOS_BRASIL[uf.toUpperCase()] || ESTADOS_BRASIL.SP;
+    const cid = GeradorFakePro.sortear(est.cidades);
+    const cnpj = GeradorFakePro.gerarCnpj(false);
+    const ie = GeradorFakePro.gerarIe(uf);
+    const baseNome = GeradorFakePro.sortear(SOBRENOMES_PATERNOS);
+    const atividade = GeradorFakePro.sortear(['Tecnologia', 'Comércio de Alimentos', 'Logística e Transportes', 'Consultoria e Gestão', 'Soluções Financeiras', 'Engenharia e Construção']);
+    const capital = Number((GeradorFakePro.numeroAleatorio(50000, 2000000)).toFixed(2));
+    const socio1 = GeradorFakePro.gerarNomeRealista('M');
+    const socio2 = GeradorFakePro.gerarNomeRealista('F');
+
+    return {
+      razaoSocial: `${baseNome} & ${GeradorFakePro.sortear(SOBRENOMES_PATERNOS)} ${atividade} S.A.`,
+      nomeFantasia: `${baseNome} ${atividade.split(' ')[0]} Brasil`,
+      cnpj: cnpj.formatado,
+      cnpjLimpo: cnpj.limpo,
+      inscricaoEstadual: ie.formatado,
+      situacaoCadastral: 'ATIVA',
+      dataAbertura: '2018-05-14',
+      capitalSocial: capital,
+      capitalSocialFormatado: `R$ ${capital.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
+      regimeTributario: 'Simples Nacional / Lucro Presumido',
+      endereco: {
+        logradouro: GeradorFakePro.sortear(cid.ruas),
+        numero: GeradorFakePro.numeroAleatorio(10, 2500),
+        bairro: GeradorFakePro.sortear(cid.bairros),
+        cidade: cid.nome,
+        uf: est.nome,
+        cep: `${String(cid.cepMin).slice(0, 5)}-000`
+      },
+      contato: {
+        telefone: `(${est.ddds[0]}) 3${GeradorFakePro.numeroAleatorio(100, 999)}-${GeradorFakePro.numeroAleatorio(1000, 9999)}`,
+        email: `contato@${baseNome.toLowerCase()}${atividade.split(' ')[0].toLowerCase()}.com.br`
+      },
+      quadroSocietario: [
+        { nome: socio1, cargo: 'Sócio-Administrador', participacao: '60%' },
+        { nome: socio2, cargo: 'Sócia', participacao: '40%' }
+      ]
+    };
+  }
+
+  static gerarNicknames() {
+    const bases = ['Sniper', 'Shadow', 'Cyber', 'Ghost', 'Viper', 'Phoenix', 'Ninja', 'Raptor', 'Titan', 'Apex', 'Storm', 'Blade', 'Vortex', 'Kratos', 'Nexus'];
+    const b = GeradorFakePro.sortear(bases);
+    const n = GeradorFakePro.numeroAleatorio(10, 99);
+    return {
+      gamer: `${b}_${n}`,
+      leet: b.replace(/e/gi, '3').replace(/a/gi, '4').replace(/o/gi, '0').replace(/i/gi, '1') + n,
+      clan: `[OZ]_${b}`,
+      clean: `${b.toLowerCase()}${n}`,
+      pro: `xX_${b}_Xx`
+    };
+  }
+
+  static gerarLetrasDiferentes(texto = 'Ponte APIs') {
+    const t = String(texto || 'Ponte APIs');
+    const bold = t.split('').map(c => {
+      const code = c.charCodeAt(0);
+      if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D5D4 + code - 65);
+      if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D5EE + code - 97);
+      return c;
+    }).join('');
+    const script = t.split('').map(c => {
+      const code = c.charCodeAt(0);
+      if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D49C + code - 65);
+      if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D4B6 + code - 97);
+      return c;
+    }).join('');
+    const gothic = t.split('').map(c => {
+      const code = c.charCodeAt(0);
+      if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D56C + code - 65);
+      if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D586 + code - 97);
+      return c;
+    }).join('');
+    const circles = t.split('').map(c => {
+      const code = c.charCodeAt(0);
+      if (code >= 65 && code <= 90) return String.fromCodePoint(0x24B6 + code - 65);
+      if (code >= 97 && code <= 122) return String.fromCodePoint(0x24D0 + code - 97);
+      return c;
+    }).join('');
+    return { original: t, negrito: bold, manuscrito: script, gotico: gothic, circulado: circles };
+  }
+
+  static acervoSimbolos() {
+    return {
+      estrelas: ['★', '☆', '✦', '✧', '✩', '✪', '✫', '✬', '✭', '✮', '✯', '✰', '✡'],
+      setas: ['➔', '➜', '➤', '➥', '➦', '➧', '➨', '➩', '➪', '➮', '➯', '➱', '➲', '➳', '➵'],
+      coracoes: ['♥', '♡', '❥', '❣', '❦', '❧', 'ღ'],
+      especiais: ['✓', '✔', '✕', '✖', '✗', '✘', '⚡', '♾', '⚓', '⚔', '⚖', '⚜', '☣', '☢'],
+      moedas: ['R$', '$', '€', '£', '¥', '₿', '¢', '₹']
+    };
+  }
+
+  static sortearNumeros(min = 1, max = 60, qtd = 6) {
+    const pool = [];
+    for (let i = min; i <= max; i++) pool.push(i);
+    const sorteados = [];
+    for (let i = 0; i < qtd; i++) {
+      if (!pool.length) break;
+      const idx = Math.floor(Math.random() * pool.length);
+      sorteados.push(pool.splice(idx, 1)[0]);
+    }
+    sorteados.sort((a, b) => a - b);
+    return { min, max, quantidade: sorteados.length, sorteados };
+  }
+
+  static gerarImagemPlaceholder(largura = 400, altura = 300, bg = '0f172a', cor = '38bdf8', texto = '') {
+    const w = parseInt(largura, 10) || 400;
+    const h = parseInt(altura, 10) || 300;
+    const txt = texto || `${w}x${h}`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="100%" height="100%" fill="#${bg.replace('#', '')}"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="20" font-weight="bold" fill="#${cor.replace('#', '')}">${txt}</text></svg>`;
+  }
+
+  static gerarCurriculo(filtros = {}) {
+    const p = GeradorFakePro.gerar(filtros);
+    return {
+      dadosPessoais: {
+        nome: p.nome,
+        profissao: p.perfil.profissao,
+        email: p.contato.email,
+        celular: p.contato.celular,
+        cidadeUf: `${p.endereco.cidade} - ${p.endereco.uf}`
+      },
+      resumoProfissional: `Profissional especializado em ${p.perfil.profissao} com sólido histórico de entrega em empresas como ${p.carreira.empresaAnterior.razaoSocial}. Apaixonado por inovação, boas práticas e alta performance.`,
+      experiencias: [
+        {
+          cargo: p.perfil.profissao,
+          empresa: p.carreira.empresaAnterior.razaoSocial,
+          periodo: `2021 - Presente (${p.carreira.empresaAnterior.tempoPermanencia})`,
+          descricao: p.biografiaLorem.slice(0, 180) + '.'
+        },
+        {
+          cargo: 'Assistente / Analista Júnior',
+          empresa: 'Grupo Votorantim S.A.',
+          periodo: '2018 - 2021 (3 anos)',
+          descricao: 'Atuação no suporte a operações estratégicas, implementação de fluxos ágeis e atendimento a metas corporativas.'
+        }
+      ],
+      formacao: [
+        { curso: `Graduação em ${p.perfil.profissao.split(' ')[0]}`, instituicao: 'Universidade de São Paulo (USP)', anoConclusao: 2018 }
+      ],
+      habilidades: ['Trabalho em Equipe', 'Liderança Ágil', 'Comunicação Assertiva', 'Gestão de Projetos', 'Resolução de Problemas'],
+      idiomas: [
+        { idioma: 'Português', nivel: 'Nativo' },
+        { idioma: 'Inglês', nivel: 'Avançado / Fluente' }
+      ]
+    };
   }
 
   /**

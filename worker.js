@@ -198,6 +198,213 @@ export default {
       });
     }
 
+    // ─── SUÍTE COMPLETA DE 26 ROTAS DE GERAÇÃO (ESTILO 4DEVS INTEGRAL) ───
+    if (path.startsWith('/api/gerar/')) {
+      const sub = path.replace('/api/gerar/', '').toLowerCase();
+
+      // 1. CPF
+      if (sub === 'cpf') {
+        const uf = url.searchParams.get('uf');
+        const est = uf ? (ESTADOS_BRASIL[uf.toUpperCase()]?.rf ?? null) : null;
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarCpf(est) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 2. CNPJ
+      if (sub === 'cnpj') {
+        const filial = url.searchParams.get('filial') === 'true' || url.searchParams.get('tipo') === 'filial';
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarCnpj(filial) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 3. CNH
+      if (sub === 'cnh') {
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarCnh() }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 4. RENAVAM
+      if (sub === 'renavam') {
+        const ren = GeradorFakePro.gerarRenavam();
+        return new Response(JSON.stringify({ ok: true, renavam: ren, valido: GeradorFakePro.validaRenavam(ren) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 5. PIS/PASEP
+      if (sub === 'pis' || sub === 'pasep') {
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarPis() }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 6. Título de Eleitor
+      if (sub === 'titulo' || sub === 'titulo-eleitor') {
+        const uf = url.searchParams.get('uf') || 'SP';
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarTituloEleitor(uf) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 7. Cartão de Crédito
+      if (sub === 'cartao' || sub === 'cartao-credito') {
+        const bandeira = url.searchParams.get('bandeira') || 'visa';
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarCartaoCredito(bandeira) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 8. Conta Bancária
+      if (sub === 'conta' || sub === 'conta-bancaria') {
+        const banco = url.searchParams.get('banco') || '341';
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarContaBancaria(banco) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 9. Certidão CNJ (32 Dígitos)
+      if (sub === 'certidao') {
+        const tipoLivro = parseInt(url.searchParams.get('tipo') || 1, 10);
+        const ano = parseInt(url.searchParams.get('ano') || 2024, 10);
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarCertidao(tipoLivro, ano) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 10. RG
+      if (sub === 'rg') {
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarRg() }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 11. Inscrição Estadual (IE)
+      if (sub === 'ie' || sub === 'inscricao-estadual') {
+        const uf = url.searchParams.get('uf') || 'SP';
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarIe(uf) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 12. Pessoa Completa (3 a 5 palavras reais)
+      if (sub === 'pessoa') {
+        const sexo = url.searchParams.get('sexo') || url.searchParams.get('genero');
+        const uf = url.searchParams.get('uf');
+        return new Response(JSON.stringify({ ok: true, pessoa: GeradorFakePro.gerar({ sexo, uf }) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 13. Empresa Completa
+      if (sub === 'empresa') {
+        const uf = url.searchParams.get('uf') || 'SP';
+        return new Response(JSON.stringify({ ok: true, empresa: GeradorFakePro.gerarEmpresa({ uf }) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 14. Placa de Veículo
+      if (sub === 'placa') {
+        const tipo = url.searchParams.get('tipo') || 'mercosul';
+        const mercosul = tipo !== 'cinza' && tipo !== 'antiga';
+        return new Response(JSON.stringify({ ok: true, placa: GeradorFakePro.gerarPlaca(mercosul), tipo: mercosul ? 'Mercosul' : 'Cinza (Antiga)' }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 15. Veículo Completo
+      if (sub === 'veiculo') {
+        return new Response(JSON.stringify({ ok: true, veiculo: GeradorFakePro.gerarVeiculo() }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 16. Senha
+      if (sub === 'senha') {
+        const tipo = url.searchParams.get('tipo') || 'forte';
+        const tamanho = parseInt(url.searchParams.get('tamanho') || 12, 10);
+        const s = GeradorFakePro.gerarSenhaConfiguravel({ tipo, tamanho });
+        return new Response(JSON.stringify({ ok: true, senha: s, md5: GeradorFakePro.md5(s), sha256: await GeradorFakePro.sha256(s) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 17. Nome Completo Realista
+      if (sub === 'nome') {
+        const sexo = url.searchParams.get('sexo') || 'M';
+        const nome = GeradorFakePro.gerarNomeRealista(sexo);
+        return new Response(JSON.stringify({ ok: true, nome, totalPalavras: nome.split(' ').length }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 18. Nicknames
+      if (sub === 'nick' || sub === 'nicks' || sub === 'nickname') {
+        return new Response(JSON.stringify({ ok: true, nicknames: GeradorFakePro.gerarNicknames() }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 19. Letras Diferentes
+      if (sub === 'letras' || sub === 'fontes') {
+        const txt = url.searchParams.get('texto') || 'Ponte APIs';
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.gerarLetrasDiferentes(txt) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 20. Símbolos para Copiar
+      if (sub === 'simbolos') {
+        return new Response(JSON.stringify({ ok: true, simbolos: GeradorFakePro.acervoSimbolos() }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 21. Lorem Ipsum
+      if (sub === 'lorem') {
+        const qtd = parseInt(url.searchParams.get('palavras') || url.searchParams.get('qtd') || 100, 10);
+        const lorem = GeradorFakePro.gerarLorem(qtd);
+        return new Response(JSON.stringify({ ok: true, totalPalavras: lorem.split(' ').length, lorem }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 22. Sorteador de Números
+      if (sub === 'sorteador' || sub === 'sorteio' || sub === 'numeros') {
+        const min = parseInt(url.searchParams.get('min') || 1, 10);
+        const max = parseInt(url.searchParams.get('max') || 60, 10);
+        const qtd = parseInt(url.searchParams.get('qtd') || 6, 10);
+        return new Response(JSON.stringify({ ok: true, ...GeradorFakePro.sortearNumeros(min, max, qtd) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 23. Imagem Placeholder SVG
+      if (sub === 'imagem') {
+        const w = parseInt(url.searchParams.get('w') || 400, 10);
+        const h = parseInt(url.searchParams.get('h') || 300, 10);
+        const bg = url.searchParams.get('bg') || '0f172a';
+        const cor = url.searchParams.get('color') || url.searchParams.get('cor') || '38bdf8';
+        const txt = url.searchParams.get('text') || '';
+        const svg = GeradorFakePro.gerarImagemPlaceholder(w, h, bg, cor, txt);
+        return new Response(svg, {
+          status: 200, headers: { 'Content-Type': 'image/svg+xml; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+
+      // 24. Currículo Completo
+      if (sub === 'curriculo') {
+        const sexo = url.searchParams.get('sexo');
+        const uf = url.searchParams.get('uf');
+        return new Response(JSON.stringify({ ok: true, curriculo: GeradorFakePro.gerarCurriculo({ sexo, uf }) }), {
+          status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8', ...CORS_HEADERS }
+        });
+      }
+    }
+
     // 6. Endpoint Dedicado de Gerador de Senhas & Hashes (/api/gerar-senha, /api/senhas)
     if (path === '/api/gerar-senha' || path === '/api/senhas' || path === '/api/senha') {
       const tipo = url.searchParams.get('tipo') || url.searchParams.get('modo') || 'forte';
