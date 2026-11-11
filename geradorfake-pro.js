@@ -1,0 +1,367 @@
+/**
+ * GeradorDePessoas Pro — SDK Oficial (Universal ESM / CommonJS / Browser)
+ * Gerador de Dados Fakes Brasileiros Completos (Estilo 4Devs) na Cloudflare Edge (<5ms).
+ * Gera Pessoas, Documentos Válidos (CPF Módulo 11 por UF, RG), Endereços, Contatos e Cartões.
+ * 
+ * @license MIT
+ * @see https://github.com/clepta2/geradorfake-pro
+ */
+
+const NOMES_MASCULINOS = [
+  'Lucas', 'Gabriel', 'Matheus', 'Pedro', 'Arthur', 'Davi', 'Bernardo', 'Rafael',
+  'Felipe', 'Gustavo', 'Thiago', 'Bruno', 'Rodrigo', 'Leonardo', 'Eduardo', 'Marcelo',
+  'Vinicius', 'Daniel', 'Caio', 'Diego', 'Guilherme', 'Henrique', 'Joao Pedro', 'Enzo',
+  'Samuel', 'Vitor', 'Andre', 'Renan', 'Igor', 'Murilo'
+];
+
+const NOMES_FEMININOS = [
+  'Julia', 'Sophia', 'Isabella', 'Manuela', 'Valentina', 'Laura', 'Alice', 'Giovanna',
+  'Maria Eduarda', 'Beatriz', 'Luiza', 'Mariana', 'Gabriela', 'Camila', 'Leticia',
+  'Larissa', 'Amanda', 'Jessica', 'Bruna', 'Fernanda', 'Carolina', 'Helena', 'Isadora',
+  'Rafaela', 'Yasmin', 'Ana Clara', 'Melissa', 'Rebeca', 'Lorena', 'Nicole'
+];
+
+const SOBRENOMES = [
+  'Silva', 'Santos', 'Oliveira', 'Souza', 'Rodrigues', 'Ferreira', 'Alves', 'Pereira',
+  'Lima', 'Gomes', 'Costa', 'Ribeiro', 'Martins', 'Carvalho', 'Almeida', 'Lopes',
+  'Soares', 'Fernandes', 'Vieira', 'Barbosa', 'Rocha', 'Dias', 'Nascimento', 'Andrade',
+  'Moreira', 'Nunes', 'Marques', 'Machado', 'Mendes', 'Freitas', 'Cardoso', 'Ramos'
+];
+
+const PROFISSOES = [
+  { cargo: 'Engenheiro de Software', faixa: [6000, 18000] },
+  { cargo: 'Analista de Sistemas', faixa: [4500, 9500] },
+  { cargo: 'Médico Clínico Geral', faixa: [9000, 25000] },
+  { cargo: 'Advogado Associado', faixa: [4000, 12000] },
+  { cargo: 'Gerente Comercial', faixa: [5500, 14000] },
+  { cargo: 'Contador Sênior', faixa: [4800, 11000] },
+  { cargo: 'Arquiteto e Urbanista', faixa: [4200, 10500] },
+  { cargo: 'Designer UI/UX', faixa: [4000, 9800] },
+  { cargo: 'Enfermeiro Padrão', faixa: [3800, 7500] },
+  { cargo: 'Farmacêutico', faixa: [3500, 7000] },
+  { cargo: 'Professor do Ensino Médio', faixa: [3200, 6500] },
+  { cargo: 'Administrador de Empresas', faixa: [3800, 9000] },
+  { cargo: 'Coordenador de Marketing Digital', faixa: [4500, 11500] },
+  { cargo: 'Técnico em Eletrônica', faixa: [2800, 5200] },
+  { cargo: 'Psicólogo Clínico', faixa: [3500, 8500] }
+];
+
+const BANCOS = [
+  { codigo: '001', nome: 'Banco do Brasil S.A.' },
+  { codigo: '237', nome: 'Banco Bradesco S.A.' },
+  { codigo: '341', nome: 'Itaú Unibanco S.A.' },
+  { codigo: '033', nome: 'Banco Santander (Brasil) S.A.' },
+  { codigo: '104', nome: 'Caixa Econômica Federal' },
+  { codigo: '260', nome: 'Nu Pagamentos S.A. (Nubank)' },
+  { codigo: '077', nome: 'Banco Inter S.A.' },
+  { codigo: '336', nome: 'Banco C6 S.A.' },
+  { codigo: '290', nome: 'PagBank (PagSeguro)' }
+];
+
+const ESTADOS_BRASIL = {
+  SP: {
+    nome: 'São Paulo', rf: 8, ddds: ['11', '19', '13', '12', '14', '15', '16', '17', '18'],
+    cidades: [
+      { nome: 'São Paulo', cepMin: 1000000, cepMax: 5999999, bairros: ['Bela Vista', 'Pinheiros', 'Moema', 'Tatuapé', 'Vila Mariana'], ruas: ['Avenida Paulista', 'Rua Augusta', 'Rua dos Pinheiros', 'Rua Vergueiro'] },
+      { nome: 'Campinas', cepMin: 13000000, cepMax: 13139999, bairros: ['Cambuí', 'Barão Geraldo', 'Taquaral', 'Nova Campinas'], ruas: ['Avenida Francisco Glicério', 'Rua Barão de Jaguara', 'Rua Coronel Silva Teles'] },
+      { nome: 'Santos', cepMin: 11000000, cepMax: 11099999, bairros: ['Gonzaga', 'Boqueirão', 'Ponta da Praia'], ruas: ['Avenida Ana Costa', 'Avenida Vicente de Carvalho'] }
+    ]
+  },
+  RJ: {
+    nome: 'Rio de Janeiro', rf: 7, ddds: ['21', '22', '24'],
+    cidades: [
+      { nome: 'Rio de Janeiro', cepMin: 20000000, cepMax: 23799999, bairros: ['Copacabana', 'Ipanema', 'Botafogo', 'Tijuca', 'Barra da Tijuca'], ruas: ['Avenida Atlântica', 'Rua Visconde de Pirajá', 'Rua Voluntários da Pátria', 'Avenida das Américas'] },
+      { nome: 'Niterói', cepMin: 24000000, cepMax: 24399999, bairros: ['Icaraí', 'Ingá', 'Santa Rosa'], ruas: ['Rua Moreira César', 'Praia de Icaraí'] }
+    ]
+  },
+  MG: {
+    nome: 'Minas Gerais', rf: 6, ddds: ['31', '32', '34', '35'],
+    cidades: [
+      { nome: 'Belo Horizonte', cepMin: 30000000, cepMax: 31999999, bairros: ['Savassi', 'Lourdes', 'Funcionários', 'Buritis', 'Sion'], ruas: ['Avenida Afonso Pena', 'Rua da Bahia', 'Avenida Cristóvão Colombo'] },
+      { nome: 'Uberlândia', cepMin: 38400000, cepMax: 38419999, bairros: ['Tibery', 'Santa Mônica', 'Centro'], ruas: ['Avenida Rondon Pacheco', 'Avenida Floriano Peixoto'] }
+    ]
+  },
+  PR: {
+    nome: 'Paraná', rf: 9, ddds: ['41', '42', '43', '44', '45'],
+    cidades: [
+      { nome: 'Curitiba', cepMin: 80000000, cepMax: 82999999, bairros: ['Batel', 'Água Verde', 'Centro Cívico', 'Bigorrilho'], ruas: ['Avenida Sete de Setembro', 'Rua XV de Novembro', 'Rua Cândido de Abreu'] },
+      { nome: 'Londrina', cepMin: 86000000, cepMax: 86109999, bairros: ['Gleba Palhano', 'Centro'], ruas: ['Avenida Higienópolis', 'Rua Sergipe'] }
+    ]
+  },
+  RS: {
+    nome: 'Rio Grande do Sul', rf: 0, ddds: ['51', '53', '54', '55'],
+    cidades: [
+      { nome: 'Porto Alegre', cepMin: 90000000, cepMax: 91999999, bairros: ['Moinhos de Vento', 'Petrópolis', 'Menino Deus', 'Bela Vista'], ruas: ['Rua dos Andradas', 'Avenida Carlos Gomes', 'Rua Padre Chagas'] },
+      { nome: 'Caxias do Sul', cepMin: 95000000, cepMax: 95119999, bairros: ['Pio X', 'Lourdes'], ruas: ['Rua Sinimbu', 'Rua Júlio de Castilhos'] }
+    ]
+  },
+  SC: {
+    nome: 'Santa Catarina', rf: 9, ddds: ['47', '48', '49'],
+    cidades: [
+      { nome: 'Florianópolis', cepMin: 88000000, cepMax: 88099999, bairros: ['Agronômica', 'Trindade', 'Jurerê Internacional', 'Coqueiros'], ruas: ['Avenida Beira Mar Norte', 'Rua Bocaiúva'] },
+      { nome: 'Joinville', cepMin: 89200000, cepMax: 89239999, bairros: ['América', 'Atiradores', 'Glória'], ruas: ['Rua XV de Novembro', 'Rua Otto Boehm'] }
+    ]
+  },
+  BA: {
+    nome: 'Bahia', rf: 5, ddds: ['71', '73', '74', '75', '77'],
+    cidades: [
+      { nome: 'Salvador', cepMin: 40000000, cepMax: 42599999, bairros: ['Pituba', 'Barra', 'Graça', 'Rio Vermelho', 'Caminho das Árvores'], ruas: ['Avenida Tancredo Neves', 'Avenida Sete de Setembro', 'Rua Fonte do Boi'] }
+    ]
+  },
+  PE: {
+    nome: 'Pernambuco', rf: 4, ddds: ['81', '87'],
+    cidades: [
+      { nome: 'Recife', cepMin: 50000000, cepMax: 52999999, bairros: ['Boa Viagem', 'Graças', 'Espinheiro', 'Casa Forte'], ruas: ['Avenida Boa Viagem', 'Rua da Aurora', 'Avenida Agamenon Magalhães'] }
+    ]
+  },
+  CE: {
+    nome: 'Ceará', rf: 3, ddds: ['85', '88'],
+    cidades: [
+      { nome: 'Fortaleza', cepMin: 60000000, cepMax: 61599999, bairros: ['Meireles', 'Aldeota', 'Cocó', 'Papicu'], ruas: ['Avenida Beira Mar', 'Avenida Dom Luís', 'Avenida Santos Dumont'] }
+    ]
+  },
+  DF: {
+    nome: 'Distrito Federal', rf: 1, ddds: ['61'],
+    cidades: [
+      { nome: 'Brasília', cepMin: 70000000, cepMax: 72799999, bairros: ['Asa Sul', 'Asa Norte', 'Lago Sul', 'Sudoeste', 'Águas Claras'], ruas: ['Setor Comercial Sul', 'Setor Hoteleiro Norte', 'Eixo Monumental'] }
+    ]
+  },
+  GO: {
+    nome: 'Goiás', rf: 1, ddds: ['62', '64'],
+    cidades: [
+      { nome: 'Goiânia', cepMin: 74000000, cepMax: 74899999, bairros: ['Setor Bueno', 'Setor Marista', 'Setor Oeste', 'Jardim Goiás'], ruas: ['Avenida 85', 'Avenida T-63', 'Avenida Mutirão'] }
+    ]
+  }
+};
+
+const TIPOS_SANGUINEOS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+const CORES = ['Azul', 'Verde', 'Preto', 'Branco', 'Vermelho', 'Cinza', 'Azul Marinho', 'Vinho', 'Verde Oliva'];
+const PROVEDORES_EMAIL = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com.br', 'icloud.com'];
+
+export class GeradorFakePro {
+  constructor(options = {}) {
+    this.endpoint = options.endpoint || 'https://geradorfake-pro-api.maputo2.workers.dev';
+    this.apiKey = options.apiKey || '';
+  }
+
+  static sortear(lista) {
+    return lista[Math.floor(Math.random() * lista.length)];
+  }
+
+  static numeroAleatorio(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  static gerarCpf(ufRf = null) {
+    const digitos = [];
+    for (let i = 0; i < 8; i++) {
+      digitos.push(Math.floor(Math.random() * 10));
+    }
+    const rf = (ufRf !== null && ufRf >= 0 && ufRf <= 9) ? Number(ufRf) : Math.floor(Math.random() * 10);
+    digitos.push(rf);
+
+    let soma1 = 0;
+    for (let i = 0; i < 9; i++) soma1 += digitos[i] * (10 - i);
+    let r1 = soma1 % 11;
+    let d1 = r1 < 2 ? 0 : 11 - r1;
+    digitos.push(d1);
+
+    let soma2 = 0;
+    for (let i = 0; i < 10; i++) soma2 += digitos[i] * (11 - i);
+    let r2 = soma2 % 11;
+    let d2 = r2 < 2 ? 0 : 11 - r2;
+    digitos.push(d2);
+
+    const limpo = digitos.join('');
+    const formatado = `${limpo.slice(0, 3)}.${limpo.slice(3, 6)}.${limpo.slice(6, 9)}-${limpo.slice(9, 11)}`;
+    return { limpo, formatado };
+  }
+
+  static gerarRg() {
+    const d = [];
+    for (let i = 0; i < 8; i++) d.push(Math.floor(Math.random() * 10));
+    const dv = Math.floor(Math.random() * 10);
+    const limpo = d.join('') + dv;
+    const formatado = `${limpo.slice(0, 2)}.${limpo.slice(2, 5)}.${limpo.slice(5, 8)}-${dv}`;
+    return { limpo, formatado };
+  }
+
+  static calcularSigno(dia, mes) {
+    if ((mes === 3 && dia >= 21) || (mes === 4 && dia <= 19)) return 'Áries';
+    if ((mes === 4 && dia >= 20) || (mes === 5 && dia <= 20)) return 'Touro';
+    if ((mes === 5 && dia >= 21) || (mes === 6 && dia <= 20)) return 'Gêmeos';
+    if ((mes === 6 && dia >= 21) || (mes === 7 && dia <= 22)) return 'Câncer';
+    if ((mes === 7 && dia >= 23) || (mes === 8 && dia <= 22)) return 'Leão';
+    if ((mes === 8 && dia >= 23) || (mes === 9 && dia <= 22)) return 'Virgem';
+    if ((mes === 9 && dia >= 23) || (mes === 10 && dia <= 22)) return 'Libra';
+    if ((mes === 10 && dia >= 23) || (mes === 11 && dia <= 21)) return 'Escorpião';
+    if ((mes === 11 && dia >= 22) || (mes === 12 && dia <= 21)) return 'Sagitário';
+    if ((mes === 12 && dia >= 22) || (mes === 1 && dia <= 19)) return 'Capricórnio';
+    if ((mes === 1 && dia >= 20) || (mes === 2 && dia <= 18)) return 'Aquário';
+    return 'Peixes';
+  }
+
+  static gerarSenhaForte(tamanho = 12) {
+    const chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*';
+    let pass = '';
+    for (let i = 0; i < tamanho; i++) {
+      pass += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return pass;
+  }
+
+  /**
+   * Gera uma Pessoa Fake Brasileira Completa e Coerente com o Estado
+   * @param {Object} [filtros]
+   * @param {string} [filtros.sexo] - 'M', 'F' ou 'aleatorio'
+   * @param {string} [filtros.uf] - Sigla do estado (ex: 'SP', 'RJ', 'MG', 'PR')
+   * @param {number} [filtros.idadeMin=18]
+   * @param {number} [filtros.idadeMax=70]
+   * @returns {Object}
+   */
+  static gerar(filtros = {}) {
+    const sexoEscolhido = (filtros.sexo === 'M' || filtros.sexo === 'm') ? 'M' :
+      (filtros.sexo === 'F' || filtros.sexo === 'f') ? 'F' :
+      (Math.random() > 0.5 ? 'M' : 'F');
+
+    const primeiroNome = sexoEscolhido === 'M' ?
+      GeradorFakePro.sortear(NOMES_MASCULINOS) :
+      GeradorFakePro.sortear(NOMES_FEMININOS);
+
+    const sobrenome1 = GeradorFakePro.sortear(SOBRENOMES);
+    let sobrenome2 = GeradorFakePro.sortear(SOBRENOMES);
+    while (sobrenome2 === sobrenome1) {
+      sobrenome2 = GeradorFakePro.sortear(SOBRENOMES);
+    }
+    const nomeCompleto = `${primeiroNome} ${sobrenome1} ${sobrenome2}`;
+
+    // UF e Localização Coerente
+    const ufsDisponiveis = Object.keys(ESTADOS_BRASIL);
+    const ufKey = (filtros.uf && ESTADOS_BRASIL[filtros.uf.toUpperCase()]) ?
+      filtros.uf.toUpperCase() :
+      GeradorFakePro.sortear(ufsDisponiveis);
+
+    const estadoInfo = ESTADOS_BRASIL[ufKey];
+    const cidadeEscolhida = GeradorFakePro.sortear(estadoInfo.cidades);
+    const bairroEscolhido = GeradorFakePro.sortear(cidadeEscolhida.bairros);
+    const ruaEscolhida = GeradorFakePro.sortear(cidadeEscolhida.ruas);
+    const numeroCasa = GeradorFakePro.numeroAleatorio(10, 2450);
+
+    const cepNum = GeradorFakePro.numeroAleatorio(cidadeEscolhida.cepMin, cidadeEscolhida.cepMax);
+    const cepLimpo = String(cepNum).padStart(8, '0');
+    const cepFormatado = `${cepLimpo.slice(0, 5)}-${cepLimpo.slice(5)}`;
+
+    const ddd = GeradorFakePro.sortear(estadoInfo.ddds);
+    const celularNum = `9${GeradorFakePro.numeroAleatorio(1000, 9999)}${GeradorFakePro.numeroAleatorio(1000, 9999)}`;
+    const fixoNum = `${GeradorFakePro.numeroAleatorio(2000, 3999)}${GeradorFakePro.numeroAleatorio(1000, 9999)}`;
+
+    // Idade e Data de Nascimento
+    const idadeMin = Number(filtros.idadeMin || 18);
+    const idadeMax = Number(filtros.idadeMax || 70);
+    const idade = GeradorFakePro.numeroAleatorio(idadeMin, idadeMax);
+    const anoNasc = 2026 - idade;
+    const mesNasc = GeradorFakePro.numeroAleatorio(1, 12);
+    const diaNasc = GeradorFakePro.numeroAleatorio(1, 28);
+    const dataNascimentoIso = `${anoNasc}-${String(mesNasc).padStart(2, '0')}-${String(diaNasc).padStart(2, '0')}`;
+    const dataNascimentoFormatada = `${String(diaNasc).padStart(2, '0')}/${String(mesNasc).padStart(2, '0')}/${anoNasc}`;
+    const signo = GeradorFakePro.calcularSigno(diaNasc, mesNasc);
+
+    // Documentos (CPF matematicamente alinhado com a Região Fiscal da UF)
+    const cpf = GeradorFakePro.gerarCpf(estadoInfo.rf);
+    const rg = GeradorFakePro.gerarRg();
+
+    // E-mail e Credenciais
+    const slugNome = `${primeiroNome.toLowerCase()}.${sobrenome2.toLowerCase()}${String(anoNasc).slice(-2)}`;
+    const dominioEmail = GeradorFakePro.sortear(PROVEDORES_EMAIL);
+    const email = `${slugNome.normalize('NFD').replace(/[\u0300-\u036f]/g, '')}@${dominioEmail}`;
+    const senha = GeradorFakePro.gerarSenhaForte(10);
+
+    // Trabalho & Finanças
+    const prof = GeradorFakePro.sortear(PROFISSOES);
+    const renda = Number((GeradorFakePro.numeroAleatorio(prof.faixa[0], prof.faixa[1]) + Math.random()).toFixed(2));
+    const banco = GeradorFakePro.sortear(BANCOS);
+    const agencia = String(GeradorFakePro.numeroAleatorio(100, 9999)).padStart(4, '0');
+    const conta = `${GeradorFakePro.numeroAleatorio(10000, 99999)}-${GeradorFakePro.numeroAleatorio(0, 9)}`;
+
+    return {
+      nome: nomeCompleto,
+      sexo: sexoEscolhido === 'M' ? 'Masculino' : 'Feminino',
+      idade,
+      dataNascimento: dataNascimentoFormatada,
+      dataNascimentoIso,
+      signo,
+      cpf: cpf.formatado,
+      cpfLimpo: cpf.limpo,
+      rg: rg.formatado,
+      rgLimpo: rg.limpo,
+      contato: {
+        email,
+        senhaSugerida: senha,
+        celular: `(${ddd}) ${celularNum.slice(0, 5)}-${celularNum.slice(5)}`,
+        celularLimpo: `${ddd}${celularNum}`,
+        telefoneFixo: `(${ddd}) ${fixoNum.slice(0, 4)}-${fixoNum.slice(4)}`,
+        whatsappUrl: `https://wa.me/55${ddd}${celularNum}`
+      },
+      endereco: {
+        cep: cepFormatado,
+        cepLimpo,
+        logradouro: ruaEscolhida,
+        numero: numeroCasa,
+        complemento: Math.random() > 0.6 ? `Apto ${GeradorFakePro.numeroAleatorio(11, 142)}` : '',
+        bairro: bairroEscolhido,
+        cidade: cidadeEscolhida.nome,
+        uf: ufKey,
+        estado: estadoInfo.nome,
+        pais: 'Brasil'
+      },
+      dadosBancarios: {
+        banco: banco.nome,
+        codigoBanco: banco.codigo,
+        agencia,
+        contaCorrente: conta,
+        chavePix: cpf.formatado
+      },
+      perfil: {
+        profissao: prof.cargo,
+        rendaEstimada: renda,
+        rendaFormatada: `R$ ${renda.toFixed(2).replace('.', ',')}`,
+        tipoSanguineo: GeradorFakePro.sortear(TIPOS_SANGUINEOS),
+        altura: `${(GeradorFakePro.numeroAleatorio(155, 192) / 100).toFixed(2)} m`,
+        peso: `${GeradorFakePro.numeroAleatorio(52, 98)} kg`,
+        corFavorita: GeradorFakePro.sortear(CORES)
+      },
+      aviso: 'Dados fictícios gerados estritamente para testes de software, mockups e homologação de sistemas.'
+    };
+  }
+
+  /**
+   * Gera lote de pessoas para popular bancos de dados ou testes de carga
+   * @param {number} [quantidade=5] - Máximo de 50 por chamada
+   * @param {Object} [filtros]
+   * @returns {Array<Object>}
+   */
+  static gerarLote(quantidade = 5, filtros = {}) {
+    const qtd = Math.max(1, Math.min(50, Number(quantidade) || 5));
+    const lista = [];
+    for (let i = 0; i < qtd; i++) {
+      lista.push(GeradorFakePro.gerar(filtros));
+    }
+    return lista;
+  }
+
+  /**
+   * Consulta a API Cloudflare Edge
+   * @param {Object} [params]
+   * @returns {Promise<Object>}
+   */
+  async obterPessoa(params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const url = `${this.endpoint.replace(/\/$/, '')}/api/gerar-pessoa${query ? '?' + query : ''}`;
+    const headers = { 'Accept': 'application/json' };
+    if (this.apiKey) headers['Authorization'] = `Bearer ${this.apiKey}`;
+    const res = await fetch(url, { headers });
+    return await res.json();
+  }
+}
+
+export default GeradorFakePro;

@@ -1,0 +1,36 @@
+{
+  "name": "geradorfake-pro",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "SDK e API Oficial de Geração de Pessoas, Documentos Válidos, Endereços e Dados Fakes para Testes e Mockups (Estilo 4Devs) na Cloudflare Edge (<5ms).",
+  "main": "geradorfake-pro.js",
+  "module": "geradorfake-pro.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "test": "node test.js",
+    "deploy": "wrangler deploy"
+  },
+  "keywords": [
+    "4devs",
+    "gerador-de-pessoas",
+    "faker-brasil",
+    "mock-data",
+    "cpf-valido",
+    "gerador-cpf",
+    "dados-fake",
+    "cloudflare-worker",
+    "edge-computing",
+    "brasil",
+    "seed-database"
+  ],
+  "author": "clepta2 <clepta2@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clepta2/geradorfake-pro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/clepta2/geradorfake-pro/issues"
+  },
+  "homepage": "https://github.com/clepta2/geradorfake-pro#readme"
+}
