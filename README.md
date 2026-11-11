@@ -4,9 +4,10 @@
 > Suíte completa de geração de dados brasileiros (estilo 4Devs), documentos com validação criptográfica (Módulo 11 por UF, CNH, TSE, PIS, Cartões Luhn), veículos, empresas e exportação em SQL/CSV na borda Anycast (<5ms).
 
 [![Status](https://img.shields.io/badge/Status-Cloudflare%20Edge%20API-success.svg)](#)
+[![CI/CD Tests](https://github.com/clepta2/geradorfake-pro/actions/workflows/test.yml/badge.svg)](https://github.com/clepta2/geradorfake-pro/actions)
 [![Padrão](https://img.shields.io/badge/Padrão-Receita%20Federal%20Módulo%2011-blue.svg)](#)
 [![Latency](https://img.shields.io/badge/Latência-<5ms-cyan.svg)](#)
-[![License](https://img.shields.io/badge/License-Propriet?ria%20%2F%20Portal%20de%20APIs-red.svg)](LICENSE)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietária%20%2F%20Portal%20de%20APIs-red.svg)](LICENSE)
 
 ---
 
