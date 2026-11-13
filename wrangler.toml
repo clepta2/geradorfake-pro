@@ -1,0 +1,15 @@
+name = "geradorfake-pro-api"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+account_id = "646711573befe583eea826c48147cd73"
+workers_dev = true
+
+[observability]
+enabled = true
+
+[vars]
+SERVICE_NAME = "GeradorFake Pro API"
+ENVIRONMENT = "production"
+GITHUB_REPO = "clepta2/geradorfake-pro"
+DOCS_URL = "https://github.com/clepta2/geradorfake-pro"
+API_VERSION = "1.0.0"
