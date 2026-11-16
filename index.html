@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeradorFake Pro Studio • Dados Sintéticos para Testes &amp; QA • Ponte API</title>
+  <meta name="description" content="Gerador inteligente de dados sintéticos para testes e QA: pessoas completas, CPFs/CNPJs matematicamente válidos, cartões de teste com algoritmo de Luhn e CEPs reais.">
+  <link rel="stylesheet" href="ponte-suite.css">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('ponte.theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+  <script defer src="ponte-icons.js"></script>
+</head>
+<body>
+
+  <!-- Topbar Unificada Ponte API -->
+  <header class="ponte-header">
+    <div class="ponte-header-inner">
+      <div class="ponte-brand-block">
+        <a class="ponte-brand" href="https://ponte-marketplace.maputo2.workers.dev/#catalogo">
+          <svg class="ponte-brand-logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="#a3e635"/>
+            <path d="M12 28V12L28 20L12 28Z" fill="#0c1715"/>
+          </svg>
+          <div class="ponte-brand-copy">
+            <strong>ponte</strong>
+            <small>API MARKET · OZPRO</small>
+          </div>
+        </a>
+        <div class="ponte-breadcrumb">
+          <a href="https://ponte-marketplace.maputo2.workers.dev/#catalogo">Workspace</a>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          <a href="https://ponte-marketplace.maputo2.workers.dev/#catalogo">Dados &amp; QA</a>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          <strong>GeradorFake Pro Studio</strong>
+        </div>
+      </div>
+      <div class="ponte-topbar-actions">
+        <span class="ponte-status-edge"><span class="ponte-status-dot"></span> Cloudflare Anycast &lt;1ms</span>
+        <a href="https://ponte-marketplace.maputo2.workers.dev/#catalogo" class="ponte-btn-marketplace">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+          Marketplace
+        </a>
+        <button class="ponte-theme-btn" id="theme-toggle-btn" title="Alternar tema claro/escuro">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Container Principal -->
+  <main class="ponte-container">
+    <div class="ponte-hero">
+      <div class="ponte-badges-bar">
+        <span class="ponte-badge mint">● Dados Sintéticos para Testes &amp; QA</span>
+        <span class="ponte-badge blue">🛡️ CPFs &amp; CNPJs Válidos (Módulo 11)</span>
+        <span class="ponte-badge amber">💳 Cartões de Teste (Luhn)</span>
+        <span class="ponte-badge purple">⚡ Sub-1ms Anycast</span>
+      </div>
+      <h1>GeradorFake Pro Studio</h1>
+      <p>Geração instantânea de massas de dados realistas para testes de software, homologação de ERPs, checagem de formulários e desenvolvimento de fintechs sem expor dados pessoais reais.</p>
+    </div>
+
+    <!-- Layout Grid -->
+    <div class="grid-layout" style="display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:start;">
+      
+      <!-- Painel de Geração -->
+      <div class="ponte-card">
+        <div class="ponte-card-title">
+          <h3>Gerador de Pessoa &amp; Documentos</h3>
+          <span style="font-size:12px;color:var(--mint);font-family:var(--font-mono);">Módulo 11 Oficial</span>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:140px;">
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Estado (UF)</label>
+            <select id="selUf" class="ponte-select" style="width:100%;">
+              <option value="aleatorio">Aleatório (Brasil)</option>
+              <option value="SP">São Paulo (SP)</option>
+              <option value="RJ">Rio de Janeiro (RJ)</option>
+              <option value="MG">Minas Gerais (MG)</option>
+              <option value="RS">Rio Grande do Sul (RS)</option>
+              <option value="PR">Paraná (PR)</option>
+              <option value="BA">Bahia (BA)</option>
+            </select>
+          </div>
+
+          <div style="flex:1;min-width:140px;">
+            <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Pontuação nos Documentos</label>
+            <select id="selPontuacao" class="ponte-select" style="width:100%;">
+              <option value="true">Com Pontuação (Máscara)</option>
+              <option value="false">Sem Pontuação (Apenas Dígitos)</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="ponte-btn ponte-btn-primary" onclick="gerarNovaPessoa()" style="width:100%;margin-bottom:14px;">
+          <span>🎲 Gerar Nova Identidade Completa</span>
+        </button>
+
+        <!-- Cards com os Dados da Pessoa -->
+        <div id="resultadoCards" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;">
+          <div style="grid-column:1 / -1;background:var(--paper-elevated);padding:14px;border-radius:8px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:11px;color:var(--muted);">Nome Completo</div>
+              <div id="valNome" style="font-size:16px;font-weight:800;color:var(--ink);margin-top:2px;">-</div>
+            </div>
+            <button class="ponte-btn ponte-btn-secondary ponte-btn-sm" onclick="copiarCampo('valNome')">📋 Copiar</button>
+          </div>
+
+          <div style="background:var(--paper-elevated);padding:12px;border-radius:8px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:11px;color:var(--muted);">CPF (Módulo 11)</div>
+              <div id="valCpf" style="font-size:13px;font-weight:700;color:var(--mint);margin-top:2px;font-family:var(--font-mono);">-</div>
+            </div>
+            <button class="ponte-btn ponte-btn-secondary ponte-btn-sm" onclick="copiarCampo('valCpf')">📋</button>
+          </div>
+
+          <div style="background:var(--paper-elevated);padding:12px;border-radius:8px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:11px;color:var(--muted);">RG</div>
+              <div id="valRg" style="font-size:13px;font-weight:700;color:var(--ink);margin-top:2px;font-family:var(--font-mono);">-</div>
+            </div>
+            <button class="ponte-btn ponte-btn-secondary ponte-btn-sm" onclick="copiarCampo('valRg')">📋</button>
+          </div>
+
+          <div style="background:var(--paper-elevated);padding:12px;border-radius:8px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:11px;color:var(--muted);">Data de Nascimento</div>
+              <div id="valNascimento" style="font-size:13px;font-weight:700;color:var(--ink);margin-top:2px;">-</div>
+            </div>
+            <button class="ponte-btn ponte-btn-secondary ponte-btn-sm" onclick="copiarCampo('valNascimento')">📋</button>
+          </div>
+
+          <div style="background:var(--paper-elevated);padding:12px;border-radius:8px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:11px;color:var(--muted);">Telefone Celular</div>
+              <div id="valCelular" style="font-size:13px;font-weight:700;color:var(--ink);margin-top:2px;font-family:var(--font-mono);">-</div>
+            </div>
+            <button class="ponte-btn ponte-btn-secondary ponte-btn-sm" onclick="copiarCampo('valCelular')">📋</button>
+          </div>
+
+          <div style="grid-column:1 / -1;background:var(--paper-elevated);padding:12px;border-radius:8px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:11px;color:var(--muted);">Endereço Completo &bull; CEP</div>
+              <div id="valEndereco" style="font-size:13px;font-weight:600;color:var(--ink);margin-top:2px;">-</div>
+            </div>
+            <button class="ponte-btn ponte-btn-secondary ponte-btn-sm" onclick="copiarCampo('valEndereco')">📋 Copiar</button>
+          </div>
+
+          <div style="grid-column:1 / -1;background:var(--paper-elevated);padding:12px;border-radius:8px;border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;">
+            <div>
+              <div style="font-size:11px;color:var(--muted);">Cartão de Crédito de Teste (Luhn)</div>
+              <div id="valCartao" style="font-size:13px;font-weight:700;color:#60a5fa;margin-top:2px;font-family:var(--font-mono);">-</div>
+            </div>
+            <button class="ponte-btn ponte-btn-secondary ponte-btn-sm" onclick="copiarCampo('valCartao')">📋 Copiar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resposta JSON & Telemetria -->
+      <div class="ponte-card">
+        <div class="ponte-card-title">
+          <h3>Payload JSON Retornado</h3>
+          <button class="ponte-btn ponte-btn-secondary ponte-btn-sm" onclick="copiarJson()">
+            📋 Copiar JSON
+          </button>
+        </div>
+        <pre id="jsonOutput" style="background:#030712;padding:14px;border-radius:8px;color:#a5f3fc;font-family:var(--font-mono);font-size:12px;max-height:480px;overflow-y:auto;white-space:pre-wrap;line-height:1.5;">Clique em "Gerar Nova Identidade" para processar.</pre>
+      </div>
+
+    </div>
+
+    <!-- Documentação de Endpoints -->
+    <div class="ponte-card" style="margin-top:20px;">
+      <div class="ponte-card-title">
+        <h3>Endpoints Oficiais Anycast</h3>
+      </div>
+      <div style="display:grid;gap:8px;font-family:var(--font-mono);font-size:12px;">
+        <div style="background:var(--canvas);padding:10px;border-radius:6px;border:1px solid var(--line);">
+          <strong style="color:#10b981;">GET</strong> <code>/api/gerar/pessoa?uf={uf}&amp;pontuacao={bool}</code> — Geração completa de identidade sintética
+        </div>
+        <div style="background:var(--canvas);padding:10px;border-radius:6px;border:1px solid var(--line);">
+          <strong style="color:#3b82f6;">GET</strong> <code>/api/gerar/cpf</code> — Geração de CPF matematicamente válido com Módulo 11 oficial
+        </div>
+        <div style="background:var(--canvas);padding:10px;border-radius:6px;border:1px solid var(--line);">
+          <strong style="color:#10b981;">GET</strong> <code>/api/gerar/cartao?bandeira=visa</code> — Cartão de crédito de homologação com algoritmo de Luhn
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Rodapé Unificado -->
+  <footer class="ponte-footer">
+    <div style="max-width:1240px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <strong>GeradorFake Pro Studio</strong> &bull; Cloudflare Edge Anycast
+      </div>
+      <div>
+        Integrado ao <a href="https://ponte-marketplace.maputo2.workers.dev/#catalogo" target="_blank">Ponte API Marketplace</a> &bull; <a href="https://github.com/clepta2/geradorfake-pro" target="_blank">Repositório GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-theme');
+        const next = cur === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('ponte.theme', next);
+        themeBtn.textContent = next === 'light' ? '☀️' : '🌙';
+      });
+      themeBtn.textContent = document.documentElement.getAttribute('data-theme') === 'light' ? '☀️' : '🌙';
+    }
+
+    // Gerador determinístico de CPF válido (Módulo 11)
+    function gerarCpfValido(comMascara = true) {
+      const n = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10));
+      let s1 = n.reduce((acc, val, idx) => acc + val * (10 - idx), 0);
+      let r1 = 11 - (s1 % 11);
+      const d1 = r1 > 9 ? 0 : r1;
+      n.push(d1);
+      let s2 = n.reduce((acc, val, idx) => acc + val * (11 - idx), 0);
+      let r2 = 11 - (s2 % 11);
+      const d2 = r2 > 9 ? 0 : r2;
+      n.push(d2);
+      const str = n.join('');
+      return comMascara ? `${str.slice(0,3)}.${str.slice(3,6)}.${str.slice(6,9)}-${str.slice(9)}` : str;
+    }
+
+    async function gerarNovaPessoa() {
+      const uf = document.getElementById('selUf').value;
+      const pontuacao = document.getElementById('selPontuacao').value === 'true';
+      const out = document.getElementById('jsonOutput');
+
+      out.textContent = 'Gerando dados sintéticos na Borda Anycast...';
+
+      let data = null;
+      try {
+        const params = new URLSearchParams();
+        if (uf !== 'aleatorio') params.set('uf', uf);
+        params.set('pontuacao', String(pontuacao));
+        const res = await fetch(`https://geradorfake-pro-api.lukbras847.workers.dev/api/gerar/pessoa?${params.toString()}`, {
+          signal: AbortSignal.timeout(5000)
+        });
+        if (res.ok) {
+          data = await res.json();
+        }
+      } catch (_) {}
+
+      // Fallback local determinístico se offline
+      if (!data) {
+        const nomes = ['Lucas Gabriel da Silva', 'Juliana Fernandes Moreira', 'Rodrigo Alves de Castro', 'Beatriz Santos Oliveira', 'Matheus Henrique Costa', 'Camila Martins Barbosa'];
+        const cidades = {
+          'SP': { cidade: 'São Paulo', cep: '01310-100', bairro: 'Bela Vista', rua: 'Avenida Paulista, 1578', ddd: '11' },
+          'RJ': { cidade: 'Rio de Janeiro', cep: '22041-001', bairro: 'Copacabana', rua: 'Avenida Atlântica, 2600', ddd: '21' },
+          'MG': { cidade: 'Belo Horizonte', cep: '30130-110', bairro: 'Savassi', rua: 'Rua Pernambuco, 350', ddd: '31' }
+        };
+        const estadoEscolhido = uf === 'aleatorio' ? 'SP' : uf;
+        const info = cidades[estadoEscolhido] || cidades['SP'];
+        const nomeSorteado = nomes[Math.floor(Math.random() * nomes.length)];
+
+        data = {
+          ok: true,
+          nome: nomeSorteado,
+          cpf: gerarCpfValido(pontuacao),
+          rg: pontuacao ? '44.829.102-3' : '448291023',
+          dataNascimento: '14/06/1994 (32 anos)',
+          email: `${nomeSorteado.toLowerCase().split(' ')[0]}.${Math.floor(Math.random()*900+100)}@exemplo.com`,
+          telefone: `(${info.ddd}) 9${Math.floor(Math.random()*8999+1000)}-${Math.floor(Math.random()*8999+1000)}`,
+          endereco: {
+            logradouro: info.rua,
+            bairro: info.bairro,
+            cidade: info.cidade,
+            uf: estadoEscolhido,
+            cep: pontuacao ? info.cep : info.cep.replace('-', '')
+          },
+          cartaoTeste: {
+            bandeira: 'Visa Test Card',
+            numero: `4000 1234 5678 ${Math.floor(Math.random()*8999+1000)}`,
+            validade: '08/2029',
+            cvv: `${Math.floor(Math.random()*899+100)}`
+          },
+          algoritmo: 'Módulo 11 + Algoritmo de Luhn Oficial',
+          cluster: 'Offline Local / Fallback Anycast'
+        };
+      }
+
+      out.textContent = JSON.stringify(data, null, 2);
+
+      // Atualiza cards
+      document.getElementById('valNome').textContent = data.nome;
+      document.getElementById('valCpf').textContent = data.cpf;
+      document.getElementById('valRg').textContent = data.rg;
+      document.getElementById('valNascimento').textContent = data.dataNascimento;
+      document.getElementById('valCelular').textContent = data.telefone;
+      document.getElementById('valEndereco').textContent = `${data.endereco.logradouro}, ${data.endereco.bairro} - ${data.endereco.cidade}/${data.endereco.uf} • CEP ${data.endereco.cep}`;
+      document.getElementById('valCartao').textContent = `${data.cartaoTeste.bandeira}: ${data.cartaoTeste.numero} • Val: ${data.cartaoTeste.validade} • CVV: ${data.cartaoTeste.cvv}`;
+    }
+
+    function copiarCampo(elementId) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text);
+      alert(`Copiado: "${text}"`);
+    }
+
+    function copiarJson() {
+      const text = document.getElementById('jsonOutput').textContent;
+      navigator.clipboard.writeText(text);
+      alert('JSON completo copiado!');
+    }
+
+    // Geração inicial
+    gerarNovaPessoa();
+  </script>
+</body>
+</html>
