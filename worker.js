@@ -10,13 +10,41 @@
 
 import GeradorFakePro from './geradorfake-pro.js';
 
-const CORS_HEADERS = {
+const SECURITY_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-api-key',
   'Access-Control-Max-Age': '86400',
-  'Content-Type': 'application/json; charset=utf-8'
+  'Content-Type': 'application/json; charset=utf-8',
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'X-Ponte-Version': '3.0.0'
 };
+
+const CORS_HEADERS = SECURITY_HEADERS;
+
+const ipBuckets = new Map();
+
+function checkRateLimit(ipOrKey, limit = 60, windowMs = 60000) {
+  const now = Date.now();
+  let entry = ipBuckets.get(ipOrKey);
+  if (!entry || now > entry.resetAt) {
+    entry = { count: 1, resetAt: now + windowMs };
+    ipBuckets.set(ipOrKey, entry);
+    if (ipBuckets.size > 10000) {
+      for (const [k, v] of ipBuckets) {
+        if (now > v.resetAt) ipBuckets.delete(k);
+      }
+    }
+    return { ok: true, remaining: limit - 1, resetAt: entry.resetAt };
+  }
+  entry.count++;
+  if (entry.count > limit) {
+    return { ok: false, remaining: 0, resetAt: entry.resetAt };
+  }
+  return { ok: true, remaining: limit - entry.count, resetAt: entry.resetAt };
+}
 
 function jsonResponse(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data, null, 2), {
